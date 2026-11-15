@@ -1,0 +1,187 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-15T20:39:44.117019+00:00",
+  "title": "Design System: Code Mortis",
+  "extensions": {
+    "colorMeta": {
+      "background": {
+        "role": "neutral",
+        "displayName": "Background",
+        "tonalRamp": [
+          "oklch(15% 0.0025 248.08)",
+          "oklch(25% 0.0042 248.08)",
+          "oklch(35% 0.0051 248.08)",
+          "oklch(45% 0.0051 248.08)",
+          "oklch(58% 0.0051 248.08)",
+          "oklch(70% 0.0051 248.08)",
+          "oklch(83% 0.0043 248.08)",
+          "oklch(95% 0.0013 248.08)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Surface",
+        "tonalRamp": [
+          "oklch(15% 0.0037 248.14)",
+          "oklch(25% 0.0061 248.14)",
+          "oklch(35% 0.0073 248.14)",
+          "oklch(45% 0.0073 248.14)",
+          "oklch(58% 0.0073 248.14)",
+          "oklch(70% 0.0073 248.14)",
+          "oklch(83% 0.0062 248.14)",
+          "oklch(95% 0.0018 248.14)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "tonalRamp": [
+          "oklch(15% 0.0009 247.84)",
+          "oklch(25% 0.0014 247.84)",
+          "oklch(35% 0.0017 247.84)",
+          "oklch(45% 0.0017 247.84)",
+          "oklch(58% 0.0017 247.84)",
+          "oklch(70% 0.0017 247.84)",
+          "oklch(83% 0.0015 247.84)",
+          "oklch(95% 0.0004 247.84)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted",
+        "tonalRamp": [
+          "oklch(15% 0.0058 256.71)",
+          "oklch(25% 0.0096 256.71)",
+          "oklch(35% 0.0115 256.71)",
+          "oklch(45% 0.0115 256.71)",
+          "oklch(58% 0.0115 256.71)",
+          "oklch(70% 0.0115 256.71)",
+          "oklch(83% 0.0098 256.71)",
+          "oklch(95% 0.0029 256.71)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Line",
+        "tonalRamp": [
+          "oklch(15% 0.0056 248.16)",
+          "oklch(25% 0.0093 248.16)",
+          "oklch(35% 0.0111 248.16)",
+          "oklch(45% 0.0111 248.16)",
+          "oklch(58% 0.0111 248.16)",
+          "oklch(70% 0.0111 248.16)",
+          "oklch(83% 0.0095 248.16)",
+          "oklch(95% 0.0028 248.16)"
+        ]
+      },
+      "accent": {
+        "role": "primary",
+        "displayName": "Accent",
+        "tonalRamp": [
+          "oklch(15% 0.0323 254.34)",
+          "oklch(25% 0.0538 254.34)",
+          "oklch(35% 0.0646 254.34)",
+          "oklch(45% 0.0646 254.34)",
+          "oklch(58% 0.0646 254.34)",
+          "oklch(70% 0.0646 254.34)",
+          "oklch(83% 0.0549 254.34)",
+          "oklch(95% 0.0162 254.34)"
+        ]
+      },
+      "scope-hover": {
+        "role": "neutral",
+        "displayName": "Scope Hover",
+        "tonalRamp": [
+          "oklch(15% 0.0057 248.21)",
+          "oklch(25% 0.0096 248.21)",
+          "oklch(35% 0.0115 248.21)",
+          "oklch(45% 0.0115 248.21)",
+          "oklch(58% 0.0115 248.21)",
+          "oklch(70% 0.0115 248.21)",
+          "oklch(83% 0.0098 248.21)",
+          "oklch(95% 0.0029 248.21)"
+        ]
+      },
+      "scope-selected": {
+        "role": "neutral",
+        "displayName": "Scope Selected",
+        "tonalRamp": [
+          "oklch(15% 0.0085 251.81)",
+          "oklch(25% 0.0141 251.81)",
+          "oklch(35% 0.0169 251.81)",
+          "oklch(45% 0.0169 251.81)",
+          "oklch(58% 0.0169 251.81)",
+          "oklch(70% 0.0169 251.81)",
+          "oklch(83% 0.0144 251.81)",
+          "oklch(95% 0.0042 251.81)"
+        ]
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "control-transition",
+        "value": "0.18s ease-out",
+        "purpose": "Button background and scope state transitions; disabled for reduced motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "mobile",
+        "value": "760px"
+      },
+      {
+        "name": "narrow",
+        "value": "440px"
+      }
+    ],
+    "verification": {
+      "source": "CSS and component inspection",
+      "screenshots": "Unavailable: browser host unavailable"
+    },
+    "rampProvenance": "Derived preview ramps only; not implementation tokens."
+  },
+  "components": [
+    {
+      "name": "Primary action",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Main landing-page action.",
+      "html": "<a class=\"ds-button\" href=\"#get-started\">Get started <span aria-hidden=\"true\">\u2197</span></a>",
+      "css": ".ds-button{display:inline-flex;align-items:center;justify-content:center;gap:26px;background:var(--ink,#f1f2f3);color:var(--bg,#141618);font:750 14px/1.7 Manrope,sans-serif;padding:13px 21px;border-radius:6px;text-decoration:none;transition:background .18s ease-out}.ds-button:hover{background:var(--accent,#a8c7ee)}.ds-button:focus-visible{outline:2px solid var(--accent,#a8c7ee);outline-offset:5px}@media(prefers-reduced-motion:reduce){.ds-button{transition:none}}"
+    },
+    {
+      "name": "Available status",
+      "kind": "chip",
+      "refersTo": "status",
+      "description": "Availability label with a matching status dot.",
+      "html": "<span class=\"ds-status\"><span class=\"ds-dot\" aria-hidden=\"true\"></span>Available on PyPI</span>",
+      "css": ".ds-status{display:inline-flex;align-items:center;gap:8px;font:400 12px/1.7 Manrope,sans-serif;white-space:nowrap;color:var(--accent,#a8c7ee);border:1px solid var(--line,#33383d);padding:4px 11px;border-radius:99px}.ds-dot{width:6px;height:6px;border-radius:50%;background:currentColor}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Quiet confidence in the code",
+    "overview": "A minimalist dark developer interface. Large, tightly spaced headlines introduce the product; compact copy, command examples, and thin dividers carry the detail. Muted blue draws attention to key words, links, and availability.",
+    "keyCharacteristics": [
+      "Charcoal surfaces and off-white text.",
+      "Manrope headings and body text, with monospace commands.",
+      "Flat sections, restrained borders, and small rounded controls."
+    ],
+    "rules": [
+      {
+        "name": "The Accent Rule",
+        "body": "Keep blue concentrated on emphasis and interactive states.",
+        "section": "colors"
+      }
+    ],
+    "dos": [
+      "Do reuse the charcoal palette and Manrope stack across landing and documentation.",
+      "Do keep keyboard focus visible and respect reduced motion.",
+      "Do allow command examples to scroll horizontally on narrow screens."
+    ],
+    "donts": [
+      "Don't add decorative shadows to the existing flat surfaces.",
+      "Don't substitute a second display font for the current shared typography."
+    ]
+  }
+}
