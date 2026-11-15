@@ -1,5 +1,6 @@
 ---
 import logo from '../assets/orange/raven-orange-dark.svg';
+import { Icon } from '@astrojs/starlight/components';
 
 const path = Astro.url.pathname.replace(/\/$/, '');
 const home = path === '' ? '' : '/';
@@ -12,5 +13,5 @@ const home = path === '' ? '' : '/';
     <a href="/comparison/" aria-current={path === "/comparison" ? "page" : undefined}>Compare</a>
     <a href="/docs/" aria-current={path === "/docs" ? "page" : path.startsWith("/docs/") ? "location" : undefined}>Docs</a>
   </nav>
-  <a class="mast-end" href="https://github.com/code-mortis/mortis-engine">GitHub ↗</a>
+  <a class="mast-end" href="https://github.com/code-mortis/mortis-engine"><Icon name="github" size="18px" />GitHub</a>
 </div>

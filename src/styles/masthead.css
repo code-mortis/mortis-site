@@ -8,12 +8,14 @@
 }
 
 .page-width {width:min(1240px,calc(100% - clamp(36px,9vw,140px)));margin-inline:auto}
-.mast {display:flex;align-items:center;gap:42px;padding-block:21px;border-bottom:1px solid var(--rule);color:var(--type);font:600 14px/1.6 "Manrope",Arial,sans-serif}
+.mast {display:flex;align-items:center;gap:42px;padding-block:18px;border-bottom:1px solid var(--rule);color:var(--type);font:600 14px/1.6 "Manrope",Arial,sans-serif}
 .mast img {display:block;height:auto}
 .mast nav {display:flex;align-items:center;gap:28px;margin-left:auto}
 .mast a {color:inherit;text-decoration:none}
 .mast a:hover, .mast a[aria-current] {color:var(--signal)}
-.mast-end {border-left:1px solid var(--rule);padding-left:26px}
+.mast-end {display:inline-flex;align-items:center;gap:8px;box-sizing:border-box;min-height:36px;padding:6px 12px;border:1px solid var(--rule);border-radius:3px;background:var(--panel)}
+.mast-end:hover {border-color:var(--signal)}
+.mast-end:focus-visible {outline:2px solid var(--signal);outline-offset:4px}
 @media(max-width:740px) {
   .mast {gap:20px}
   .mast nav {gap:14px}
