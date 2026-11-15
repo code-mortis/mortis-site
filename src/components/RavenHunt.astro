@@ -1,0 +1,56 @@
+---
+interface Props { scene: string; facingLeft?: boolean }
+const { scene, facingLeft = false } = Astro.props;
+// The silhouette is the master mark, with the same negative-space eye and wing.
+const silhouette = 'M11 180 39 108Q48 80 70 60L103 29Q122 10 144 15Q160 17 169 32Q195 34 212 49Q222 57 222 72Q204 61 184 60L164 60Q146 71 143 91Q138 126 120 146L91 169L97 137L64 167L75 143L11 180Z M58 130Q87 91 130 69Q113 90 90 106Z M147 36l11 2-9 5z';
+---
+<figure class:list={['hunt', scene]}>
+  <svg class:list={[{ mirrored: facingLeft }]} viewBox="0 0 490 345" aria-hidden="true">
+    <defs>
+      <pattern id="screen" width="5" height="5" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r=".95" fill="currentColor"/></pattern>
+      <clipPath id="bird-cut"><path d={silhouette} clip-rule="evenodd"/></clipPath>
+      <pattern id="ground" width="9" height="9" patternUnits="userSpaceOnUse"><path d="M0 9 9 0" stroke="currentColor" stroke-width=".65"/></pattern>
+    </defs>
+    {scene === 'night-watch' ? <g><circle cx="254" cy="160" r="142" fill="#ff7545"/><path d="M116 205a145 145 0 0 0 268-2" fill="url(#ground)" color="#1a1612"/></g> :
+     scene === 'field-guide' ? <g fill="none" stroke="#a79e82" stroke-width=".85">
+      <ellipse cx="251" cy="158" rx="170" ry="136" stroke-dasharray="2 6"/><path d="M291 70h60l21-28h40M122 220H82l-26-27H28" />
+      <g fill="#574e39" stroke="none" font-family="Georgia,serif" font-style="italic" font-size="15"><text x="385" y="36">a.</text><text x="21" y="185">b.</text></g>
+     </g> : <g color="#ff7545"><rect x="40" y="20" width="397" height="244" fill="url(#screen)" opacity=".35"/><path d="M32 43V19h24m356 0h24v24M32 244v24h24m356 0h24v-24" fill="none" stroke="currentColor"/></g>}
+    <path class="perch" d="M17 301q78-14 130-22l57-4-24-19 5-2 30 20q69-6 143 0l98 5-82 2-64-1-76 6q-111 12-183 26Z"/>
+    <g transform="translate(35 5) scale(1.55)">
+      <g class="legs" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m97 139 7 19-5 19-13 4m13-4 11 2 3 3m-5-45 12 21-2 17-8 4m9-4 12 2 4 3"/></g>
+      <g class="raven">
+        <path class="plumage" d={silhouette} fill-rule="evenodd"/>
+        <g clip-path="url(#bird-cut)" class="feathers" fill="none" stroke-width=".95" stroke-linecap="round">
+          <path d="M21 157Q48 98 99 55M26 153Q53 99 110 57M26 162Q60 106 100 84M34 161Q69 118 91 110M42 162l33-32M70 150q28-30 48-62M83 143q20-23 35-48M102 135q18-22 25-44M113 128q15-23 19-40M122 52q7-5 15-5M128 56l12-5M133 60l8-4M174 42q23 3 44 17"/>
+          <path d="M83 87q23-24 47-34M51 123q28-42 51-55" stroke-width="2"/>
+        </g>
+      </g>
+    </g>
+    <g transform="translate(405 271)">
+      <g class="beetle">
+        <g class="insect" stroke-linecap="round" stroke-width="1.7"><path d="m-4-2-4-4m6 2 1-4m3 5 3-4m-11 7-4 3m10-3 1 4m3-5 4 2"/><ellipse cy="-1" rx="6.3" ry="4.4"/><circle cx="-6.7" cy="-1" r="2.8"/></g>
+      </g>
+    </g>
+  </svg>
+  <figcaption><span>{scene === 'night-watch' ? 'The night watch' : scene === 'field-guide' ? 'Corvus · feeding study' : 'review / Git index'}</span><label><input type="checkbox" aria-label="Pause crow animation"/><span class="pause">Pause</span><span class="resume">Resume</span></label></figcaption>
+</figure>
+<style>
+  .hunt { margin:0; min-width:0; --bird:#191b18; --feather:#ae6e4d; --branch:#967862; --bug:#ff7545; }
+  svg { display:block; width:100%; height:auto; }
+  .mirrored { transform:scaleX(-1); }
+  .field-guide { --bird:#362f24; --feather:#d0b892; --branch:#7d6f55; --bug:#872e0d; }
+  .diff-view { --bird:#ff7545; --feather:#602917; --branch:#a28068; --bug:#f4f3dc; }
+  .perch { fill:var(--branch); } .legs { stroke:var(--branch); } .plumage { fill:var(--bird); } .feathers { stroke:var(--feather); } .insect { fill:var(--bug); stroke:var(--bug); }
+  .raven { transform-origin:100px 144px; animation:peck 4.6s infinite; }
+  .beetle { animation:scuttle 4.6s infinite; }
+  @keyframes peck { 0%,30%,85%,100% {transform:rotate(0deg)} 37% {transform:rotate(-4deg)} 47%,50% {transform:rotate(42deg)} 62% {transform:rotate(-6deg)} 70% {transform:rotate(2deg)} }
+  @keyframes scuttle {0% {transform:translateX(44px);opacity:0} 8% {opacity:1} 16% {transform:translate(24px,-1px)} 26% {transform:translate(14px,0)} 41%,46% {transform:translate(0,0);opacity:1} 49%,100% {transform:translate(0,-2px);opacity:0} }
+  figcaption { display:flex; align-items:center; justify-content:space-between; padding:.5rem 0; border-top:1px solid var(--rule); font:12px/1.4 ui-monospace,monospace; color:var(--secondary); }
+  label {position:relative;cursor:pointer;padding:5px 0 5px 8px;text-decoration:underline;text-underline-offset:3px;}
+  label input {position:absolute;opacity:0;inset:0;cursor:pointer;margin:0;width:100%;height:100%;}
+  label:focus-within {outline:2px solid currentColor;outline-offset:2px}
+  .resume, input:checked ~ .pause {display:none} input:checked ~ .resume {display:inline}
+  .hunt:has(input:checked) :is(.raven,.beetle) {animation-play-state:paused}
+  @media(prefers-reduced-motion:reduce){.raven,.beetle{animation:none}label{display:none}}
+</style>

@@ -1,0 +1,36 @@
+@import './night-guide.css';
+
+.landing.field-guide {color-scheme:light;--paper:#f2eedf;--type:#29291f;--secondary:#5c5849;--rule:#c2bdaa;--signal:#96390f;--panel:#e7e2cf}
+.landing.diff-view {--paper:#20211e;--type:#f6f3e9;--secondary:#c4c6b9;--rule:#63665a;--panel:#2d3029}
+.evidence, .demo-row, .patch, .capabilities {display:grid;grid-template-columns:.88fr 1.12fr;gap:8%;align-items:start;padding-block:clamp(45px,5.3vw,82px)}
+.evidence>div>p, .demo-row>div>p, .patch>div>p {margin-top:16px;max-width:44ch}
+.excerpt {min-width:0;border-top:2px solid var(--signal)}
+.excerpt figcaption, .terminal-title {display:flex;justify-content:space-between;align-items:center;gap:15px;border-bottom:1px solid var(--rule);padding:10px 0;font-size:13px}
+.excerpt pre {padding:16px 12px;background:var(--paper);margin-block:15px;color:var(--type);font-size:14px}
+.excerpt pre span {color:var(--signal)}
+.excerpt p, .capabilities p {margin-top:8px}
+.capabilities, .patch {border-top:1px solid var(--rule)}
+.capabilities details {border-bottom:1px solid var(--rule);padding:0 0 14px;margin-bottom:14px}
+.capabilities summary {cursor:pointer;font-size:1.24rem;font-weight:650}
+.capabilities code {display:block;color:var(--signal);font-size:13px;overflow-wrap:anywhere;margin-top:12px}
+.field-guide .mast {border-bottom:3px double var(--rule)}
+.field-guide .opener {grid-template-columns:1.08fr 1fr}
+.field-guide .stage {border-left:1px solid var(--rule);padding-left:6%}
+.field-guide .feature-area {background:var(--paper);border-bottom:3px double var(--rule)}
+.diff-view .opener {width:auto;margin:0;padding:clamp(38px,4.2vw,68px) max(calc((100% - 1240px)/2),4.5vw);background:#ff7545;--signal:#20211e;--paper:#ff7545;color:#20211e;grid-template-columns:1fr 1fr}
+.diff-view .pitch h1, .diff-view h2 {font-family:'Manrope','Helvetica Neue',sans-serif;font-weight:750}
+.diff-view .pitch h1 em {font-weight:inherit;font-style:normal}
+.diff-view .pitch p {color:#39271f}
+.diff-view .install-link {background:#20211e;color:#fff3e7}
+.diff-view .install-link:hover {background:#403023;color:white}
+.diff-view .stage {background:#20211e;padding:0 18px 9px;color:#fff3e7;--secondary:#d1cbbb;border-radius:5px}
+.diff-view .stage svg {max-height:315px}
+.diff-view .feature-area {background:var(--paper)}
+.diff-view .command-demo {--muted:var(--secondary);--surface:var(--panel)}
+.diff-view .pitch .text-link:hover {color:#493224}
+@media(max-width:740px) {
+.field-guide .opener, .diff-view .opener {grid-template-columns:1fr;gap:25px}
+.field-guide .stage {border:0;padding:0;width:min(100%,440px);justify-self:center}
+.diff-view .stage {padding:0 14px 5px}
+.evidence, .demo-row, .patch, .capabilities {grid-template-columns:minmax(0,1fr);gap:25px}
+}

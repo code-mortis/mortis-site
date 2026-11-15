@@ -13,4 +13,4 @@ bun run build
 bun run preview
 ```
 
-The static build is written to `dist/`. Landing content is in `src/pages/index.astro` and the interactive review scope selector is in `src/components/ReviewCommands.tsx`. Edit the guides under `src/content/docs/docs/` and their sidebar entries in `astro.config.mjs`.
+The static build is written to `dist/`. Landing content is in `src/pages/index.astro`, with the animated crow in `src/components/RavenHunt.astro`. Edit the guides under `src/content/docs/docs/` and their sidebar entries in `astro.config.mjs`.

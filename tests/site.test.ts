@@ -29,21 +29,16 @@ test("main navigation opens the standalone comparison", () => {
   }
 });
 
-test("landing includes CLI and library PyPI installs and upcoming products", () => {
+test("the public homepage renders Night Guide without preview controls", () => {
   const page = read("dist/index.html");
-  for (const text of [
-    "uv tool install mortis-engine",
-    "pip install mortis-engine",
-    "uv add mortis-engine",
-    "preview_local",
-    "The App",
-    "GitHub Action",
-  ]) {
-    assert.ok(page.includes(text), `Missing ${text}`);
+  assert.match(page, /<h1>Find the bug\.<br\s*\/?><em>Show the line\.<\/em><\/h1>/);
+  assert.ok(page.includes("uv tool install mortis-engine"));
+  assert.ok(page.includes('aria-label="Pause crow animation"'));
+  assert.doesNotMatch(page, /Landing previews|\/concepts\/|noindex/);
+  for (const anchor of ["inside-the-engine", "blog", "example-finding", "install"]) {
+    assert.ok(page.includes('href="#' + anchor + '"'));
+    assert.ok(page.includes('id="' + anchor + '"'));
   }
-  assert.equal((page.match(/Coming soon/g) || []).length, 2);
-  assert.ok(page.includes('href="/docs/"'));
-  assert.ok(!page.includes("publication is pending"));
 });
 
 test("the home page and docs index link to both rendered engine guides", () => {

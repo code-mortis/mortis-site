@@ -1,89 +1,96 @@
 ---
-import ReviewCommands from '../components/ReviewCommands';
-import Site from '../layouts/Site.astro';
-
-const repository = 'https://github.com/code-mortis/mortis-engine';
-const pypi = 'https://pypi.org/project/mortis-engine/';
-const features = [
-  ['Security scans', 'Check dependencies, configuration, and secrets with Trivy. Your AI connection assesses potential issues against the source.'],
-  ['Code graph context', 'Give a review more context with an optional Docker-based parser that works on the revision under review.'],
-  ['Saved reviews', 'Resume an interrupted run, retry failed assessments, and record decisions. Export the findings as Markdown or JSON.'],
-];
+import '../styles/landing.css';
+import '../styles/night-guide.css';
+import logo from '../assets/orange/raven-orange-dark.svg';
+import RavenHunt from '../components/RavenHunt.astro';
+import SiteHead from '../components/SiteHead.astro';
 ---
 
-<Site title="Code Mortis | Code review with evidence." description="Review local Git changes, check findings against source evidence, and verify fixes with Mortis Engine and your choice of AI provider.">
-  <main id="main">
-    <section class="wrap hero" aria-labelledby="hero-title">
-      <div class="hero-copy">
-        <h1 id="hero-title">Code review<br /><span class="heading-accent">with evidence.</span></h1>
-        <p class="lead">Mortis reviews your Git changes, checks findings against the source, and verifies your fixes. Run it from your terminal with the AI model you choose.</p>
-        <div class="actions">
-          <a class="button" href="#get-started">Install the Engine <span aria-hidden="true">→</span></a>
-          <a class="quiet-link" href="#engine">Explore the engine <span aria-hidden="true">↓</span></a>
+<!doctype html>
+<html lang="en">
+  <head>
+    <SiteHead
+      title="Code Mortis | Code review with evidence."
+      description="Review Git changes, inspect the source behind each finding, and verify fixes with Mortis Engine and your choice of AI model."
+      themeColor="#191b18"
+    />
+  </head>
+  <body class="landing night-watch">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="page-width mast">
+      <a href="/" aria-label="Code Mortis home"><img src={logo.src} alt="Code Mortis" width="173" height="30" /></a>
+      <nav aria-label="Main navigation">
+        <a href="#inside-the-engine">Engine</a>
+        <a href="/comparison/">Compare</a>
+        <a href="/docs/">Docs</a>
+        <a href="#blog">Blog</a>
+      </nav>
+      <a class="mast-end" href="https://github.com/code-mortis/mortis-engine">GitHub ↗</a>
+    </header>
+    <main id="main">
+      <section class="page-width opener">
+        <div class="pitch">
+          <h1>Find the bug.<br /><em>Show the line.</em></h1>
+          <p>Code review that points to the source. Mortis checks your Git changes for bugs and lets you verify the fix with the AI model you choose.</p>
+          <div class="hero-links">
+            <a class="install-link" href="#install">Install the Engine <span aria-hidden="true">→</span></a>
+            <a class="text-link" href="#example-finding">Inspect a finding</a>
+          </div>
+        </div>
+        <div class="stage"><RavenHunt scene="night-watch" facingLeft /></div>
+      </section>
+      <div class="feature-area" id="features">
+        <div class="page-width">
+          <section class="walkthrough" id="workflow">
+            <h2>Follow one bug<br/><em>through a review.</em></h2>
+            <ol>
+              <li><div><h3>Choose the change</h3><p>Start with the index. Preview the scope before any source goes to your provider.</p><code>mortis review --staged --preview</code></div></li>
+              <li id="example-finding"><div><h3>Read the evidence</h3><p>In this example, 21 items at 10 per page need three pages. Integer division counts only two.</p><code>pagination.py:18 · total // page_size</code></div></li>
+              <li><div><h3>Check the fix</h3><p>Commit the correction, then verify the original finding against the new revision.</p><code>mortis verify --run RUN_ID --ref HEAD</code></div></li>
+            </ol>
+          </section>
+          <section class="engine-features" id="inside-the-engine" aria-labelledby="engine-features-title">
+            <h2 id="engine-features-title"><span id="engine">Inside the</span><br/><em>Engine.</em></h2>
+            <ul class="engine-index">
+              <li>
+                <h3><a href="/docs/cli/#run-a-review">Code graph</a></h3>
+                <p>The optional graph maps definitions and imports at the revision under review, giving Mortis context across files.</p>
+              </li>
+              <li>
+                <h3><a href="/docs/cli/#scan-a-committed-revision">Security scans</a></h3>
+                <p>Trivy checks dependencies, configuration, and secrets. Mortis assesses findings against the source and reports which files the scan covered.</p>
+              </li>
+              <li>
+                <h3><a href="/docs/cli/#revisit-a-saved-run">Finding history</a></h3>
+                <p>Record why you marked a false positive or accepted a risk. Later scans of the same scope carry the decision forward alongside the original evidence.</p>
+              </li>
+            </ul>
+          </section>
         </div>
       </div>
-      <figure class="engine-art">
-        <img src="/engine-layers.webp" width="1000" height="1000" alt="" fetchpriority="high" />
-        <figcaption><span class="figure-line"></span>Mortis Engine<span class="figure-line"></span></figcaption>
-      </figure>
-    </section>
-
-    <div class="provider-strip">
-      <div class="wrap providers"><span class="provider-label">Bring your AI provider</span>
-        <ul aria-label="Supported AI providers"><li>OpenAI</li><li>Anthropic</li><li>Gemini</li><li>Amazon Bedrock</li><li>OpenRouter</li></ul>
-      </div>
-    </div>
-
-    <section id="engine" class="wrap section" aria-labelledby="engine-title">
-      <div class="split">
-        <div class="section-copy">
-          <h2 id="engine-title">Trace a finding<br />to its source.</h2>
-          <p>Mortis checks each candidate against the Git revision you reviewed. Inspect the evidence, make a change, and verify the fix against a later commit.</p>
-          <a class="detail-link" href={repository + '#saved-results-and-follow-up-commands'}>Read about verification <span aria-hidden="true">↗</span></a>
+      <section class="page-width journal" id="blog">
+        <div><h2>From the blog</h2><p>Engineering notes from Code Mortis.</p></div>
+        <div class="story">
+          <small>Proposed first article</small>
+          <h3>What a code review can miss on the last page</h3>
+          <p>How one boundary case changes what a reviewer should look for.</p>
         </div>
-        <figure class="finding">
-          <figcaption><strong>Review example</strong><code>pagination.py</code></figcaption>
-          <div class="source-line"><span aria-hidden="true">18</span><code>pages = total // page_size</code></div>
-          <div class="finding-body"><h3>The last page can disappear</h3><p>With 21 items and a page size of 10, integer division returns two pages. The last item needs a third.</p></div>
-          <div class="verify"><span aria-hidden="true">$</span><code>mortis verify --run RUN_ID --ref HEAD</code></div>
-        </figure>
-      </div>
-      <div class="feature-list">{features.map(([title, description]) => <article><h3>{title}</h3><p>{description}</p></article>)}</div>
-    </section>
-
-    <section id="workflow" class="workflow section" aria-labelledby="workflow-title">
-      <div class="wrap split">
-        <div class="section-copy">
-          <h2 id="workflow-title">Choose what<br />gets reviewed.</h2>
-          <p>Start with a staged change or review a whole repository. Add <code>--preview</code> to inspect selected files and exclusions before sending a request.</p>
+      </section>
+      <section class="install-band" id="install">
+        <div class="page-width" id="get-started">
+          <div><h2>Run your first review.</h2><p>Install the CLI, then run these commands from your Git repository.</p></div>
+          <div>
+            <pre><code>uv tool install mortis-engine{'\n'}mortis connect{'\n'}mortis review --progress</code></pre>
+            <a class="text-link" href="/docs/cli/">CLI guide</a>
+            <a class="text-link" href="/docs/library/">Python library guide</a>
+          </div>
         </div>
-        <ReviewCommands client:load />
-      </div>
-    </section>
-
-    <section id="get-started" class="wrap section split" aria-labelledby="install-title">
-      <div class="section-copy">
-        <h2 id="install-title">Run your<br /><span class="heading-accent">first review.</span></h2>
-        <p>Install the CLI, connect a provider, and run Mortis inside a Git repository. You’ll need Git and Python 3.13–3.15.</p>
-        <a class="detail-link" href={pypi}>View package on PyPI <span aria-hidden="true">↗</span></a>
-      </div>
-      <div class="install">
-        <h3>Install the CLI</h3>
-        <pre><code>uv tool install mortis-engine{'\n'}mortis connect{'\n'}mortis review --progress</code></pre>
-        <a class="detail-link" href="/docs/cli/">Read the CLI guide</a>
-        <details><summary>Use the Python library</summary><div>
-          <pre><code>pip install mortis-engine</code></pre><p>In a uv project, run <code>uv add mortis-engine</code>.</p>
-          <pre><code>from mortis_engine.review import preview_local{'\n\n'}plan = preview_local(".", mode="all"){'\n'}print(plan["totals"])</code></pre>
-          <a class="detail-link" href="/docs/library/">Read the Python library guide</a>
-        </div></details>
-        <p>Eligible source and diffs go to your selected AI connection. Run history stays on your machine.</p>
-      </div>
-    </section>
-
-    <section class="wrap upcoming" aria-labelledby="upcoming-title">
-      <h2 id="upcoming-title">On the roadmap</h2>
-      <div><h3>The App</h3><span>Coming soon</span></div>
-      <div><h3>GitHub Action</h3><span>Coming soon</span></div>
-    </section>
-  </main>
-</Site>
+      </section>
+    </main>
+    <footer class="page-width">
+      <a href="/"><img src={logo.src} width="140" height="24" alt="Code Mortis" /></a>
+      <a href="/docs/">Documentation</a>
+      <a href="#blog">Blog</a>
+    </footer>
+  </body>
+</html>

@@ -1,7 +1,7 @@
 ---
 import '../styles/landing.css';
 import logo from '../assets/orange/raven-orange-dark.svg';
-import BrandHead from '../components/BrandHead.astro';
+import SiteHead from '../components/SiteHead.astro';
 
 interface Props {
   title: string;
@@ -14,18 +14,7 @@ const repository = 'https://github.com/code-mortis/mortis-engine';
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content={description} />
-    <meta name="theme-color" content="#121311" />
-    <title>{title}</title>
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site).href} />
-    <meta name="twitter:card" content="summary_large_image" />
-    <BrandHead />
-    <link rel="icon" href="/brand/orange/favicon.svg" sizes="any" type="image/svg+xml" />
+    <SiteHead {title} {description} />
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
