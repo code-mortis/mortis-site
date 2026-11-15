@@ -5,6 +5,15 @@ import { readFileSync } from "node:fs";
 const read = (path: string) =>
   readFileSync(new URL(`../${path}`, import.meta.url), "utf8");
 
+test("main navigation opens the standalone comparison", () => {
+  const nav = read("dist/index.html").match(/<nav\b[^>]*aria-label="Main navigation"[^>]*>([\s\S]*?)<\/nav>/);
+  assert.ok(nav?.[1].includes('href="/comparison/"'));
+  const page = read("dist/comparison/index.html");
+  for (const tool of ["PR-Agent", "Kodus", "Alibaba Open Code Review", "Qodo"]) {
+    assert.ok(page.includes(tool), `Missing ${tool}`);
+  }
+});
+
 test("landing includes CLI and library PyPI installs and upcoming products", () => {
   const page = read("dist/index.html");
   for (const text of [

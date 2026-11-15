@@ -3,6 +3,7 @@ import react from "@astrojs/react";
 import starlight from "@astrojs/starlight";
 
 export default defineConfig({
+  redirects: { "/docs/comparison": "/comparison/" },
   integrations: [
     react(),
     starlight({
@@ -19,6 +20,7 @@ export default defineConfig({
         { label: "Overview", link: "/docs/" },
         { label: "Python library", link: "/docs/library/" },
         { label: "Command-line interface", link: "/docs/cli/" },
+        { label: "How Code Mortis compares", link: "/comparison/" },
         {
           label: "Coming soon",
           items: [

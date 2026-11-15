@@ -1,6 +1,6 @@
 ---
 import ReviewCommands from '../components/ReviewCommands';
-import '../styles/landing.css';
+import Site from '../layouts/Site.astro';
 
 const repository = 'https://github.com/code-mortis/mortis-engine';
 const pypi = 'https://pypi.org/project/mortis-engine/';
@@ -11,99 +11,79 @@ const features = [
 ];
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Review local Git changes, check findings against source evidence, and verify fixes with Mortis Engine and your choice of AI provider." />
-    <meta name="theme-color" content="#121311" />
-    <title>Code Mortis | Code review with evidence.</title>
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-  </head>
-  <body>
-    <a class="skip-link" href="#main">Skip to content</a>
-    <header class="wrap site-header">
-      <a class="wordmark" href="/" aria-label="Code Mortis home"><img src="/favicon.svg" width="32" height="32" alt="" />Code Mortis</a>
-      <nav aria-label="Main navigation">
-        <a href="#engine">Engine</a><a href="#workflow">Workflow</a><a href="/docs/">Docs</a>
-      </nav>
-      <a class="repo-link" href={repository}>GitHub <span aria-hidden="true">↗</span></a>
-    </header>
-    <main id="main">
-      <section class="wrap hero" aria-labelledby="hero-title">
-        <div class="hero-copy">
-          <h1 id="hero-title">Code review<br /><em>with evidence.</em></h1>
-          <p>Mortis reviews your Git changes, checks findings against the source, and verifies your fixes. Run it from your terminal with the AI model you choose.</p>
-          <div class="actions">
-            <a class="button" href="#get-started">Install the Engine <span aria-hidden="true">→</span></a>
-            <a class="quiet-link" href="#engine">Explore the engine <span aria-hidden="true">↓</span></a>
-          </div>
-        </div>
-        <figure class="engine-art">
-          <img src="/engine-layers.webp" width="1000" height="1000" alt="" fetchpriority="high" />
-          <figcaption><span class="figure-line"></span>Mortis Engine<span class="figure-line"></span></figcaption>
-        </figure>
-      </section>
-
-      <div class="provider-strip">
-        <div class="wrap providers"><span class="provider-label">Bring your AI provider</span>
-          <ul aria-label="Supported AI providers"><li>OpenAI</li><li>Anthropic</li><li>Gemini</li><li>Amazon Bedrock</li><li>OpenRouter</li></ul>
+<Site title="Code Mortis | Code review with evidence." description="Review local Git changes, check findings against source evidence, and verify fixes with Mortis Engine and your choice of AI provider.">
+  <main id="main">
+    <section class="wrap hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <h1 id="hero-title">Code review<br /><span class="heading-accent">with evidence.</span></h1>
+        <p class="lead">Mortis reviews your Git changes, checks findings against the source, and verifies your fixes. Run it from your terminal with the AI model you choose.</p>
+        <div class="actions">
+          <a class="button" href="#get-started">Install the Engine <span aria-hidden="true">→</span></a>
+          <a class="quiet-link" href="#engine">Explore the engine <span aria-hidden="true">↓</span></a>
         </div>
       </div>
+      <figure class="engine-art">
+        <img src="/engine-layers.webp" width="1000" height="1000" alt="" fetchpriority="high" />
+        <figcaption><span class="figure-line"></span>Mortis Engine<span class="figure-line"></span></figcaption>
+      </figure>
+    </section>
 
-      <section id="engine" class="wrap section" aria-labelledby="engine-title">
-        <div class="split">
-          <div class="section-copy">
-            <h2 id="engine-title">Trace a finding<br />to its source.</h2>
-            <p>Mortis checks each candidate against the Git revision you reviewed. Inspect the evidence, make a change, and verify the fix against a later commit.</p>
-            <a class="detail-link" href={repository + '#saved-results-and-follow-up-commands'}>Read about verification <span aria-hidden="true">↗</span></a>
-          </div>
-          <figure class="finding">
-            <figcaption><strong>Review example</strong><code>pagination.py</code></figcaption>
-            <div class="source-line"><span aria-hidden="true">18</span><code>pages = total // page_size</code></div>
-            <div class="finding-body"><h3>The last page can disappear</h3><p>With 21 items and a page size of 10, integer division returns two pages. The last item needs a third.</p></div>
-            <div class="verify"><span aria-hidden="true">$</span><code>mortis verify --run RUN_ID --ref HEAD</code></div>
-          </figure>
-        </div>
-        <div class="feature-list">{features.map(([title, description]) => <article><h3>{title}</h3><p>{description}</p></article>)}</div>
-      </section>
+    <div class="provider-strip">
+      <div class="wrap providers"><span class="provider-label">Bring your AI provider</span>
+        <ul aria-label="Supported AI providers"><li>OpenAI</li><li>Anthropic</li><li>Gemini</li><li>Amazon Bedrock</li><li>OpenRouter</li></ul>
+      </div>
+    </div>
 
-      <section id="workflow" class="workflow section" aria-labelledby="workflow-title">
-        <div class="wrap split">
-          <div class="section-copy">
-            <h2 id="workflow-title">Choose what<br />gets reviewed.</h2>
-            <p>Start with a staged change or review a whole repository. Add <code>--preview</code> to inspect selected files and exclusions before sending a request.</p>
-          </div>
-          <ReviewCommands client:load />
-        </div>
-      </section>
-
-      <section id="get-started" class="wrap section split" aria-labelledby="install-title">
+    <section id="engine" class="wrap section" aria-labelledby="engine-title">
+      <div class="split">
         <div class="section-copy">
-          <h2 id="install-title">Run your<br /><em>first review.</em></h2>
-          <p>Install the CLI, connect a provider, and run Mortis inside a Git repository. You’ll need Git and Python 3.13–3.15.</p>
-          <a class="detail-link" href={pypi}>View package on PyPI <span aria-hidden="true">↗</span></a>
+          <h2 id="engine-title">Trace a finding<br />to its source.</h2>
+          <p>Mortis checks each candidate against the Git revision you reviewed. Inspect the evidence, make a change, and verify the fix against a later commit.</p>
+          <a class="detail-link" href={repository + '#saved-results-and-follow-up-commands'}>Read about verification <span aria-hidden="true">↗</span></a>
         </div>
-        <div class="install">
-          <h3>Install the CLI</h3>
-          <pre><code>uv tool install mortis-engine{'\n'}mortis connect{'\n'}mortis review --progress</code></pre>
-          <a class="detail-link" href="/docs/cli/">Read the CLI guide</a>
-          <details><summary>Use the Python library</summary><div>
-            <pre><code>pip install mortis-engine</code></pre><p>In a uv project, run <code>uv add mortis-engine</code>.</p>
-            <pre><code>from mortis_engine.review import preview_local{'\n\n'}plan = preview_local(".", mode="all"){'\n'}print(plan["totals"])</code></pre>
-            <a class="detail-link" href="/docs/library/">Read the Python library guide</a>
-          </div></details>
-          <p>Eligible source and diffs go to your selected AI connection. Run history stays on your machine.</p>
-        </div>
-      </section>
+        <figure class="finding">
+          <figcaption><strong>Review example</strong><code>pagination.py</code></figcaption>
+          <div class="source-line"><span aria-hidden="true">18</span><code>pages = total // page_size</code></div>
+          <div class="finding-body"><h3>The last page can disappear</h3><p>With 21 items and a page size of 10, integer division returns two pages. The last item needs a third.</p></div>
+          <div class="verify"><span aria-hidden="true">$</span><code>mortis verify --run RUN_ID --ref HEAD</code></div>
+        </figure>
+      </div>
+      <div class="feature-list">{features.map(([title, description]) => <article><h3>{title}</h3><p>{description}</p></article>)}</div>
+    </section>
 
-      <section class="wrap upcoming" aria-labelledby="upcoming-title">
-        <h2 id="upcoming-title">On the roadmap</h2>
-        <div><h3>The App</h3><span>Coming soon</span></div>
-        <div><h3>GitHub Action</h3><span>Coming soon</span></div>
-      </section>
-    </main>
-    <footer class="wrap"><a class="wordmark" href="/"><img src="/favicon.svg" width="24" height="24" alt="" />Code Mortis</a><a href="/docs/">Documentation</a><a href={repository}>GitHub ↗</a></footer>
-  </body>
-</html>
+    <section id="workflow" class="workflow section" aria-labelledby="workflow-title">
+      <div class="wrap split">
+        <div class="section-copy">
+          <h2 id="workflow-title">Choose what<br />gets reviewed.</h2>
+          <p>Start with a staged change or review a whole repository. Add <code>--preview</code> to inspect selected files and exclusions before sending a request.</p>
+        </div>
+        <ReviewCommands client:load />
+      </div>
+    </section>
+
+    <section id="get-started" class="wrap section split" aria-labelledby="install-title">
+      <div class="section-copy">
+        <h2 id="install-title">Run your<br /><span class="heading-accent">first review.</span></h2>
+        <p>Install the CLI, connect a provider, and run Mortis inside a Git repository. You’ll need Git and Python 3.13–3.15.</p>
+        <a class="detail-link" href={pypi}>View package on PyPI <span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="install">
+        <h3>Install the CLI</h3>
+        <pre><code>uv tool install mortis-engine{'\n'}mortis connect{'\n'}mortis review --progress</code></pre>
+        <a class="detail-link" href="/docs/cli/">Read the CLI guide</a>
+        <details><summary>Use the Python library</summary><div>
+          <pre><code>pip install mortis-engine</code></pre><p>In a uv project, run <code>uv add mortis-engine</code>.</p>
+          <pre><code>from mortis_engine.review import preview_local{'\n\n'}plan = preview_local(".", mode="all"){'\n'}print(plan["totals"])</code></pre>
+          <a class="detail-link" href="/docs/library/">Read the Python library guide</a>
+        </div></details>
+        <p>Eligible source and diffs go to your selected AI connection. Run history stays on your machine.</p>
+      </div>
+    </section>
+
+    <section class="wrap upcoming" aria-labelledby="upcoming-title">
+      <h2 id="upcoming-title">On the roadmap</h2>
+      <div><h3>The App</h3><span>Coming soon</span></div>
+      <div><h3>GitHub Action</h3><span>Coming soon</span></div>
+    </section>
+  </main>
+</Site>
