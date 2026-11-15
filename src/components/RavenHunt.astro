@@ -3,10 +3,10 @@ interface Props { scene: string; facingLeft?: boolean }
 const { scene, facingLeft = false } = Astro.props;
 // Split the mark through the neck so the head can turn while the feet grip the branch.
 const body = 'M11 180 39 108Q48 80 70 60L103 29Q117 19 131 32Q147 51 143 91Q138 126 120 146L91 169L97 137L64 167L75 143L11 180Z M58 130Q87 91 130 69Q113 90 90 106Z';
-const head = 'M94 42 103 29Q122 10 144 15Q160 17 169 32Q195 34 212 49Q222 57 222 72Q204 61 184 60L164 60Q146 71 143 91Q127 101 112 95Q91 85 94 42Z M147 36l11 2-9 5z';
+const head = 'M94 42 103 29Q122 10 144 15Q160 17 169 32Q195 34 212 49Q222 57 222 72Q200 53 166 54Q146 71 143 91Q127 101 112 95Q91 85 94 42Z M147 36l11 2-9 5z';
 ---
 <figure class:list={['hunt', scene]}>
-  <svg class:list={[{ mirrored: facingLeft }]} viewBox="0 0 490 345" aria-hidden="true">
+  <svg class:list={[{ mirrored: facingLeft }]} viewBox="0 -44 490 389" aria-hidden="true">
     <defs>
       <pattern id="screen" width="5" height="5" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r=".95" fill="currentColor"/></pattern>
       <clipPath id="bird-cut"><path d={body} clip-rule="evenodd"/></clipPath>
@@ -26,20 +26,26 @@ const head = 'M94 42 103 29Q122 10 144 15Q160 17 169 32Q195 34 212 49Q222 57 222
       <g fill="#574e39" stroke="none" font-family="Georgia,serif" font-style="italic" font-size="15"><text x="385" y="36">a.</text><text x="21" y="185">b.</text></g>
      </g> : <g color="#ff7545"><rect x="40" y="20" width="397" height="244" fill="url(#screen)" opacity=".35"/><path d="M32 43V19h24m356 0h24v24M32 244v24h24m356 0h24v-24" fill="none" stroke="currentColor"/></g>}
     <path class="perch" d="M17 301q78-14 130-22l57-4-24-19 5-2 30 20q69-6 143 0l98 5-82 2-64-1-76 6q-111 12-183 26Z"/>
+    <!-- World-space flight starts at the bill tip and ends inside the open bill. -->
+    <g transform="translate(363.73 50.01)">
+      <g class="airborne"><g class="drift"><use href="#ladybug"/></g></g>
+    </g>
     <g transform="translate(35 5) scale(1.55)">
       <g class="legs" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m97 139 7 19-5 19-13 4m13-4 11 2 3 3m-5-45 12 21-2 17-8 4m9-4 12 2 4 3"/></g>
       <g class="raven">
-        <g class="head">
-          <path class="plumage" d={head} fill-rule="evenodd"/>
-          <path class="feathers" d="M174 42q23 3 44 17" fill="none" stroke-width=".95"/>
-          <g transform="translate(222 72) rotate(-59) scale(.645)">
-            <g class="caught"><use href="#ladybug"/></g>
-          </g>
-        </g>
         <path class="plumage" d={body} fill-rule="evenodd"/>
         <g clip-path="url(#bird-cut)" class="feathers" fill="none" stroke-width=".95" stroke-linecap="round">
           <path d="M21 157Q48 98 99 55M26 153Q53 99 110 57M26 162Q60 106 100 84M34 161Q69 118 91 110M42 162l33-32M70 150q28-30 48-62M83 143q20-23 35-48M102 135q18-22 25-44M113 128q15-23 19-40M122 52q7-5 15-5M128 56l12-5M133 60l8-4"/>
           <path d="M83 87q23-24 47-34M51 123q28-42 51-55" stroke-width="2"/>
+        </g>
+        <g class="head">
+          <path class="jaw" d="M157 51Q190 46 222 72Q202 61 181 60L159 61Z"/>
+          <path class="plumage" d={head} fill-rule="evenodd"/>
+          <path class="feathers" d="M99 33Q122 9 144 15Q160 17 169 32Q195 34 212 49Q222 57 222 71" fill="none" stroke-width=".95"/>
+          <path d="M147 36l11 2-9 5z" fill="var(--eye)"/>
+          <g transform="translate(222 72) rotate(-59) scale(.645)">
+            <g class="caught"><use href="#ladybug"/></g>
+          </g>
         </g>
       </g>
     </g>
@@ -50,34 +56,41 @@ const head = 'M94 42 103 29Q122 10 144 15Q160 17 169 32Q195 34 212 49Q222 57 222
   <figcaption><span>{scene === 'night-watch' ? 'The night watch' : scene === 'field-guide' ? 'Corvus · feeding study' : 'review / Git index'}</span><label><input type="checkbox" aria-label="Pause crow animation"/><span class="pause">Pause</span><span class="resume">Resume</span></label></figcaption>
 </figure>
 <style>
-  .hunt { margin:0; min-width:0; --bird:#191b18; --feather:#ae6e4d; --branch:#967862; --bug:#ff7055; --bug-outline:#281e19; --cycle:6.4s; }
+  .hunt { margin:0; min-width:0; --bird:#141612; --eye:#ff7545; --feather:#ae6e4d; --branch:#967862; --bug:#ff7055; --bug-outline:#281e19; --cycle:7.2s; }
   svg { display:block; width:100%; height:auto; }
   .mirrored { transform:scaleX(-1); }
-  .field-guide { --bird:#362f24; --feather:#d0b892; --branch:#7d6f55; --bug:#b4592e; --bug-outline:#452719; }
-  .diff-view { --bird:#ff7545; --feather:#602917; --branch:#a28068; --bug:#f4f3dc; --bug-outline:#574531; }
+  .field-guide { --bird:#362f24; --eye:#d0b892; --feather:#d0b892; --branch:#7d6f55; --bug:#b4592e; --bug-outline:#452719; }
+  .diff-view { --bird:#ff7545; --eye:#241c18; --feather:#602917; --branch:#a28068; --bug:#f4f3dc; --bug-outline:#574531; }
   .perch { fill:var(--branch); } .legs { stroke:var(--branch); } .plumage { fill:var(--bird); } .feathers { stroke:var(--feather); }
-  .raven, .head, .beetle, .caught { animation-duration:var(--cycle); animation-iteration-count:infinite; }
+  .raven, .head, .beetle, .caught, .airborne, .drift, .jaw { animation-duration:var(--cycle); animation-iteration-count:infinite; }
   .raven { transform-origin:103px 140px; animation-name:lean; }
   .head { transform-origin:124px 72px; animation-name:watch; }
   .beetle { animation-name:scuttle; }
   .caught { opacity:0; animation-name:swallow; }
+  .airborne { opacity:0; animation-name:toss; }
+  .drift { animation-name:drift; }
+  .jaw { fill:var(--bird); stroke:var(--feather); stroke-width:.7; transform-origin:158px 54px; animation-name:gape; }
   @keyframes lean {
-    0%, 30%, 88%, 100% { transform:rotate(0deg); }
+    0%, 30%, 68%, 79%, 100% { transform:rotate(0deg); }
     40% { transform:rotate(4deg); }
     46% { transform:rotate(2deg); animation-timing-function:ease-in; }
     51%, 54% { transform:rotate(24deg); }
     64% { transform:rotate(6deg); }
-    73% { transform:rotate(-1deg); }
+    89% { transform:rotate(-1deg); }
   }
   @keyframes watch {
-    0%, 9%, 89%, 100% { transform:rotate(0deg); }
+    0%, 9%, 94%, 100% { transform:rotate(0deg); }
     18%, 27% { transform:rotate(8deg); }
     37%, 42% { transform:rotate(13deg); }
     46% { transform:rotate(7deg); animation-timing-function:ease-in; }
     51%, 54% { transform:rotate(35deg); }
-    64% { transform:rotate(5deg); }
-    72%, 75% { transform:rotate(-9deg); }
-    80% { transform:rotate(-3deg); }
+    64% { transform:rotate(5deg); animation-timing-function:ease-in; }
+    68% { transform:rotate(-26deg); animation-timing-function:ease-out; }
+    72% { transform:rotate(-54deg); }
+    75.5% { transform:rotate(-58deg); }
+    78% { transform:rotate(-56deg); }
+    80.5% { transform:rotate(-42deg); }
+    87% { transform:rotate(-3deg); }
   }
   @keyframes scuttle {
     0% { transform:translate(99px,5px); opacity:0; }
@@ -89,17 +102,33 @@ const head = 'M94 42 103 29Q122 10 144 15Q160 17 169 32Q195 34 212 49Q222 57 222
     52%, 100% { transform:translate(0); opacity:0; }
   }
   @keyframes swallow {
-    0%, 51% { opacity:0; transform:none; animation-timing-function:step-end; }
-    52%, 69% { opacity:1; transform:none; }
-    74%, 100% { opacity:0; transform:translate(-4px,-10px) scale(.3); }
+    0%, 51%, 68%, 100% { opacity:0; animation-timing-function:step-end; }
+    52% { opacity:1; animation-timing-function:step-end; }
+  }
+  @keyframes gape {
+    0%, 67%, 79%, 100% { transform:rotate(0); }
+    69% { transform:rotate(10deg); }
+    76%, 78% { transform:rotate(16deg); }
+  }
+  /* Constant sideways motion while gravity slows the ascent and accelerates the fall. */
+  @keyframes drift {
+    0%, 68% { transform:translateX(0) rotate(-85deg); animation-timing-function:linear; }
+    78%, 100% { transform:translateX(-41px) rotate(40deg); }
+  }
+  @keyframes toss {
+    0%, 67.99% { opacity:0; transform:translateY(0); animation-timing-function:step-end; }
+    68% { opacity:1; transform:translateY(0); animation-timing-function:cubic-bezier(.333,.667,.667,1); }
+    73.75% { opacity:1; transform:translateY(-80px); animation-timing-function:cubic-bezier(.333,0,.667,.333); }
+    78% { opacity:1; transform:translateY(-37px); animation-timing-function:step-end; }
+    78.01%, 100% { opacity:0; transform:translateY(-37px); }
   }
   figcaption { display:flex; align-items:center; justify-content:space-between; padding:.5rem 0; border-top:1px solid var(--rule); font:12px/1.4 ui-monospace,monospace; color:var(--secondary); }
   label {position:relative;cursor:pointer;padding:5px 0 5px 8px;text-decoration:underline;text-underline-offset:3px;}
   label input {position:absolute;opacity:0;inset:0;cursor:pointer;margin:0;width:100%;height:100%;}
   label:focus-within {outline:2px solid currentColor;outline-offset:2px}
   .resume, input:checked ~ .pause {display:none} input:checked ~ .resume {display:inline}
-  .hunt:is(:has(input:checked),[data-resting],[data-hidden]) :is(.raven,.head,.beetle,.caught) {animation-play-state:paused}
-  @media(prefers-reduced-motion:reduce){.raven,.head,.beetle,.caught{animation:none}.beetle{transform:translate(44px,2px)}label{display:none}}
+  .hunt:is(:has(input:checked),[data-resting],[data-hidden]) :is(.raven,.head,.beetle,.caught,.airborne,.drift,.jaw) {animation-play-state:paused}
+  @media(prefers-reduced-motion:reduce){.raven,.head,.beetle,.caught,.airborne,.drift,.jaw{animation:none}.beetle{transform:translate(44px,2px)}label{display:none}}
 </style>
 
 <script>
