@@ -1,3 +1,21 @@
 ---
-title: Documentation
+title: Mortis Engine documentation
+description: Review a local Git repository from Python or the command line.
 ---
+
+Mortis Engine reviews Git changes, checks findings against specific revisions, and scans repository security. Choose the guide for how you want to run it.
+
+## Python library
+
+Embed Mortis in a Python project. Preview the files a review would cover, run the review with your application's credentials, and read findings and coverage from the returned dictionary. [Use the Python library](/docs/library/)
+
+## Command-line interface
+
+Review staged changes before a commit or compare a branch with its base. Save a provider connection, follow progress in the terminal, and export results as Markdown or JSON. [Use the CLI](/docs/cli/)
+
+Both interfaces operate on a local Git repository. Previews run offline. During analysis, Mortis sends eligible source and diffs to the AI connection you select and saves run history locally.
+
+## On the roadmap
+
+- [The App](/docs/app/) — Coming soon.
+- [GitHub Action](/docs/github-action/) — Coming soon.

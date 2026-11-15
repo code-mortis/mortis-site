@@ -15,7 +15,18 @@ export default defineConfig({
           href: "https://github.com/code-mortis/mortis-engine",
         },
       ],
-      sidebar: [{ label: "Documentation", link: "/docs/" }],
+      sidebar: [
+        { label: "Overview", link: "/docs/" },
+        { label: "Python library", link: "/docs/library/" },
+        { label: "Command-line interface", link: "/docs/cli/" },
+        {
+          label: "Coming soon",
+          items: [
+            { slug: "docs/app" },
+            { slug: "docs/github-action" },
+          ],
+        },
+      ],
       customCss: ["./src/styles/docs.css"],
       components: {
         ThemeProvider: "./src/components/DarkTheme.astro",

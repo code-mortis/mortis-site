@@ -54,7 +54,7 @@ export default function ReviewCommands() {
         <p>{mode.detail}</p>
       </div>
       <div className="command-footnote">
-        Your repository. Your AI connection. Evidence you can inspect.
+        Run the command inside your Git repository.
       </div>
     </div>
   );

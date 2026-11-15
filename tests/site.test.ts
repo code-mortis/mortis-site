@@ -22,10 +22,16 @@ test("landing includes CLI and library PyPI installs and upcoming products", () 
   assert.ok(!page.includes("publication is pending"));
 });
 
-test("documentation route exists with an empty content body", () => {
-  assert.ok(read("dist/docs/index.html").includes("Documentation"));
-  assert.equal(
-    read("src/content/docs/docs/index.mdx").split("---")[2].trim(),
-    "",
-  );
+test("the home page and docs index link to both rendered engine guides", () => {
+  const landing = read("dist/index.html");
+  const overview = read("dist/docs/index.html");
+  for (const [guide, example] of [
+    ["library", "preview_local"],
+    ["cli", "mortis review --preview"],
+  ]) {
+    const route = `/docs/${guide}/`;
+    assert.ok(landing.includes(`href="${route}"`));
+    assert.ok(overview.includes(`href="${route}"`));
+    assert.ok(read(`dist${route}index.html`).includes(example));
+  }
 });
