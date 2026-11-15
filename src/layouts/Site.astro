@@ -1,5 +1,7 @@
 ---
 import '../styles/landing.css';
+import '../styles/night-guide.css';
+import SiteNav from '../components/SiteNav.astro';
 import logo from '../assets/orange/raven-orange-dark.svg';
 import SiteHead from '../components/SiteHead.astro';
 
@@ -14,29 +16,12 @@ const repository = 'https://github.com/code-mortis/mortis-engine';
 <!doctype html>
 <html lang="en">
   <head>
-    <SiteHead {title} {description} />
+    <SiteHead {title} {description} themeColor="#191b18" />
   </head>
-  <body>
+  <body class="landing">
     <a class="skip-link" href="#main">Skip to content</a>
-    <header class="wrap site-header">
-      <a class="wordmark" href="/" aria-label="Code Mortis home"><img src={logo.src} width="165" height="28" alt="Code Mortis" /></a>
-      <nav aria-label="Main navigation">
-        <a href="/#engine">Engine</a>
-        <a href="/#workflow">Workflow</a>
-        <a href="/comparison/" aria-current={Astro.url.pathname.replace(/\/$/, '') === '/comparison' ? 'page' : undefined}>Compare</a>
-        <a href="/docs/">Docs</a>
-      </nav>
-      <a class="repo-link" href={repository}>GitHub <span aria-hidden="true">↗</span></a>
-    </header>
+    <header><SiteNav /></header>
     <slot />
-    <footer class="wrap"><a class="wordmark" href="/"><img src={logo.src} width="142" height="24" alt="Code Mortis" /></a><a href="/docs/">Documentation</a><a href={repository}>GitHub ↗</a></footer>
+    <footer class="page-width"><a class="wordmark" href="/"><img src={logo.src} width="142" height="24" alt="Code Mortis" /></a><a href="/docs/">Documentation</a><a href={repository}>GitHub ↗</a></footer>
   </body>
 </html>
-
-<style>
-  nav a[aria-current="page"] { color: var(--ink); text-decoration: underline; text-underline-offset: .35em; }
-  @media (max-width: 420px) {
-    .site-header { grid-template-columns: 1fr; gap: 6px; padding-block: 12px; }
-    .site-header nav { justify-content: space-between; }
-  }
-</style>

@@ -35,7 +35,7 @@ test("the public homepage renders Night Guide without preview controls", () => {
   assert.ok(page.includes("uv tool install mortis-engine"));
   assert.ok(page.includes('aria-label="Pause crow animation"'));
   assert.doesNotMatch(page, /Landing previews|\/concepts\/|noindex/);
-  for (const anchor of ["inside-the-engine", "blog", "example-finding", "install"]) {
+  for (const anchor of ["inside-the-engine", "example-finding", "install"]) {
     assert.ok(page.includes('href="#' + anchor + '"'));
     assert.ok(page.includes('id="' + anchor + '"'));
   }

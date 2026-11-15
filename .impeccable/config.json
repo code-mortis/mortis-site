@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "design-system-font",
+        "value": "georgia",
+        "files": [
+          "src/styles/docs.css"
+        ],
+        "createdAt": "2026-11-15T23:28:08.704Z",
+        "reason": "Docs headings reuse Georgia from the approved Night Guide landing, as requested for visual consistency."
+      }
+    ]
+  }
+}

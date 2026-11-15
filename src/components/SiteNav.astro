@@ -1,0 +1,16 @@
+---
+import logo from '../assets/orange/raven-orange-dark.svg';
+
+const path = Astro.url.pathname.replace(/\/$/, '');
+const home = path === '' ? '' : '/';
+---
+
+<div class="page-width mast">
+  <a href="/" aria-label="Code Mortis home"><img src={logo.src} alt="Code Mortis" width="173" height="30" /></a>
+  <nav aria-label="Main navigation">
+    <a href={home + "#inside-the-engine"}>Engine</a>
+    <a href="/comparison/" aria-current={path === "/comparison" ? "page" : undefined}>Compare</a>
+    <a href="/docs/" aria-current={path === "/docs" ? "page" : path.startsWith("/docs/") ? "location" : undefined}>Docs</a>
+  </nav>
+  <a class="mast-end" href="https://github.com/code-mortis/mortis-engine">GitHub ↗</a>
+</div>

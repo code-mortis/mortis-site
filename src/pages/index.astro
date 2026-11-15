@@ -2,6 +2,7 @@
 import '../styles/landing.css';
 import '../styles/night-guide.css';
 import logo from '../assets/orange/raven-orange-dark.svg';
+import SiteNav from '../components/SiteNav.astro';
 import RavenHunt from '../components/RavenHunt.astro';
 import SiteHead from '../components/SiteHead.astro';
 ---
@@ -17,16 +18,7 @@ import SiteHead from '../components/SiteHead.astro';
   </head>
   <body class="landing night-watch">
     <a class="skip-link" href="#main">Skip to content</a>
-    <header class="page-width mast">
-      <a href="/" aria-label="Code Mortis home"><img src={logo.src} alt="Code Mortis" width="173" height="30" /></a>
-      <nav aria-label="Main navigation">
-        <a href="#inside-the-engine">Engine</a>
-        <a href="/comparison/">Compare</a>
-        <a href="/docs/">Docs</a>
-        <a href="#blog">Blog</a>
-      </nav>
-      <a class="mast-end" href="https://github.com/code-mortis/mortis-engine">GitHub ↗</a>
-    </header>
+    <header><SiteNav /></header>
     <main id="main">
       <section class="page-width opener">
         <div class="pitch">
@@ -68,14 +60,6 @@ import SiteHead from '../components/SiteHead.astro';
           </section>
         </div>
       </div>
-      <section class="page-width journal" id="blog">
-        <div><h2>From the blog</h2><p>Engineering notes from Code Mortis.</p></div>
-        <div class="story">
-          <small>Proposed first article</small>
-          <h3>What a code review can miss on the last page</h3>
-          <p>How one boundary case changes what a reviewer should look for.</p>
-        </div>
-      </section>
       <section class="install-band" id="install">
         <div class="page-width" id="get-started">
           <div><h2>Run your first review.</h2><p>Install the CLI, then run these commands from your Git repository.</p></div>
@@ -90,7 +74,6 @@ import SiteHead from '../components/SiteHead.astro';
     <footer class="page-width">
       <a href="/"><img src={logo.src} width="140" height="24" alt="Code Mortis" /></a>
       <a href="/docs/">Documentation</a>
-      <a href="#blog">Blog</a>
     </footer>
   </body>
 </html>

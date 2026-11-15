@@ -38,6 +38,7 @@ export default defineConfig({
       ],
       customCss: ["./src/styles/docs.css"],
       components: {
+        Header: "./src/components/SiteNav.astro",
         Head: "./src/components/DocsHead.astro",
         ThemeProvider: "./src/components/DarkTheme.astro",
         ThemeSelect: "./src/components/Empty.astro",
