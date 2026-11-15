@@ -1,0 +1,13 @@
+---
+const image = new URL('/brand/orange/share.png', Astro.site);
+const alt = 'Code Mortis raven. Code review with evidence.';
+---
+
+<link rel="apple-touch-icon" sizes="180x180" href="/brand/orange/apple-touch-icon.png" />
+<link rel="manifest" href="/brand/orange/site.webmanifest" />
+<meta property="og:image" content={image.href} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={alt} />
+<meta name="twitter:image" content={image.href} />
+<meta name="twitter:image:alt" content={alt} />

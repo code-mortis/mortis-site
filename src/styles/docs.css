@@ -24,3 +24,7 @@
   background: #a8c7ee;
   color: #141618;
 }
+.site-title img {
+  width: 165px;
+  height: auto;
+}

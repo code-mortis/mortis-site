@@ -1,5 +1,7 @@
 ---
 import '../styles/landing.css';
+import logo from '../assets/orange/raven-orange-dark.svg';
+import BrandHead from '../components/BrandHead.astro';
 
 interface Props {
   title: string;
@@ -17,12 +19,18 @@ const repository = 'https://github.com/code-mortis/mortis-engine';
     <meta name="description" content={description} />
     <meta name="theme-color" content="#121311" />
     <title>{title}</title>
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site).href} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <BrandHead />
+    <link rel="icon" href="/brand/orange/favicon.svg" sizes="any" type="image/svg+xml" />
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="wrap site-header">
-      <a class="wordmark" href="/" aria-label="Code Mortis home"><img src="/favicon.svg" width="32" height="32" alt="" />Code Mortis</a>
+      <a class="wordmark" href="/" aria-label="Code Mortis home"><img src={logo.src} width="165" height="28" alt="Code Mortis" /></a>
       <nav aria-label="Main navigation">
         <a href="/#engine">Engine</a>
         <a href="/#workflow">Workflow</a>
@@ -32,7 +40,7 @@ const repository = 'https://github.com/code-mortis/mortis-engine';
       <a class="repo-link" href={repository}>GitHub <span aria-hidden="true">↗</span></a>
     </header>
     <slot />
-    <footer class="wrap"><a class="wordmark" href="/"><img src="/favicon.svg" width="24" height="24" alt="" />Code Mortis</a><a href="/docs/">Documentation</a><a href={repository}>GitHub ↗</a></footer>
+    <footer class="wrap"><a class="wordmark" href="/"><img src={logo.src} width="142" height="24" alt="Code Mortis" /></a><a href="/docs/">Documentation</a><a href={repository}>GitHub ↗</a></footer>
   </body>
 </html>
 
