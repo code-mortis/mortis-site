@@ -3,22 +3,42 @@
 <!-- impeccable:product-schema 1 -->
 
 ## Platform
+
 web
 
 ## Stack
-Astro, Starlight, and React, explicitly requested by the user.
+
+Astro with Starlight documentation and the existing React integration. The production landing and comparison page use Astro components and CSS.
 
 ## Product Purpose
-Introduce Code Mortis, show the Engine's existing capabilities, and identify the App and GitHub Action as coming soon. Documentation must exist with an empty body.
+
+Introduce Code Mortis, explain Mortis Engine through review evidence and practical examples, and provide installation instructions and working CLI and Python library guides. The App and GitHub Action are presented as coming soon.
 
 ## Users
-Assumption: developers evaluating code review and repository security tools.
+
+Developers evaluating code review and repository security tools, and developers integrating or running Mortis Engine.
 
 ## Capabilities and Constraints
-Engine facts come from the sibling mortis-engine README and CLI: local Git reviews, evidence assessment, security scans, saved runs, Markdown/JSON exports, verification, triage, resumability, and saved AI connections. Eligible source is sent to the selected AI connection. The user supplied https://pypi.org/project/mortis-engine/#security and corrected the stale local claim that publication is pending. Show PyPI CLI and library installs. App and Action status comes from the user's brief.
+
+Current site content describes local Git reviews, source evidence, security scans, review coverage, saved runs, Markdown and JSON exports, fix verification, triage, resumability, optional code graphs, and saved AI connections. Previews run locally. Analysis sends eligible source and diffs to the selected AI provider.
+
+Engine facts must be checked against the sibling mortis-engine repository when changing product claims. The CLI and Python library are published on PyPI. The website's comparisons have dated source links and do not establish benchmark results.
+
+The blog is not available. Its navigation links and article placeholder were removed at the user's request.
 
 ## Brand Commitments
-Code Mortis. Minimalist English website. No existing visual assets or implemented website.
+
+Code Mortis is an English-language website built around the orange crow logo. The user selected Night Guide as the production landing, combining the Night Watch header and palette with the Field Guide section structure. Compare and Docs must visibly belong to the same site.
+
+The user requests simple, focused changes and rejects overengineering. Preserve the established typography, open rows, and shared navigation when extending existing pages.
 
 ## Evidence on Hand
-../mortis-engine/README.md and CLI source. No customer, performance, or testimonial evidence supplied.
+
+- Engine README and implementation in ../mortis-engine, plus the linked PyPI package.
+- Populated guides under src/content/docs/docs/.
+- Dated comparisons in src/content/comparison.md and src/content/comparison-tools.json.
+- Orange crow wordmarks under src/assets/orange/ and brand assets under public/brand/orange/.
+- The animated left-facing crow and simple two-spotted ladybug in src/components/RavenHunt.astro.
+- Browser captures from this conversation covering the landing, comparison, docs, mobile navigation, and crow animation.
+
+Customer endorsements, performance rankings, and cost or speed benchmarks require new evidence.

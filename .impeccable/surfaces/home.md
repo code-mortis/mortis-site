@@ -1,19 +1,21 @@
-# Landing page
+# Night Guide landing
 
-Mode: Persuade. Primary audience: developers evaluating the Engine. Show real capabilities, separate available Engine from upcoming App and Action, and provide CLI and Python library installation. Documentation is a Read surface with an intentionally empty body.
+Mode: Persuade. Developers evaluate Mortis Engine, inspect a finding, and install the CLI or open a guide.
 
 ## Direction contract
 
-THESIS: A compact, readable introduction built from actual Engine capabilities. Minimalism is the user's constraint.
+THESIS: Find the bug. Show the line. Introduce review evidence through a short workflow and distinct Engine capabilities.
 
-OWN-WORLD: User-confirmed dark default, charcoal surfaces, soft white text, restrained blue accent, sans-serif type, thin dividers, and flat controls.
+OWN-WORLD: The user selected Night Guide as the actual landing. Use the Night Watch warm charcoal and orange palette, cream Georgia headings, orange italic emphasis, Manrope body text, and Field Guide's open ruled section structure. DESIGN.md records the current tokens.
 
-STORY: Understand the Engine, choose a review scope, install the CLI or library, and see what is coming next. The source README's pending-publication note is superseded by the PyPI URL the user supplied.
+STORY: Hero, review workflow, Inside the Engine, and installation. The blog and preview switcher were removed at the user's request.
 
-FIRST VIEWPORT: Compact wordmark and navigation, large two-line headline, a short description, and an installation anchor. The next section introduces the Engine and interactive React scope selector.
+FIRST VIEWPORT: Shared crow wordmark and Engine / Compare / Docs navigation, GitHub logo button, two-line headline, description, install action, finding link, and the left-facing animated crow on the right.
 
-FORM: Minimal product index, candidate 6; user-pinned minimalism and dark preference govern. seed:ea1d7be7549d0b75. Code-first implementation for the requested quick website. Seed ran with no external challengers because network access was unavailable.
+FORM: Build directly in the existing Astro implementation. Reuse SiteNav, night-guide.css, and masthead.css. Keep changes focused and simple.
 
-FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+MOTION: RavenHunt uses SVG and CSS. A simple two-spotted ladybug approaches, the crow picks it up, tosses it above its head, opens its lower beak, and catches it. Maintain pause, reduced-motion, offscreen, and hidden-tab behavior.
 
-Review: Sol reviewed source and factual copy. Dark documentation inconsistency fixed. Astro check, static build, and route/content smoke tests pass. Visual review remains unverified: browser host unavailable and local server bind refused with EPERM. No raster assets used.
+RELATED SURFACES: Compare uses the same opener and feature rows with anchored tool sections. Docs are a populated Read surface using Starlight's sidebar and table of contents with the shared navigation, palette, and Georgia headings.
+
+VERIFICATION: During the November 15, 2026 session, the landing, comparison, and docs were inspected in the browser, including mobile navigation and the animation. Astro checks, static builds, and four site tests passed. These are dated observations. Inspect current code and rendering before asserting new behavior.
