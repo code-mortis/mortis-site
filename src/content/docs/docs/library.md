@@ -78,6 +78,8 @@ branch_report = review_commits(
 print(branch_report["merge_base"], branch_report["head_sha"])
 ```
 
+With Mortis Engine 0.1.1, pass `review_local` the keyword argument `overrides={"max_output_tokens": 0, "token_budget": 0}` to let the provider determine the per-response allowance for analysis. For Bedrock, this uses the Converse default. Anthropic Messages looks up the selected model's output capacity. The [CLI guide](/docs/cli/#configure-the-repository) explains what changes when a token budget is finite.
+
 ## Interpret the result
 
 A review returns a `mortis.review/v1` dictionary. Keep the `run_id` for follow-up work. Read `findings` alongside `status`, `coverage`, and `errors` before deciding whether a change passed your checks. A partial review can return confirmed findings. A skipped review can mean there were no eligible changes or that the file limit waived coverage. Inspect `coverage["waived"]` to distinguish those cases. Candidate assessments and token usage are available in `candidates` and `usage`.
@@ -115,4 +117,4 @@ current = list_findings(".", run_id=report["run_id"], include_history=True)
 print(current["findings"])
 ```
 
-The operations module also exports `triage` to record a decision and `list_assessments` and `retry_assessment` to inspect and retry failed candidates. [Mortis Engine 0.1.0 source](https://github.com/code-mortis/mortis-engine/tree/v0.1.0/src/mortis_engine)
+The operations module also exports `triage` to record a decision and `list_assessments` and `retry_assessment` to inspect and retry failed candidates. [Mortis Engine source](https://github.com/code-mortis/mortis-engine/tree/main/src/mortis_engine)

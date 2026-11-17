@@ -20,6 +20,18 @@ mortis review --preview
 
 The preview lists selected files, exclusions and their reasons, and planned batches. It runs locally without a provider connection or a saved run. Add `--format json` to inspect the plan from a script.
 
+## Use with coding agents
+
+With Mortis Engine 0.1.1 or later, install the bundled skill after installing the CLI.
+
+```sh
+mortis agent install
+```
+
+The command installs the skill in `~/.agents/skills/` and registers it with detected Claude Code, Codex, Cursor and OpenCode installations. Installation runs locally. Rerun it after upgrading Mortis to refresh managed copies. Use `mortis agent install --force` to replace a manually installed skill.
+
+Ask your agent to preview the review scope without contacting a provider. For a review or scan, give the agent the saved connection to use if you have more than one.
+
 ## Connect a provider
 
 ```sh
@@ -36,6 +48,8 @@ mortis connect work --provider openai --model "$MORTIS_MODEL" \
 ```
 
 Keep the key available in the environment for later runs. Profiles live in `$XDG_CONFIG_HOME/mortis/config.toml` (default `~/.config/mortis/config.toml`). Use `mortis connect --list-providers` to see the available presets and `mortis connect work --test` to retest a saved profile.
+
+Mortis Engine 0.1.1 uses [Bedrock Converse](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html) for Bedrock connections. Select a model or inference profile that supports the tool and structured-output features your workflow uses. See the [connection options](https://github.com/code-mortis/mortis-engine#connect-with-environment-variables) for ambient AWS credentials and API keys.
 
 ## Run a review
 
@@ -71,6 +85,8 @@ concurrency = 4
 ```
 
 Check the effective review settings for a branch comparison with `mortis config show --base main`. Override one run with flags such as `--effort high`, `--max-files 80`, or `--concurrency 4`. Concurrency accepts 1–8. See `mortis review --help` for timeout and token budgets, including per-response and assessment limits.
+
+With Mortis Engine 0.1.1, `--max-output-tokens 0` lets the provider determine the output allowance when the total token budget is unlimited. OpenAI and Bedrock use their service defaults, and Anthropic Messages looks up the selected model's capacity. With a finite token budget, Mortis derives the cap from the remaining budget. Set a positive limit if the provider rejects that cap or the Anthropic endpoint cannot report capacity. Resuming a run restores its saved limits.
 
 ## Scan a committed revision
 
