@@ -49,7 +49,9 @@ mortis connect work --provider openai --model "$MORTIS_MODEL" \
 
 Keep the key available in the environment for later runs. Profiles live in `$XDG_CONFIG_HOME/mortis/config.toml` (default `~/.config/mortis/config.toml`). Use `mortis connect --list-providers` to see the available presets and `mortis connect work --test` to retest a saved profile.
 
-Mortis Engine 0.1.1 uses [Bedrock Converse](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html) for Bedrock connections. Select a model or inference profile that supports the tool and structured-output features your workflow uses. See the [connection options](https://github.com/code-mortis/mortis-engine#connect-with-environment-variables) for ambient AWS credentials and API keys.
+Mortis uses [Bedrock Converse](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html) for Bedrock connections. Select a model or inference profile that supports the tool and structured-output features your workflow uses. See the [connection options](https://github.com/code-mortis/mortis-engine#connect-with-environment-variables) for ambient AWS credentials and API keys.
+
+Public endpoints require HTTPS unless you explicitly trust the hostname with `CM_TRUSTED_ENDPOINT_HOSTS`. With `CM_ALLOW_PRIVATE_ENDPOINTS=true`, HTTP is allowed only when every resolved address is private or loopback.
 
 ## Run a review
 
@@ -67,7 +69,7 @@ Mortis takes a snapshot of your changes, reviews eligible files, and checks cand
 | `mortis review --all` | Every eligible tracked file in the current commit |
 | `mortis review --all --head main` | Every eligible tracked file at the tip of local `main` |
 
-Add `--preview` to any of these scopes to check your selection. Use `--repo PATH` to select another local clone. For optional code graph context, build the parser image with `mortis graph build` (requires Docker), then pass `--graph` to the review.
+Add `--preview` to any of these scopes to check your selection. Use `--repo PATH` to select another local clone. For optional code graph context, build the parser image with `mortis graph build` (requires Docker), then pass `--graph` to the review. After upgrading from 0.1.1 or earlier, rerun `mortis graph build` before using graph context.
 
 ## Configure the repository
 
@@ -86,11 +88,13 @@ concurrency = 4
 
 Check the effective review settings for a branch comparison with `mortis config show --base main`. Override one run with flags such as `--effort high`, `--max-files 80`, or `--concurrency 4`. Concurrency accepts 1–8. See `mortis review --help` for timeout and token budgets, including per-response and assessment limits.
 
-With Mortis Engine 0.1.1, `--max-output-tokens 0` lets the provider determine the output allowance when the total token budget is unlimited. OpenAI and Bedrock use their service defaults, and Anthropic Messages looks up the selected model's capacity. With a finite token budget, Mortis derives the cap from the remaining budget. Set a positive limit if the provider rejects that cap or the Anthropic endpoint cannot report capacity. Resuming a run restores its saved limits.
+Eligible analysis, assessment, and AI fix checks start as slots open. Related candidates are assessed in order, and verification returns verdicts in report order. Requests release their execution slot while waiting to retry or for tokens to become available. Waiting still counts toward the run deadline.
+
+`--max-output-tokens 0` lets the provider determine the output allowance when the total token budget is unlimited. OpenAI and Bedrock use their service defaults, and Anthropic Messages looks up the selected model's capacity. With a finite token budget, Mortis derives the cap from the remaining budget. Use a positive limit within the model's capacity to fit multiple requests in a finite budget, or when the provider rejects the derived cap or cannot report its capacity.
 
 ## Scan a committed revision
 
-Install Trivy 0.76.0 on `PATH` before running a security scan. Mortis uses Trivy to check dependencies, configuration and secrets, and the selected model to analyze source and assess findings.
+Install Trivy 0.76.2 on `PATH` before running a security scan. Mortis uses Trivy to check dependencies, configuration and secrets, and the selected model to analyze source and assess findings.
 
 ```sh
 mortis scan --ref HEAD --connection work --progress
@@ -126,6 +130,8 @@ Run `mortis runs` in the same repository to find its run IDs. Substitute an ID f
 | Inspect current findings and decision history | `mortis findings --run RUN_ID --history` |
 | List failed candidates and their retry eligibility | `mortis assessments --run RUN_ID` |
 | Retry an eligible candidate | `mortis assess --run RUN_ID --candidate CANDIDATE_ID` |
+
+Resumed reviews and scans use their saved limits, concurrency, and assessment policy. Older runs keep their batched assessment behavior. A dispatched request with unknown usage keeps its token reservation.
 
 Use `mortis triage` to record a decision about a finding. Supply the ID and current version from `mortis findings`, together with a reason. Review findings accept `dismissed` and `open`. Security findings accept `false_positive`, `accepted_risk`, and `open`. The original report stays available by run ID.
 

@@ -78,7 +78,7 @@ branch_report = review_commits(
 print(branch_report["merge_base"], branch_report["head_sha"])
 ```
 
-With Mortis Engine 0.1.1, pass `review_local` the keyword argument `overrides={"max_output_tokens": 0, "token_budget": 0}` to let the provider determine the per-response allowance for analysis. For Bedrock, this uses the Converse default. Anthropic Messages looks up the selected model's output capacity. The [CLI guide](/docs/cli/#configure-the-repository) explains what changes when a token budget is finite.
+Pass `review_local` the keyword argument `overrides={"max_output_tokens": 0, "token_budget": 0}` to let the provider determine the per-response allowance for analysis. For Bedrock, this uses the Converse default. Anthropic Messages looks up the selected model's output capacity. The [CLI guide](/docs/cli/#configure-the-repository) explains what changes when a token budget is finite.
 
 ## Interpret the result
 
@@ -88,7 +88,7 @@ Review functions are synchronous. In an application with a running asyncio event
 
 ## Scan a commit or follow up on a review
 
-Use `mortis_engine.operations.run` with the same connection and credential callback. A security scan also needs Trivy 0.76.0 on `PATH`.
+Use `mortis_engine.operations.run` with the same connection and credential callback. A security scan also needs Trivy 0.76.2 on `PATH`.
 
 ```python
 from mortis_engine.operations import run
@@ -107,6 +107,8 @@ The `mortis.security/v1` result includes findings, coverage, and problems. A par
 | `"verify"` | `finding_run=report["run_id"], ref="HEAD"` | Verdicts for saved review findings against the target revision |
 | `"summary"` | `finding_run=report["run_id"]` | A new summary of the saved review |
 | `"background"` | `ref="HEAD"` | Proposed project background for the repository configuration |
+
+Standalone verification uses the review concurrency configured at the target revision. It checks independent findings concurrently and returns verdicts in report order.
 
 To read decisions made after a report was saved, use the same repository path and run ID. This lookup uses local history and requires no provider.
 
