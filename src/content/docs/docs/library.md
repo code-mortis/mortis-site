@@ -24,7 +24,7 @@ for file in plan["excluded_files"]:
     print(file["path"], file["reason"])
 ```
 
-The `mortis.review-preview/v1` dictionary also contains the selected files, units of source assigned to analysis, and planned batches. The batch count estimates initial analysis work. Assessment and summary generation can make additional requests.
+The `mortis.review-preview/v1` dictionary also contains the selected files, units of source assigned to analysis, and planned batches. The batch count estimates initial analysis work. Assessment and summary generation can make additional requests. Check `errors` as well as `excluded_files` for source that could not be read. An unreadable file can retain its change status and original rename path when Git metadata is available.
 
 `preview_local` and `review_local` accept the same scopes.
 
@@ -108,7 +108,7 @@ The `mortis.security/v1` result includes findings, coverage, and problems. A par
 | `"summary"` | `finding_run=report["run_id"]` | A new summary of the saved review |
 | `"background"` | `ref="HEAD"` | Proposed project background for the repository configuration |
 
-Standalone verification uses the review concurrency configured at the target revision. It checks independent findings concurrently and returns verdicts in report order.
+Verification checks the original and current paths for saved findings. Standalone verification uses the review concurrency configured at the target revision. It checks independent findings concurrently and returns verdicts in report order.
 
 To read decisions made after a report was saved, use the same repository path and run ID. This lookup uses local history and requires no provider.
 

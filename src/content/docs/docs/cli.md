@@ -53,6 +53,8 @@ Mortis uses [Bedrock Converse](https://docs.aws.amazon.com/bedrock/latest/APIRef
 
 Public endpoints require HTTPS unless you explicitly trust the hostname with `CM_TRUSTED_ENDPOINT_HOSTS`. With `CM_ALLOW_PRIVATE_ENDPOINTS=true`, HTTP is allowed only when every resolved address is private or loopback.
 
+Custom `extra_body` options cannot replace engine-managed inputs, output formats or authentication. Configure supported nested properties individually. See the [provider options](https://github.com/code-mortis/mortis-engine#connect-with-environment-variables) for details.
+
 ## Run a review
 
 ```sh
@@ -69,7 +71,9 @@ Mortis takes a snapshot of your changes, reviews eligible files, and checks cand
 | `mortis review --all` | Every eligible tracked file in the current commit |
 | `mortis review --all --head main` | Every eligible tracked file at the tip of local `main` |
 
-Add `--preview` to any of these scopes to check your selection. Use `--repo PATH` to select another local clone. For optional code graph context, build the parser image with `mortis graph build` (requires Docker), then pass `--graph` to the review. After upgrading from 0.1.1 or earlier, rerun `mortis graph build` before using graph context.
+Add `--preview` to any of these scopes to check your selection. Use `--repo PATH` to select another local clone. For optional code graph context, build the parser image with `mortis graph build` (requires Docker), then pass `--graph` to the review. After upgrading from 0.1.2 or earlier, rerun `mortis graph build` before using graph context. A review can use available graph facts when graph coverage is incomplete.
+
+Working-tree reviews read files without following symlinks or running Git filters. If the platform cannot provide safe no-follow file access, use `--staged` for the changes you intend to review. Files over 20 MB or otherwise unreadable are reported as coverage gaps when the snapshot can still be built.
 
 ## Configure the repository
 
@@ -100,7 +104,7 @@ Install Trivy 0.76.2 on `PATH` before running a security scan. Mortis uses Trivy
 mortis scan --ref HEAD --connection work --progress
 ```
 
-The report includes findings, coverage, and a grade when available. If the scan is partial, inspect the reported problems and completed-file count before interpreting the findings.
+The report includes findings, coverage, and a grade when available. If required supporting evidence is unavailable, Mortis keeps validated results and reports a partial scan without a grade. Inspect the reported problems and completed-file count before interpreting the findings.
 
 ## Use reports in scripts
 
