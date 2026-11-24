@@ -1,6 +1,6 @@
 ---
 title: Python library
-description: Preview Git changes, run a review, and use Mortis findings in a Python application.
+description: Call the same Engine from Python to plan reviews, scan a commit, and read saved evidence as versioned dictionaries.
 ---
 
 Install Mortis Engine in your project's Python 3.13–3.15 environment. Git must be on `PATH`.
@@ -64,7 +64,7 @@ for finding in report["findings"]:
     print(finding["path"], finding["start_line"], finding["content"])
 ```
 
-If you already saved a profile with `mortis connect work`, use `settings = config.profile("work")` in place of the settings dictionary. The same credential callback resolves the profile's environment or vault references. [Configure a profile in the CLI guide](/docs/cli/#connect-a-provider)
+If you already saved a profile with `mortis connect work`, use `settings = config.profile("work")` in place of the settings dictionary. The same credential callback resolves the profile's environment or vault references. [Configure a profile in the CLI guide](/docs/engine/cli/#connect-a-provider)
 
 To review a feature branch from Python, reuse the connection and callback above. Check out the feature branch and pass the name of its local base branch.
 
@@ -80,11 +80,11 @@ print(branch_report["merge_base"], branch_report["head_sha"])
 print(branch_report.get("comparison"), branch_report["coverage"]["reused"])
 ```
 
-Both comparison options default to `False`. Pass the same `overrides` to `review_local` with `mode="commits"`. Keep the same branch refs across runs so the engine can locate prior coverage. See [when a comparison falls back to a full review](/docs/cli/#review-subsequent-commits). Resume keeps the saved selection.
+Both comparison options default to `False`. Pass the same `overrides` to `review_local` with `mode="commits"`. Keep the same branch refs across runs so the engine can locate prior coverage. See [when a comparison falls back to a full review](/docs/engine/reviews/#review-subsequent-commits). Resume keeps the saved selection.
 
-To ask a question about the diff or draft a description of the changes, use [`mortis ask` and `mortis describe`](/docs/cli/#ask-about-or-describe-a-branch-comparison).
+To ask a question about the diff or draft a description of the changes, use [`mortis ask` and `mortis describe`](/docs/engine/reviews/#ask-about-or-describe-a-branch-comparison).
 
-Pass `review_local` the keyword argument `overrides={"max_output_tokens": 0, "token_budget": 0}` to let the provider determine the per-response allowance for analysis. For Bedrock, this uses the Converse default. Anthropic Messages looks up the selected model's output capacity. The [CLI guide](/docs/cli/#configure-the-repository) explains what changes when a token budget is finite.
+Pass `review_local` the keyword argument `overrides={"max_output_tokens": 0, "token_budget": 0}` to let the provider determine the per-response allowance for analysis. For Bedrock, this uses the Converse default. Anthropic Messages looks up the selected model's output capacity. The [CLI guide](/docs/engine/configuration/#configure-the-repository) explains what changes when a token budget is finite.
 
 ## Interpret the result
 
@@ -125,4 +125,8 @@ current = list_findings(".", run_id=report["run_id"], include_history=True)
 print(current["findings"])
 ```
 
-The operations module also exports `triage` to record a decision and `list_assessments` and `retry_assessment` to inspect and retry failed candidates. [Mortis Engine source](https://github.com/code-mortis/mortis-engine/tree/main/src/mortis_engine)
+### Recover one failed assessment
+
+Call `list_assessments(".", run_id=report["run_id"])` from `mortis_engine.operations` to inspect candidate IDs, retry eligibility, and reasons a retry may be blocked. For an eligible candidate, call `retry_assessment` with `run_id`, `candidate_id`, the matching `connection`, and its `get_credentials` callback. It uses the saved evidence and records a separate result. The original report, coverage, and grade remain available.
+
+To record a human decision, use `triage` with the finding ID, current version, state, and reason. Read back the decision with `list_findings(..., include_history=True)`. These lookups and decisions use local history. [CLI examples for saved runs](/docs/engine/saved-runs/#revisit-a-saved-run) · [Mortis Engine source](https://github.com/code-mortis/mortis-engine/tree/main/src/mortis_engine)

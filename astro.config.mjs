@@ -1,6 +1,7 @@
 import { defineConfig } from "astro/config";
 import react from "@astrojs/react";
 import starlight from "@astrojs/starlight";
+import { docSections } from "./src/data/doc-sections.ts";
 
 export default defineConfig({
   site: "https://codemortis.dev",
@@ -24,20 +25,32 @@ export default defineConfig({
         },
       ],
       sidebar: [
-        { label: "Overview", link: "/docs/" },
-        { label: "Python library", link: "/docs/library/" },
-        { label: "Command-line interface", link: "/docs/cli/" },
-        { slug: "docs/github-action" },
-        { slug: "docs/app" },
-        { label: "How Code Mortis compares", link: "/comparison/" },
+        { label: "Documentation", slug: "docs" },
+        ...docSections.map(({ id, label, topics }) => ({
+          label,
+          items: [
+            { label: "Overview", slug: `docs/${id}` },
+            ...topics.map(topic => ({ slug: `docs/${id}/${topic}` })),
+          ],
+        })),
+        { label: "Compare tools", link: "/comparison/" },
       ],
+      expressiveCode: {
+        themes: ["github-dark"],
+        styleOverrides: {
+          borderColor: "#353638",
+          borderRadius: "6px",
+          codeBackground: "#202124",
+          frames: { frameBoxShadowCssValue: "none", terminalBackground: "#202124", terminalTitlebarBackground: "#2a2b2e" },
+        },
+      },
       customCss: ["./src/styles/docs.css"],
       components: {
-        Header: "./src/components/SiteNav.astro",
+        Header: "./src/components/DocsHeader.astro",
+        PageTitle: "./src/components/DocsTitle.astro",
         Head: "./src/components/DocsHead.astro",
-        ThemeProvider: "./src/components/DarkTheme.astro",
+        ThemeProvider: "./src/components/DocsTheme.astro",
         ThemeSelect: "./src/components/Empty.astro",
-        Search: "./src/components/Empty.astro",
       },
     }),
   ],

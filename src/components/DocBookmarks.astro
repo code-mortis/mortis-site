@@ -1,0 +1,15 @@
+---
+import { movedHeadings, oldGuides, type OldGuide } from '../data/doc-bookmarks';
+
+interface Props { guide: OldGuide }
+const { start } = oldGuides[Astro.props.guide];
+const byHeading = movedHeadings(Astro.props.guide);
+---
+<script is:inline define:vars={{start, byHeading}}>
+  function followBookmark() {
+    const destination = new Map(byHeading).get(location.hash.slice(1)) || start;
+    if (destination) location.replace(destination + location.search + location.hash);
+  }
+  followBookmark();
+  window.addEventListener('hashchange', followBookmark);
+</script>

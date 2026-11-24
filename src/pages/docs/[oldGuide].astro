@@ -1,0 +1,28 @@
+---
+import DocBookmarks from '../../components/DocBookmarks.astro';
+import { movedHeadings, oldGuides } from '../../data/doc-bookmarks';
+
+export function getStaticPaths() {
+  return (['cli', 'library', 'github-action'] as const).map(guide => ({ params: { oldGuide: guide }, props: { guide } }));
+}
+const { guide } = Astro.props;
+const { start } = oldGuides[guide];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="robots" content="noindex" />
+    <title>Guide moved | Code Mortis</title>
+    <link rel="canonical" href={new URL(start, Astro.site)} />
+    <DocBookmarks guide={guide} />
+  </head>
+  <body><main>
+    <h1>This guide has moved</h1>
+    <p><a href={start}>Open the updated guide</a> or choose a bookmarked section.</p>
+    <ul>{movedHeadings(guide).map(([id, path]) =>
+      <li id={id}><a href={path + '#' + id}>{id.replaceAll('-', ' ')}</a></li>
+    )}</ul>
+  </main></body>
+</html>

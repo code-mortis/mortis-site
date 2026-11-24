@@ -61,7 +61,7 @@ const actions = [
           <div>{actions.map(([name,detail,command],i) => <details name="capability" open={i === (diff ? 2 : field ? 1 : 0)}><summary>{name}</summary><p>{detail}</p><code>{command}</code></details>)}</div>
         </section>
     </div></div>
-    <section class="install-band" id="install"><div class="page-width"><div><h2>Run your first review.</h2><p>Install the CLI and connect your AI provider. Eligible source and diffs go to that connection; run history stays on your machine.</p></div><div><pre><code>uv tool install mortis-engine{'\n'}mortis connect{'\n'}mortis review --progress</code></pre><a class="text-link" href="/docs/cli/">CLI guide</a><a class="text-link" href="/docs/library/">Python library guide</a></div></div></section>
+    <section class="install-band" id="install"><div class="page-width"><div><h2>Run your first review.</h2><p>Install the CLI and connect your AI provider. Eligible source and diffs go to that connection; run history stays on your machine.</p></div><div><pre><code>uv tool install mortis-engine{'\n'}mortis connect{'\n'}mortis review --progress</code></pre><a class="text-link" href="/docs/engine/cli/">CLI guide</a><a class="text-link" href="/docs/engine/python/">Python library guide</a></div></div></section>
   </main>
   <footer class="page-width"><a href="/"><img src={logo.src} width="140" height="24" alt="Code Mortis"/></a><a href="/docs/">Documentation</a></footer>
 </body></html>

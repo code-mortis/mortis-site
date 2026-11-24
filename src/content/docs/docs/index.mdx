@@ -1,26 +1,28 @@
 ---
 title: Code Mortis documentation
-description: Run Mortis from Python, the command line, GitHub Actions, or the self-hosted Code Mortis App.
+description: Review a change in your terminal, publish feedback on a pull request, or investigate saved findings with your team.
+tableOfContents: false
+pagination: false
 ---
 
-Mortis Engine reviews Git changes, checks findings against specific revisions, and scans repository security. Choose how you want to run Mortis.
+import DocDirectory from '../../../components/DocDirectory.astro';
 
-## Python library
+<span id="choose-a-guide"></span>
+<DocDirectory />
 
-Embed Mortis in a Python project. Preview the files a review would cover, run the review with your application's credentials, and read findings and coverage from the returned dictionary. [Use the Python library](/docs/library/)
+## Preview your first review
 
-## Command-line interface
+From a Git repository with at least one commit and a local change, install the Engine and inspect the files it would review. The preview runs on your machine and needs no API key.
 
-Review staged changes before a commit or compare a branch with its base. Save a provider connection, follow progress in the terminal, and export results as Markdown or JSON. [Use the CLI](/docs/cli/), [ask about or describe the changes](/docs/cli/#ask-about-or-describe-a-branch-comparison), [review subsequent commits](/docs/cli/#review-subsequent-commits), or [install the coding-agent skill](/docs/cli/#use-with-coding-agents).
+```sh title="Terminal"
+uv tool install mortis-engine
+mortis review --preview
+```
 
-The CLI and Python library operate on a local Git repository. Previews run offline. During analysis, Mortis sends eligible source and diffs to the AI connection you select and saves run history locally.
+## Work with your coding agent
 
-[Compare Code Mortis with other review tools](/comparison/) to see how each tool handles review and follow-up.
+For local changes, [install the Engine skill](/docs/engine/cli/#use-with-coding-agents) to give your agent the CLI workflow. On a GitHub pull request, [ask the Action a question](/docs/action/pull-requests/#review-and-discuss-a-pull-request) about the current diff. To investigate a saved App finding, [connect your agent through MCP](/docs/app/mcp-and-api/#connect-scripts-and-agents) and choose the repositories it can read.
 
-## GitHub Action
+The Engine keeps local history, the Action writes reports on its runner, and the App saves results on your instance. During analysis, eligible source and diffs go to the AI provider you configure. [Compare Code Mortis with other review tools](/comparison/).
 
-Review pull requests as commits arrive, reuse coverage on subsequent pushes, compare branches, and scan revisions in CI. [Set up Mortis Action](/docs/github-action/)
-
-## Code Mortis App
-
-Self-host a web workspace for GitHub pull request reviews, security scans, and code navigation. Run reviews automatically or on demand, track findings and coverage, and connect your own AI provider. [Set up the Code Mortis App](/docs/app/)
+Guides checked November 24, 2026 against [Engine 0.1.5](https://github.com/code-mortis/mortis-engine/releases/tag/v0.1.5), [Action v0.2.0](https://github.com/code-mortis/mortis-action/releases/tag/v0.2.0), and the [App source](https://github.com/code-mortis/code-mortis/tree/71d7ffecd0078f5d3bc567e62119eb98eb2e4a19).

@@ -1,5 +1,6 @@
 ---
 import '../styles/mockups.css';
+import DeskMasthead from '../components/DeskMasthead.astro';
 import SiteHead from '../components/SiteHead.astro';
 import darkLogo from '../assets/orange/raven-orange-dark.svg';
 import lightLogo from '../assets/orange/raven-orange-light.svg';
@@ -22,8 +23,6 @@ const title = Astro.props.title ?? (preview
 const description = Astro.props.description ?? (preview
   ? direction?.description ?? 'Compare three interactive Code Mortis landing pages.'
   : 'Review pull requests, investigate repository security, and verify findings against the source with the Code Mortis App, GitHub Action, or standalone Engine.');
-const comparing = Astro.url.pathname.replace(/\/$/, '') === '/comparison';
-const home = comparing ? '/' : '';
 const closing = {
   'field-notes': 'Follow your first finding.',
   'review-desk': 'Open your own workspace.',
@@ -41,29 +40,29 @@ const closing = {
   <body class:list={['mock', slug]}>
     <a class="skip" href="#main">Skip to content</a>
     <header class="nav-ground">
-      <div class="mast shell">
-        <a class="brand" href={chooser ? '/mockups/' : preview ? '#main' : '/'} aria-label="Code Mortis home">
+      {preview ? <div class="mast shell">
+        <a class="brand" href={chooser ? '/mockups/' : '#main'} aria-label="Code Mortis home">
           <img src={logo.src} width="157" height="27" alt="Code Mortis" />
         </a>
         {!chooser && <nav aria-label="Main navigation">
-          <a href={home + '#tour'}>Product</a>
-          <a href={home + '#setup'}>Installation</a>
-          <a href={home + '#agents'}>MCP</a>
-          {preview ? <a href="/docs/">Docs ↗</a> : <a href="/comparison/" aria-current={comparing ? 'page' : undefined}>Compare</a>}
+          <a href="#tour">Product</a>
+          <a href="#setup">Installation</a>
+          <a href="#agents">MCP</a>
+          <a href="/docs/">Docs ↗</a>
         </nav>}
-        <a class="compare" href={preview ? chooser ? '/' : '/mockups/' : '/docs/'}>
-          {preview ? chooser ? 'Current homepage' : 'All mockups' : 'Docs'} <span aria-hidden="true">↗</span>
+        <a class="compare" href={chooser ? '/' : '/mockups/'}>
+          {chooser ? 'Current homepage' : 'All mockups'} <span aria-hidden="true">↗</span>
         </a>
-      </div>
+      </div> : <DeskMasthead />}
     </header>
     <main id="main"><slot /></main>
     {!chooser && <footer>
       <div class="shell final">
         <div><p class="kicker">Start with your repository</p><h2>{closing[slug]}</h2></div>
         <div class="closing-links">
-          <a href="/docs/cli/">Install the Engine ↗</a>
-          <a href="/docs/github-action/">Add the Action ↗</a>
-          <a href="/docs/app/">Deploy the App ↗</a>
+          <a href="/docs/engine/cli/">Install the Engine ↗</a>
+          <a href="/docs/action/setup/">Add the Action ↗</a>
+          <a href="/docs/app/deployment/">Deploy the App ↗</a>
         </div>
       </div>
       {preview ? <nav class="other-previews shell" aria-label="Landing mockups">

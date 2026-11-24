@@ -74,7 +74,7 @@ const checked = new Intl.DateTimeFormat('en-US', {
       </header>
       <div class="comparison-capture">
         <Capture view="review-finding" />
-        <a href="/docs/library/#scan-a-commit-or-follow-up-on-a-review">How the Engine verifies a later revision ↗</a>
+        <a href="/docs/engine/python/#scan-a-commit-or-follow-up-on-a-review">How the Engine verifies a later revision ↗</a>
       </div>
     </section>
 
@@ -86,9 +86,9 @@ const checked = new Intl.DateTimeFormat('en-US', {
           <p>Choose a pull request with a known bug. Keep its base commit, the head that introduced the bug, and the later fix so each reviewer sees the same change.</p>
         </header>
         <ol class="trial-checks">
-          <li><h3>Preview the scope</h3><p>In a local clone, substitute the two review commits in <code>mortis review --base BASE_SHA --head PR_SHA --preview</code>. Check which files qualify and which were excluded.</p><a class="under" href="/docs/cli/#install-and-preview">CLI preview ↗</a></li>
-          <li><h3>Read findings alongside coverage</h3><p>With a provider configured, run the same command without <code>--preview</code> and save the run ID. Check whether the reviewer caught the bug, which files it covered, and where it reported gaps.</p><a class="under" href="/docs/library/#interpret-the-result">Python result fields ↗</a></li>
-          <li><h3>Verify against the fix</h3><p>Use the saved run ID and the fix commit in <code>mortis verify --run RUN_ID --ref FIX_SHA</code>. Read the verdict beside the original evidence.</p><a class="under" href="/docs/cli/#revisit-a-saved-run">Saved-run verification ↗</a></li>
+          <li><h3>Preview the scope</h3><p>In a local clone, substitute the two review commits in <code>mortis review --base BASE_SHA --head PR_SHA --preview</code>. Check which files qualify and which were excluded.</p><a class="under" href="/docs/engine/cli/#install-and-preview">CLI preview ↗</a></li>
+          <li><h3>Read findings alongside coverage</h3><p>With a provider configured, run the same command without <code>--preview</code> and save the run ID. Check whether the reviewer caught the bug, which files it covered, and where it reported gaps.</p><a class="under" href="/docs/engine/python/#interpret-the-result">Python result fields ↗</a></li>
+          <li><h3>Verify against the fix</h3><p>Use the saved run ID and the fix commit in <code>mortis verify --run RUN_ID --ref FIX_SHA</code>. Read the verdict beside the original evidence.</p><a class="under" href="/docs/engine/saved-runs/#revisit-a-saved-run">Saved-run verification ↗</a></li>
         </ol>
       </div>
     </section>

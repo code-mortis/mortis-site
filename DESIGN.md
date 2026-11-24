@@ -1,6 +1,6 @@
 ---
 name: Code Mortis
-description: Review Desk leads the homepage from a light hero into a dark product tour. The comparison page shares the Review Desk layout, while Docs retains the Night Guide palette.
+description: Review Desk leads the homepage from a light hero into a dark product tour. The comparison and documentation share its light masthead, Inter typography, and paper palette.
 colors:
   paper: "#191b18"
   type: "#f3efe3"
@@ -67,7 +67,7 @@ Review Desk is the homepage reference. Its light hero uses Inter and the light-b
 
 The comparison page uses the same masthead, hero artwork, and footer as Review Desk. Its dark comparison table cites the sources for each workflow.
 
-The Night Guide tokens and guidance below apply to documentation and the historical Night Guide design. Warm charcoal and cream text frame large serif headings with orange italic emphasis.
+The Night Guide tokens and guidance below the Review Desk notes describe the historical Night Guide design. Warm charcoal and cream text frame large serif headings with orange italic emphasis.
 
 The Night Guide reference styles are src/styles/masthead.css and src/styles/night-guide.css. Starlight uses src/styles/docs.css. The current comparison adds src/styles/comparison.css to the shared Review Desk styling. src/styles/landing.css supplies base styles and also contains older component styles. Extract the effective production styles when extending the site.
 
@@ -75,7 +75,7 @@ The Night Guide reference styles are src/styles/masthead.css and src/styles/nigh
 
 Paper is the page background. Panel is the slightly lighter background of full-width feature and installation bands. Type is the primary cream text, secondary supports descriptions, and rule defines thin dividers.
 
-Signal marks primary actions, italic heading emphasis, commands, active navigation, hover states, and focus. Starlight maps these same colors into its theme variables and forces dark mode.
+Signal marks primary actions, italic heading emphasis, commands, active navigation, hover states, and focus. Documentation uses light paper (#f8f9f7), ink (#202128), rust links (#92391d), and charcoal code panels (#202124).
 
 ## Typography
 
@@ -83,7 +83,7 @@ Georgia supplies display and section headings. Orange italics emphasize selected
 
 Hero descriptions scale from 16px to 20px with a line height of 1.55 and a maximum width of 45ch. Feature descriptions have a maximum width of 62ch.
 
-Docs retain a reading hierarchy. Their h1 uses Georgia at clamp(2.8rem, 4.8vw, 4.8rem), and h2 uses Georgia with Starlight's size scale. Both use a 1.08 line height and -0.035em tracking. Preserve code formatting and navigation readability in guides.
+Docs use the same local Inter as Review Desk. Guide titles have a short introduction, followed by a single reading column, monospace code samples, and a linked outline.
 
 ## Layout
 
@@ -93,7 +93,7 @@ The opener uses a 1.04fr / 1fr grid with a 4% gap. The landing pairs its headlin
 
 Feature sections use a left heading and right stack of ruled rows, with 1fr / 1.4fr columns and a 6% gap. Section padding is clamp(45px, 5.3vw, 82px). Installation bands use a left heading and description beside a right command block.
 
-At 740px the main grids become one column and the GitHub header button is hidden. At 450px the header wraps and the wordmark shrinks. Docs additionally reserves space for Starlight's mobile menu below 50rem and uses a two-row header at 450px.
+At 740px the main grids become one column and the GitHub header button is hidden. At 450px the header wraps and the wordmark shrinks. Docs reserve space for Starlight's mobile menu and search on a single header row.
 
 ## Elevation & Depth
 
@@ -105,7 +105,7 @@ Primary and GitHub buttons have 3px corners. The GitHub button has a one-pixel o
 
 ## Components
 
-The shared SiteNav contains Engine, Compare, Docs, and the outlined GitHub button with its logo. Links on inner pages return to the landing's Engine section. Current navigation uses orange. Comparison and documentation use this component.
+Public pages share DeskMasthead with links to Product, Installation, MCP, and Compare. Its trailing control opens Docs on marketing pages and search in the guides.
 
 The primary install action uses an orange fill and dark text, then cream on hover. Underlined text links use a five-pixel underline offset. Marketing focus rings are two-pixel orange outlines with a four-pixel offset.
 
@@ -117,7 +117,7 @@ Installation commands use a one-pixel orange left rule and plain cream monospace
 
 RavenHunt is an inline SVG animation with a 7.2-second cycle. The left-facing crow tracks the ladybug, picks it up, tosses it upward, and catches it with an opening lower beak. CSS coordinates the body, head, jaw, held bug, and airborne bug. The loop pauses through its checkbox control and when hidden or offscreen. Reduced motion shows a still illustration.
 
-Docs use Starlight's sidebar, table of contents, code controls, and populated content. The active sidebar entry uses an orange edge and text against the panel background. Search and theme selectors are empty overrides.
+Docs retain Starlight’s sidebar, on-page outline, copy controls, and Pagefind search. Guide links are grouped by product and the active link uses a pale rust fill.
 
 ## Do's and Don'ts
 

@@ -50,19 +50,19 @@ export function getStaticPaths() {
             <h2 id="engine-features-title"><span id="engine">Inside the</span><br/><em>Engine.</em></h2>
             <ul class="engine-index">
               <li>
-                <h3><a href="/docs/cli/#run-a-review">Code graph</a></h3>
+                <h3><a href="/docs/engine/reviews/#run-a-review">Code graph</a></h3>
                 <p>The optional graph maps definitions and imports at the revision under review, giving Mortis context across files.</p>
               </li>
               <li>
-                <h3><a href="/docs/cli/#scan-a-committed-revision">Security scans</a></h3>
+                <h3><a href="/docs/engine/scans/#scan-a-committed-revision">Security scans</a></h3>
                 <p>Trivy checks dependencies, configuration, and secrets. Mortis assesses findings against the source and reports which files the scan covered.</p>
               </li>
               <li>
-                <h3><a href="/docs/cli/#revisit-a-saved-run">Finding history</a></h3>
+                <h3><a href="/docs/engine/saved-runs/#revisit-a-saved-run">Finding history</a></h3>
                 <p>Record why you marked a false positive or accepted a risk. Later scans of the same scope carry the decision forward alongside the original evidence.</p>
               </li>
               <li>
-                <h3><a href="/docs/cli/#ask-about-or-describe-a-branch-comparison">Branch questions and descriptions</a></h3>
+                <h3><a href="/docs/engine/reviews/#ask-about-or-describe-a-branch-comparison">Branch questions and descriptions</a></h3>
                 <p>Use <code>mortis ask</code> to get an answer with diff citations, or <code>mortis describe</code> to draft a title and description from your local branch.</p>
               </li>
             </ul>
@@ -74,9 +74,9 @@ export function getStaticPaths() {
           <div><h2>Run your first review.</h2><p>Install the CLI, then run these commands from your Git repository.</p></div>
           <div>
             <pre><code>uv tool install mortis-engine{'\n'}mortis connect{'\n'}mortis review --progress</code></pre>
-            <a class="text-link" href="/docs/cli/">CLI guide</a>
-            <a class="text-link" href="/docs/library/">Python library guide</a>
-            <a class="text-link" href="/docs/cli/#use-with-coding-agents">Agent&nbsp;skill</a>
+            <a class="text-link" href="/docs/engine/cli/">CLI guide</a>
+            <a class="text-link" href="/docs/engine/python/">Python library guide</a>
+            <a class="text-link" href="/docs/engine/cli/#use-with-coding-agents">Agent&nbsp;skill</a>
           </div>
         </div>
       </section>

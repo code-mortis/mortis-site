@@ -1,0 +1,33 @@
+---
+import { getEntry } from 'astro:content';
+import { docSections, type ProductId } from '../data/doc-sections';
+
+interface Props { section?: ProductId }
+const { section } = Astro.props;
+const oldIndexAnchors: Record<string, string> = {
+  '/docs/engine/cli/': 'command-line-interface',
+  '/docs/engine/python/': 'python-library',
+  '/docs/app/': 'code-mortis-app',
+  '/docs/action/': 'github-action',
+};
+async function readGuide(id: string) {
+  const entry = await getEntry('docs', 'docs/' + id);
+  if (!entry) throw new Error('Missing documentation page: ' + id);
+  return { href: '/' + entry.id + '/', title: entry.data.title, description: entry.data.description };
+}
+const sections = await Promise.all(docSections.filter(s => !section || s.id === section).map(async s => ({
+  id: s.id,
+  overview: await readGuide(s.id),
+  topics: await Promise.all(s.topics.map(topic => readGuide(s.id + '/' + topic))),
+})));
+---
+{section ? <ul class="doc-chapters">
+  {sections[0].topics.map(topic => <li><a href={topic.href}>{topic.title}</a><p>{topic.description}</p></li>)}
+</ul> : <div class="product-directory">
+  {sections.map(({id, overview, topics}) => <section aria-labelledby={'product-' + id}>
+    <h2 id={'product-' + id}><a id={oldIndexAnchors[overview.href]} href={overview.href}>{overview.title}<span aria-hidden="true"> →</span></a></h2>
+    <div><p>{overview.description}</p>
+      <ul aria-label={overview.title + ' guides'}>{topics.map(topic => <li><a id={oldIndexAnchors[topic.href]} href={topic.href}>{topic.title}</a></li>)}</ul>
+    </div>
+  </section>)}
+</div>}

@@ -1,0 +1,11 @@
+---
+import { docSections } from '../data/doc-sections';
+
+const { entry } = Astro.locals.starlightRoute;
+const overview = entry.id === 'docs';
+const [, productId, topic] = entry.id.split('/');
+const section = docSections.find(product => product.id === productId);
+---
+{section && <p class="doc-path"><a href="/docs/">Documentation</a>{topic && <><span aria-hidden="true"> / </span><a href={`/docs/${section.id}/`}>{section.label}</a></>}</p>}
+<h1 id="_top">{overview ? <>Code Mortis <em>documentation.</em></> : entry.data.title}</h1>
+{entry.data.description && <p class="doc-deck">{entry.data.description}</p>}

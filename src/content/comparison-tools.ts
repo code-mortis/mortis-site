@@ -3,25 +3,21 @@ function fact(text: string, label: string, href: string) {
   return { text, label, href };
 }
 
-const local = '/docs/cli/';
-const app = '/docs/app/';
-const action = '/docs/github-action/';
-const library = '/docs/library/';
 const mortis = {
-  preview: fact('Preview the staged files locally, see exclusions, then choose whether to send eligible code to your model for review.', 'Engine scope preview', library + '#preview-a-review'),
-  revisions: fact('Review staged changes, the working tree, or two Git refs in a local clone. Python callers can use the same scopes.', 'CLI and Python scopes', library + '#preview-a-review'),
-  models: fact('The Engine uses the provider you configure. The App supports shared OpenAI-compatible, Anthropic and Amazon Bedrock connections.', 'App model connections', app + '#connect-github-and-an-ai-provider'),
+  preview: fact('Preview the staged files locally, see exclusions, then choose whether to send eligible code to your model for review.', 'Engine scope preview', '/docs/engine/python/#preview-a-review'),
+  revisions: fact('Review staged changes, the working tree, or two Git refs in a local clone. Python callers can use the same scopes.', 'CLI and Python scopes', '/docs/engine/python/#preview-a-review'),
+  models: fact('The Engine uses the provider you configure. The App supports shared OpenAI-compatible, Anthropic and Amazon Bedrock connections.', 'App model connections', '/docs/app/deployment/#connect-github-and-an-ai-provider'),
   hosting: fact('Run the Engine as a CLI or Python library. The GitHub Action runs on a workflow runner. Deploy the App with Docker Compose for a shared GitHub workspace.', 'Mortis setup guides', '/docs/'),
-  coverage: fact('A saved review reports completed, reused and waived work alongside findings and errors. A partial run can still contain confirmed findings.', 'Review result contract', library + '#interpret-the-result'),
-  graph: fact('Enable indexing per repository to explore imports at a specific revision. A matching index can supply related source to a PR review.', 'App code graph', app + '#explore-a-code-graph'),
-  rules: fact('Add repository review rules in the App. Limit a rule to named files or path globs, or apply it across the repository.', 'Repository rules', app + '#review-a-pull-request'),
-  pull: fact('The Action publishes a PR summary and inline findings where GitHub can anchor them. An exact, validated replacement can appear as a suggested change.', 'Action review output', action + '#review-and-discuss-a-pull-request'),
-  ask: fact('A collaborator with write access can use /mortis ask on an open PR. The Action answers from the diff and cites supporting lines.', 'Action PR commands', action + '#review-and-discuss-a-pull-request'),
-  verify: fact('Give the Engine a saved review ID and a later Git ref to check the original finding against the new code. The original report remains available.', 'Verify a saved finding', local + '#revisit-a-saved-run'),
-  agent: fact('Give your agent read access to selected repositories through the App’s Reviews or Security MCP endpoint. It can retrieve saved findings and evidence for discussion.', 'App MCP permissions', app + '#connect-scripts-and-agents'),
-  indexedAgent: fact('The App’s read-only Code MCP endpoint lets your agent explore an indexed repository. Reviews and Security have separate endpoints for saved results.', 'App MCP endpoints', app + '#connect-scripts-and-agents'),
-  scan: fact('The App scans a pinned default-branch commit. Its report combines semantic findings with Trivy checks for dependencies, secrets and infrastructure configuration.', 'App security scans', app + '#scan-a-repository'),
-  export: fact('Export a saved Engine run as Markdown or versioned JSON for a person or a script. Export reads the saved report without another model call.', 'Saved reports and exports', local + '#revisit-a-saved-run'),
+  coverage: fact('A saved review reports completed, reused and waived work alongside findings and errors. A partial run can still contain confirmed findings.', 'Review result contract', '/docs/engine/python/#interpret-the-result'),
+  graph: fact('Enable indexing per repository to explore imports at a specific revision. A matching index can supply related source to a PR review.', 'App code graph', '/docs/app/code-graph/#explore-a-code-graph'),
+  rules: fact('Add repository review rules in the App. Limit a rule to named files or path globs, or apply it across the repository.', 'Repository rules', '/docs/app/reviews/#review-a-pull-request'),
+  pull: fact('The Action publishes a PR summary and inline findings where GitHub can anchor them. An exact, validated replacement can appear as a suggested change.', 'Action review output', '/docs/action/pull-requests/#review-and-discuss-a-pull-request'),
+  ask: fact('A collaborator with write access can use /mortis ask on an open PR. The Action answers from the diff and cites supporting lines.', 'Action PR commands', '/docs/action/pull-requests/#review-and-discuss-a-pull-request'),
+  verify: fact('Give the Engine a saved review ID and a later Git ref to check the original finding against the new code. The original report remains available.', 'Verify a saved finding', '/docs/engine/saved-runs/#revisit-a-saved-run'),
+  agent: fact('Give your agent read access to selected repositories through the App’s Reviews or Security MCP endpoint. It can retrieve saved findings and evidence for discussion.', 'App MCP permissions', '/docs/app/mcp-and-api/#connect-scripts-and-agents'),
+  indexedAgent: fact('The App’s read-only Code MCP endpoint lets your agent explore an indexed repository. Reviews and Security have separate endpoints for saved results.', 'App MCP endpoints', '/docs/app/mcp-and-api/#connect-scripts-and-agents'),
+  scan: fact('The App scans a pinned default-branch commit. Its report combines semantic findings with Trivy checks for dependencies, secrets and infrastructure configuration.', 'App security scans', '/docs/app/security/#scan-a-repository'),
+  export: fact('Export a saved Engine run as Markdown or versioned JSON for a person or a script. Export reads the saved report without another model call.', 'Saved reports and exports', '/docs/engine/saved-runs/#revisit-a-saved-run'),
 };
 
 type Fact = ReturnType<typeof fact>;

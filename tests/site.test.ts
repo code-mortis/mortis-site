@@ -1,15 +1,16 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
+import { docSections } from "../src/data/doc-sections";
+import { movedHeadings, oldGuides, type OldGuide } from "../src/data/doc-bookmarks";
 
 const read = (path: string) =>
   readFileSync(new URL(`../${path}`, import.meta.url), "utf8");
 
 test("landing, comparison and docs publish the raven and its sharing image", () => {
-  for (const route of ["", "comparison/", "docs/", "docs/cli/"]) {
+  for (const route of ["", "comparison/", "docs/", "docs/engine/cli/"]) {
     const page = read(`dist/${route}index.html`);
-    const logoVariant = route === "" || route === "comparison/" ? "light" : "dark";
-    const logo = page.match(new RegExp(`src="(/_astro/raven-orange-${logoVariant}\\.[^"]+\\.svg)"`));
+    const logo = page.match(/src="(\/_astro\/raven-orange-light\.[^"]+\.svg)"/);
     assert.ok(logo, `Missing raven logo on /${route}`);
     const svg = read(`dist${logo[1]}`);
     assert.ok(svg.includes("#ff7545"));
@@ -44,7 +45,7 @@ test("the public homepage opens Review Desk with its repository tour and setup g
   assert.ok(page.includes('aria-label="Explore the repository"'));
   assert.ok(page.includes('id="capture-dialog"'));
   assert.ok(page.includes("uv tool install mortis-engine"));
-  assert.ok(page.includes('href="/docs/github-action/"'));
+  assert.ok(page.includes('href="/docs/action/setup/"'));
   assert.doesNotMatch(page, /All mockups|\/mockups\/|noindex/);
   for (const anchor of ["tour", "setup", "agents"]) {
     assert.ok(page.includes(`href="#${anchor}"`));
@@ -55,35 +56,49 @@ test("the public homepage opens Review Desk with its repository tour and setup g
   }
 });
 
-test("the home page and docs index link to both rendered engine guides", () => {
-  const landing = read("dist/index.html");
+test("the homepage links directly to the CLI, Python, Action and deployment guides", () => {
+  const page = read("dist/index.html");
+  for (const route of ["engine/cli", "engine/python", "action/setup", "app/deployment"]) {
+    assert.ok(page.includes(`href="/docs/${route}/"`), route);
+  }
+  assert.ok(read("dist/docs/engine/cli/index.html").includes("mortis review --preview"));
+  assert.ok(read("dist/docs/engine/python/index.html").includes("preview_local"));
+});
+
+test("the docs directory, product pages and sidebar expose all three sections and their topics", () => {
   const overview = read("dist/docs/index.html");
-  for (const [guide, example] of [
-    ["library", "preview_local"],
-    ["cli", "mortis review --preview"],
-  ]) {
-    const route = `/docs/${guide}/`;
-    assert.ok(landing.includes(`href="${route}"`));
-    assert.ok(overview.includes(`href="${route}"`));
-    assert.ok(read(`dist${route}index.html`).includes(example));
+  const directory = overview.match(/<div class="product-directory">([\s\S]+?)<\/section>\s*<\/div>/)?.[1];
+  assert.ok(directory);
+  const sidebar = overview.match(/<nav\b[^>]*aria-label="Main"[^>]*>([\s\S]*?)<\/nav>/)?.[1];
+  assert.ok(sidebar);
+  for (const { id, label, topics } of docSections) {
+    const base = `/docs/${id}/`;
+    const product = read(`dist${base}index.html`);
+    assert.ok(directory.includes(`href="${base}"`));
+    assert.ok(sidebar.includes(`>${label}</span>`));
+    const surfaces: string[] = [directory, product, sidebar];
+    for (const topic of topics) {
+      const href = `${base}${topic}/`;
+      for (const surface of surfaces) assert.ok(surface.includes(`href="${href}"`), href);
+      const page = read(`dist${href}index.html`);
+      assert.match(page, new RegExp(`class="doc-path"[\\s\\S]*?href="${base}">${label}</a>`));
+      assert.ok(page.includes('data-open-modal'));
+    }
   }
 });
 
-test("the docs overview and sidebar link to the self-hosted app guide", () => {
+test("guide bookmarks resolve to the headings in the reorganized docs", () => {
   const overview = read("dist/docs/index.html");
-  const sidebar = overview.match(/<nav\b[^>]*aria-label="Main"[^>]*>([\s\S]*?)<\/nav>/);
-  assert.ok(sidebar?.[1].includes('href="/docs/app/"'));
-  assert.ok(overview.includes('href="/docs/app/">Set up the Code Mortis App</a>'));
-
-  const guide = read("dist/docs/app/index.html");
-  for (const section of [
-    "deploy-with-docker-compose",
-    "connect-github-and-an-ai-provider",
-    "review-a-pull-request",
-    "scan-a-repository",
-    "explore-a-code-graph",
-    "connect-scripts-and-agents",
-  ]) {
-    assert.ok(guide.includes(`id="${section}"`), `Missing app guide section ${section}`);
+  for (const id of ["choose-a-guide", "python-library", "command-line-interface", "github-action", "code-mortis-app"]) {
+    assert.ok(overview.includes(`id="${id}"`));
   }
+  for (const id of Object.keys(oldGuides) as OldGuide[]) {
+    const origin = read(`dist/docs/${id}/index.html`);
+    for (const [heading, path] of movedHeadings(id)) {
+      assert.ok(origin.includes(heading), `/docs/${id}/#${heading}`);
+      assert.ok(read(`dist${path}index.html`).includes(`id="${heading}"`), path + "#" + heading);
+    }
+  }
+  assert.ok(read("dist/docs/app/index.html").includes('id="find-work-in-the-workspace"'));
+  assert.match(read("dist/docs/action/ci/index.html"), /Trivy 0\.76\.0[\s\S]+?0\.76\.2/);
 });
