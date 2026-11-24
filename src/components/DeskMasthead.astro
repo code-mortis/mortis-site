@@ -1,4 +1,5 @@
 ---
+import { Icon } from '@astrojs/starlight/components';
 import raven from '../assets/orange/raven-orange.svg';
 
 const path = Astro.url.pathname.replace(/\/$/, '');
@@ -14,8 +15,13 @@ const home = path === '' ? '' : '/';
     <a href={home + '#setup'}>Installation</a>
     <a href={home + '#agents'}>MCP</a>
     <a href="/comparison/" aria-current={path === '/comparison' ? 'page' : undefined}>Compare</a>
+    <a class="docs-link" href="/docs/" aria-current={path === '/docs' ? 'page' : path.startsWith('/docs/') ? 'location' : undefined}>Docs</a>
   </nav>
-  <slot><a class="compare" href="/docs/">Docs</a></slot>
+  <slot>
+    <a class="compare" href="https://github.com/code-mortis">
+      <Icon name="github" size="18px" aria-hidden="true" />GitHub
+    </a>
+  </slot>
 </div>
 
 <style>
@@ -35,13 +41,16 @@ const home = path === '' ? '' : '/';
   }
   .brand img { width: 1.55em; height: auto; display: block; }
   nav { display: flex; gap: 30px; margin-inline: auto; }
-  .compare { padding: 7px 15px; border: 1px solid #d3d5d4; border-radius: 22px; }
+  .compare { display: inline-flex; align-items: center; gap: 7px; padding: 7px 15px; border: 1px solid #d3d5d4; border-radius: 22px; }
   .desk-mast .compare:hover { border-color: #797d81; text-decoration: none; }
   @media(max-width:960px) { .desk-mast { gap: 24px; } nav { gap: 20px; } }
   @media(max-width:740px) {
     .desk-mast { width: calc(100% - 36px); min-height: 60px; gap: 14px; }
     .brand { margin-right: auto; font-size: 1.0625rem; }
     nav { display: none; }
+    nav:has(+ .compare) { display: block; margin: 0; }
+    nav a:not(.docs-link) { display: none; }
+    .desk-mast nav + .compare { margin-left: 0; }
     .compare { font-size: 12px; }
   }
 </style>
