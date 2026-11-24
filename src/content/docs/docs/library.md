@@ -26,7 +26,7 @@ for file in plan["excluded_files"]:
 
 The `mortis.review-preview/v1` dictionary also contains the selected files, units of source assigned to analysis, and planned batches. The batch count estimates initial analysis work. Assessment and summary generation can make additional requests. Check `errors` as well as `excluded_files` for source that could not be read. An unreadable file can retain its change status and original rename path when Git metadata is available.
 
-`preview_local` and `review_local` accept the same scopes.
+`preview_local` and `review_local` accept the same scopes. Preview shows the full scope and rejects `incremental` and `skip_unchanged` overrides.
 
 | To inspect | Arguments |
 | --- | --- |
@@ -74,15 +74,19 @@ from mortis_engine.review import review_commits
 branch_report = review_commits(
     ".", base="main", head="HEAD",
     connection=connection, get_credentials=get_credentials,
+    overrides={"incremental": True, "skip_unchanged": True},
 )
 print(branch_report["merge_base"], branch_report["head_sha"])
+print(branch_report.get("comparison"), branch_report["coverage"]["reused"])
 ```
+
+Both comparison options default to `False`. Pass the same `overrides` to `review_local` with `mode="commits"`. Keep the same branch refs across runs so the engine can locate prior coverage. See [when a comparison falls back to a full review](/docs/cli/#review-subsequent-commits). Resume keeps the saved selection.
 
 Pass `review_local` the keyword argument `overrides={"max_output_tokens": 0, "token_budget": 0}` to let the provider determine the per-response allowance for analysis. For Bedrock, this uses the Converse default. Anthropic Messages looks up the selected model's output capacity. The [CLI guide](/docs/cli/#configure-the-repository) explains what changes when a token budget is finite.
 
 ## Interpret the result
 
-A review returns a `mortis.review/v1` dictionary. Keep the `run_id` for follow-up work. Read `findings` alongside `status`, `coverage`, and `errors` before deciding whether a change passed your checks. A partial review can return confirmed findings. A skipped review can mean there were no eligible changes or that the file limit waived coverage. Inspect `coverage["waived"]` to distinguish those cases. Candidate assessments and token usage are available in `candidates` and `usage`.
+A review returns a `mortis.review/v1` dictionary. Keep the `run_id` for follow-up work. Read `findings` alongside `status`, `coverage`, and `errors` before deciding whether a change passed your checks. A partial review can return confirmed findings. A skipped review can mean there were no eligible changes, the file limit waived coverage, or a compatible review already covered the same tree. Inspect `coverage["waived"]` and `comparison` to distinguish those outcomes. `coverage["completed"]` lists files analyzed in the current run, and `coverage["reused"]` lists prior coverage. An unchanged comparison records zero model calls and links to the earlier run. Candidate assessments and token usage are available in `candidates` and `usage`.
 
 Review functions are synchronous. In an application with a running asyncio event loop, await the call through `asyncio.to_thread`. Reviews retain their snapshots and results under `$XDG_STATE_HOME/mortis` (default `~/.local/state/mortis`). This history can contain reviewed source.
 

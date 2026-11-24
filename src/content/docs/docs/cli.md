@@ -75,6 +75,18 @@ Add `--preview` to any of these scopes to check your selection. Use `--repo PATH
 
 Working-tree reviews read files without following symlinks or running Git filters. If the platform cannot provide safe no-follow file access, use `--staged` for the changes you intend to review. Files over 20 MB or otherwise unreadable are reported as coverage gaps when the snapshot can still be built.
 
+## Review subsequent commits
+
+```sh
+mortis review --base main --incremental --skip-unchanged
+```
+
+`--incremental` analyzes files changed since the last compatible, fully covered review of the same branch. Each selected file uses its cumulative diff from the common ancestor. The summary and `max_files` still cover the full branch comparison. Use a branch name or its checked-out `HEAD` to keep a consistent history scope. Missing or incomplete history, a changed base or configuration, and unavailable ancestry trigger a full comparison. `--graph` and `--second-pass` also use the full comparison.
+
+`--skip-unchanged` skips model calls when a compatible review already covered the same Git tree, including after an empty commit. The report records `status: skipped`, reuses the prior coverage, and links to the earlier run. Both options default to `false`. Set `incremental` and `skip_unchanged` under `[review]` on the base branch to enable them independently. Use `--no-incremental` and `--no-skip-unchanged` to override those defaults for one run.
+
+A preview shows the full scope without reading saved reviews. Run `mortis review --base main --preview` separately from the comparison flags. `--resume` uses the saved selection.
+
 ## Configure the repository
 
 Commit a `mortis.toml` at the root of the repository to share defaults. A branch comparison reads settings from the base commit. Staged and working-tree reviews use settings committed at `HEAD`.
@@ -116,7 +128,7 @@ This writes the versioned review JSON to stdout, sends progress to stderr, and s
 
 | Review exit code | Meaning for automation |
 | --- | --- |
-| `0` | Review completed, or there were no eligible changes. Inspect `findings` to decide whether to fail your check. |
+| `0` | Review completed, there were no eligible changes, or an unchanged comparison was skipped. Inspect `findings`, `coverage.reused` and the prior run in `comparison` when present. |
 | `2` | Partial coverage or files waived by the configured limit. Inspect `coverage` and `errors`. |
 | `1` | Review failed. Inspect the error output. |
 
