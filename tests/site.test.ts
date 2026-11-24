@@ -8,7 +8,7 @@ const read = (path: string) =>
 test("landing, comparison and docs publish the raven and its sharing image", () => {
   for (const route of ["", "comparison/", "docs/", "docs/cli/"]) {
     const page = read(`dist/${route}index.html`);
-    const logoVariant = route === "" ? "light" : "dark";
+    const logoVariant = route === "" || route === "comparison/" ? "light" : "dark";
     const logo = page.match(new RegExp(`src="(/_astro/raven-orange-${logoVariant}\\.[^"]+\\.svg)"`));
     assert.ok(logo, `Missing raven logo on /${route}`);
     const svg = read(`dist${logo[1]}`);
@@ -25,9 +25,17 @@ test("main navigation opens the standalone comparison", () => {
   const nav = read("dist/index.html").match(/<nav\b[^>]*aria-label="Main navigation"[^>]*>([\s\S]*?)<\/nav>/);
   assert.ok(nav?.[1].includes('href="/comparison/"'));
   const page = read("dist/comparison/index.html");
-  for (const tool of ["PR-Agent", "Kodus", "Alibaba Open Code Review", "Qodo"]) {
-    assert.ok(page.includes(tool), `Missing ${tool}`);
+  assert.match(page, /<nav[^>]*aria-label="Main navigation"[\s\S]*?href="\/comparison\/" aria-current="page"/);
+  for (const anchor of ["tour", "setup", "agents"]) {
+    assert.ok(page.includes(`href="/#${anchor}"`), `Missing homepage link to #${anchor}`);
   }
+  for (const id of ["coderabbit", "qodo", "kodus", "greptile", "pr-agent", "ocr"]) {
+    assert.ok(page.includes(`href="#${id}"`), `Missing selector for ${id}`);
+    assert.ok(page.includes(`id="${id}"`), `Missing comparison content for ${id}`);
+  }
+  assert.ok(page.includes('class="workflow-table"'));
+  assert.ok(page.includes('data-enlarge'));
+  assert.ok(page.includes('Mortis Engine 0.1.5'));
 });
 
 test("the public homepage opens Review Desk with its repository tour and setup guides", () => {

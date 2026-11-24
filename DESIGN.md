@@ -1,6 +1,6 @@
 ---
 name: Code Mortis
-description: Review Desk leads the homepage from a light hero into a dark product tour. Compare and Docs retain the Night Guide palette described below.
+description: Review Desk leads the homepage from a light hero into a dark product tour. The comparison page shares the Review Desk layout, while Docs retains the Night Guide palette.
 colors:
   paper: "#191b18"
   type: "#f3efe3"
@@ -65,9 +65,11 @@ components:
 
 Review Desk is the homepage reference. Its light hero uses Inter and the light-background raven wordmark. The repository tour uses native App details on charcoal. The homepage and the local Review Desk preview share `src/components/ReviewDesk.astro` and `src/styles/mockups.css`.
 
-The Night Guide tokens and guidance below apply to the comparison page, documentation, and historical Night Guide design. Warm charcoal and cream text frame large serif headings with orange italic emphasis.
+The comparison page uses the same masthead, hero artwork, and footer as Review Desk. Its dark comparison table cites the sources for each workflow.
 
-The source of truth is src/styles/masthead.css for shared colors and navigation, src/styles/night-guide.css for landing and comparison layouts, and src/styles/docs.css for Starlight. src/styles/landing.css supplies base styles and also contains older component styles. Extract the effective production styles when extending the site.
+The Night Guide tokens and guidance below apply to documentation and the historical Night Guide design. Warm charcoal and cream text frame large serif headings with orange italic emphasis.
+
+The Night Guide reference styles are src/styles/masthead.css and src/styles/night-guide.css. Starlight uses src/styles/docs.css. The current comparison adds src/styles/comparison.css to the shared Review Desk styling. src/styles/landing.css supplies base styles and also contains older component styles. Extract the effective production styles when extending the site.
 
 ## Colors
 

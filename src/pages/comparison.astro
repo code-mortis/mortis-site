@@ -1,60 +1,133 @@
 ---
+import MarketingLayout from '../layouts/MarketingLayout.astro';
+import ReviewBranches from '../components/ReviewBranches.astro';
+import Capture from '../components/mockups/Capture.astro';
 import { Content, frontmatter } from '../content/comparison.md';
-import tools from '../content/comparison-tools.json';
-import Site from '../layouts/Site.astro';
----
+import { comparisons } from '../content/comparison-tools';
+import '../styles/comparison.css';
 
-<Site title={`${frontmatter.title} | Code Mortis`} description={frontmatter.description}>
-  <main id="main">
-    <header class="page-width opener">
-      <div class="pitch">
-        <h1>Why choose<br /><em>Code Mortis?</em></h1>
-        <p>See which change introduced a bug, how much code the review covered, and whether a later commit fixed it.</p>
+const checked = new Intl.DateTimeFormat('en-US', {
+  dateStyle: 'long',
+  timeZone: 'UTC',
+}).format(new Date(frontmatter.checked));
+---
+<MarketingLayout title={`${frontmatter.title} | Code Mortis`} description={frontmatter.description}>
+  <article class="compare-page">
+    <header class="desk-hero" data-enter>
+      <ReviewBranches />
+      <div class="desk-content">
+        <h1>Compare code<br /><em>review tools.</em></h1>
+        <p>Pick a tool to see how it compares with Mortis, from the first local diff to the next commit that touches a finding.</p>
+        <div class="actions">
+          <a class="primary" href="#compare-tools">Choose a tool <span aria-hidden="true">↓</span></a>
+          <a class="secondary" href="#inside-a-mortis-review">Inspect the evidence ↓</a>
+        </div>
       </div>
-      <nav id="compare-tools" aria-label="Compare review tools">
-        <p>Compare with</p>
-        <ul class="engine-index">
-          {tools.map(tool => (
-            <li><a href={`#${tool.short.toLowerCase()}`}>{tool.name}<span aria-hidden="true">↓</span></a></li>
-          ))}
-        </ul>
-      </nav>
     </header>
 
-    <div class="feature-area">
-      <div class="page-width">
-        {tools.map(tool => (
-          <section class="engine-features" aria-labelledby={tool.short.toLowerCase()}>
-            <h2 id={tool.short.toLowerCase()}>{tool.short}</h2>
-            <ul class="engine-index">
-              <li>
-                <h3>When to choose Code Mortis</h3>
-                <p>{tool.mortis.text}</p>
-                <div class="sources">{tool.mortis.links.map(link => <a class="text-link" href={link.href}>{link.label}</a>)}</div>
-              </li>
-              <li>
-                <h3>Where {tool.short} fits</h3>
-                <p>{tool.other.text}</p>
-                <div class="sources">{tool.other.links.map(link => <a class="text-link" href={link.href}>{link.label}</a>)}</div>
-              </li>
-            </ul>
+    <section class="comparison-band" aria-labelledby="compare-heading">
+      <div class="shell">
+        <header class="comparison-heading">
+          <h2 id="compare-heading">Code Mortis <em>compared with</em></h2>
+          <p class="micro">Sources checked <time datetime={frontmatter.checked}>{checked}</time></p>
+        </header>
+        <nav id="compare-tools" aria-labelledby="compare-heading" class="tool-picker">
+          {comparisons.map(tool => <a href={`#${tool.id}`}>{tool.short}</a>)}
+        </nav>
+        {comparisons.map(tool => (
+          <section class="tool-profile" id={tool.id} aria-labelledby={`${tool.id}-title`}>
+            <header class="profile-lead">
+              <h3 id={`${tool.id}-title`}>{tool.name}</h3>
+              <p>{tool.focus}</p>
+            </header>
+            <table class="workflow-table">
+              <caption class="visually-hidden">Documented workflows for Code Mortis and {tool.name}</caption>
+              <thead>
+                <tr><th scope="col">Workflow</th><th scope="col">Code Mortis</th><th scope="col">{tool.short}</th></tr>
+              </thead>
+              <tbody>
+                {tool.rows.map(([question, mortis, other]) => (
+                  <tr>
+                    <th scope="row">{question}</th>
+                    {[mortis, other].map((entry,i) => (
+                      <td>
+                        <span class="cell-brand" aria-hidden="true">{i === 0 ? 'Code Mortis' : tool.short}</span>
+                        <p>{entry.text}</p>
+                        <a class="fact-source" href={entry.href}>{entry.label} <span aria-hidden="true">↗</span></a>
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </section>
         ))}
-        <p class="origin">PR-Agent is the community-maintained project originally developed by Qodo. The Qodo comparison covers its current platform. <a class="text-link" href="https://github.com/The-PR-Agent/pr-agent#big-news-for-pr-agent">Project history</a></p>
       </div>
-    </div>
-    <Content />
-  </main>
-</Site>
+    </section>
 
-<style>
-  #compare-tools p { margin-bottom: .75rem; }
-  #compare-tools li { padding: 0; }
-  #compare-tools a { display: flex; justify-content: space-between; gap: 1rem; padding-block: .8rem; font-weight: 600; }
-  #compare-tools span { color: var(--signal); }
-  .feature-area section:first-child { border-top: 0; }
-  .sources { display: flex; flex-wrap: wrap; gap: .5rem 1rem; margin-top: .75rem; }
-  :global(.walkthrough li p) { margin-bottom: .65rem; }
-  :global(.comparison-date) { padding-block: 1.5rem; font-size: .875rem; }
-  .origin { padding-bottom: 2rem; font-size: .875rem; }
-</style>
+    <section id="inside-a-mortis-review" class="evidence-story shell">
+      <header class="section-head">
+        <p class="kicker">Inside a Mortis review</p>
+        <h2>What counts as <em>a fix?</em></h2>
+        <p>In the sample Ledger review, the reminder loop skips invoices due on the last day of the billing period. Open the saved evidence to see the original line and the proposed correction.</p>
+        <a class="under" href="/#finding">Try the boundary case ↗</a>
+      </header>
+      <div class="comparison-capture">
+        <Capture view="review-finding" />
+        <a href="/docs/library/#scan-a-commit-or-follow-up-on-a-review">How the Engine verifies a later revision ↗</a>
+      </div>
+    </section>
+
+    <section class="evaluator" id="try-mortis-on-your-branch" aria-labelledby="trial-title">
+      <div class="shell evaluator-inner">
+        <header class="section-head">
+          <p class="kicker">Try it on your own repository</p>
+          <h2 id="trial-title">Run the <em>same change.</em></h2>
+          <p>Choose a pull request with a known bug. Keep its base commit, the head that introduced the bug, and the later fix so each reviewer sees the same change.</p>
+        </header>
+        <ol class="trial-checks">
+          <li><h3>Preview the scope</h3><p>In a local clone, substitute the two review commits in <code>mortis review --base BASE_SHA --head PR_SHA --preview</code>. Check which files qualify and which were excluded.</p><a class="under" href="/docs/cli/#install-and-preview">CLI preview ↗</a></li>
+          <li><h3>Read findings alongside coverage</h3><p>With a provider configured, run the same command without <code>--preview</code> and save the run ID. Check whether the reviewer caught the bug, which files it covered, and where it reported gaps.</p><a class="under" href="/docs/library/#interpret-the-result">Python result fields ↗</a></li>
+          <li><h3>Verify against the fix</h3><p>Use the saved run ID and the fix commit in <code>mortis verify --run RUN_ID --ref FIX_SHA</code>. Read the verdict beside the original evidence.</p><a class="under" href="/docs/cli/#revisit-a-saved-run">Saved-run verification ↗</a></li>
+        </ol>
+      </div>
+    </section>
+    <aside class="comparison-method shell" aria-label="Comparison sources and scope">
+      <p class="micro">Reviewed <time datetime={frontmatter.checked}>{checked}</time> · Mortis Engine {frontmatter.engine}</p>
+      <Content />
+    </aside>
+  </article>
+</MarketingLayout>
+
+<script>
+  const picker = document.querySelector<HTMLElement>('.tool-picker');
+  if (picker) {
+    const links = Array.from(picker.querySelectorAll('a'));
+    const profiles = Array.from(document.querySelectorAll<HTMLElement>('.tool-profile'));
+    function selectTool(id: string) {
+      for (const profile of profiles) profile.hidden = profile.id !== id;
+      for (const link of links) {
+        if (link.hash === '#' + id) link.setAttribute('aria-current', 'location');
+        else link.removeAttribute('aria-current');
+      }
+    }
+    function selectFromUrl() {
+      const id = location.hash.slice(1);
+      const selected = profiles.find(profile => profile.id === id);
+      if (selected || !id || !profiles.some(profile => profile.hidden)) {
+        selectTool((selected ?? profiles[0]).id);
+      }
+    }
+    selectFromUrl();
+    for (const link of links) {
+      link.addEventListener('click', event => {
+        if (event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+        event.preventDefault();
+        if (location.hash !== link.hash) history.pushState(null, '', link.hash);
+        selectTool(link.hash.slice(1));
+      });
+    }
+    window.addEventListener('hashchange', selectFromUrl);
+    window.addEventListener('popstate', selectFromUrl);
+  }
+</script>

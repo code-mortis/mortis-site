@@ -36,7 +36,7 @@ The user requests simple, focused changes and rejects overengineering. Preserve 
 
 - Engine README and implementation in ../mortis-engine, plus the linked PyPI package.
 - Populated guides under src/content/docs/docs/.
-- Dated comparisons in src/content/comparison.md and src/content/comparison-tools.json.
+- Dated comparisons in src/content/comparison.md and src/content/comparison-tools.ts.
 - Orange crow wordmarks under src/assets/orange/ and brand assets under public/brand/orange/.
 - The animated left-facing crow and simple two-spotted ladybug in src/components/RavenHunt.astro.
 - Browser captures from this conversation covering the landing, comparison, docs, mobile navigation, and crow animation.

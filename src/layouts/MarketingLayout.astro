@@ -8,18 +8,22 @@ import { directions } from '../components/mockups/content';
 interface Props {
   direction?: typeof directions[number];
   preview?: boolean;
+  title?: string;
+  description?: string;
 }
 
 const { direction, preview = false } = Astro.props;
 const slug = preview ? direction?.slug ?? 'chooser' : 'review-desk';
 const chooser = slug === 'chooser';
 const logo = slug === 'workbench' ? darkLogo : lightLogo;
-const title = preview
+const title = Astro.props.title ?? (preview
   ? direction ? `${direction.name} · Code Mortis preview` : 'Choose a landing page · Code Mortis'
-  : 'Code Mortis | Code review with evidence.';
-const description = preview
+  : 'Code Mortis | Code review with evidence.');
+const description = Astro.props.description ?? (preview
   ? direction?.description ?? 'Compare three interactive Code Mortis landing pages.'
-  : 'Review pull requests, investigate repository security, and verify findings against the source with the Code Mortis App, GitHub Action, or standalone Engine.';
+  : 'Review pull requests, investigate repository security, and verify findings against the source with the Code Mortis App, GitHub Action, or standalone Engine.');
+const comparing = Astro.url.pathname.replace(/\/$/, '') === '/comparison';
+const home = comparing ? '/' : '';
 const closing = {
   'field-notes': 'Follow your first finding.',
   'review-desk': 'Open your own workspace.',
@@ -42,10 +46,10 @@ const closing = {
           <img src={logo.src} width="157" height="27" alt="Code Mortis" />
         </a>
         {!chooser && <nav aria-label="Main navigation">
-          <a href="#tour">Product</a>
-          <a href="#setup">Installation</a>
-          <a href="#agents">MCP</a>
-          {preview ? <a href="/docs/">Docs ↗</a> : <a href="/comparison/">Compare</a>}
+          <a href={home + '#tour'}>Product</a>
+          <a href={home + '#setup'}>Installation</a>
+          <a href={home + '#agents'}>MCP</a>
+          {preview ? <a href="/docs/">Docs ↗</a> : <a href="/comparison/" aria-current={comparing ? 'page' : undefined}>Compare</a>}
         </nav>}
         <a class="compare" href={preview ? chooser ? '/' : '/mockups/' : '/docs/'}>
           {preview ? chooser ? 'Current homepage' : 'All mockups' : 'Docs'} <span aria-hidden="true">↗</span>
