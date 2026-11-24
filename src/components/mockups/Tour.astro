@@ -1,0 +1,23 @@
+---
+import CaptureFrame from './Capture.astro';
+import { type Capture } from './content';
+interface Props { lead?: boolean }
+const { lead = false } = Astro.props;
+const features = [
+  ['review-finding','Reviews','Find the line that changed the outcome.','A reminder disappears on the last day of the billing period. Open the evidence to inspect the original condition and its suggested replacement.'],
+  ['graph','Code graph','Follow the imports.','Trace relationships around reminders.py at the indexed commit. Open related source to see which files share this dependency.'],
+  ['activity','Activity','Revisit a day of work.','A single day in Ledger contains five reviews and two security scans. The calendar connects that activity to the runs that produced it.'],
+  ['pull-overview','Pull requests','Read a change in groups.','The pull request overview gathers related files into changes you can inspect together. Start at the grouped change, then read its diff.'],
+  ['overview','Overview','See where the team left off.','The repository overview brings open findings and the latest results from reviews and security scans into one place.'],
+  ['review','Finding list','Triage the next finding.','Filter PR findings by status or severity, then inspect the evidence at the affected path and lines.'],
+] satisfies [Capture,string,string,string][];
+---
+<section id="tour" class:list={['tour', {'lead-tour':lead}]}>
+  <div class="shell">
+    {!lead && <header class="section-head"><p class="kicker">Code Mortis App</p><h2>A closer look at <em>the repository.</em></h2></header>}
+    <div data-switch class="tour-inside">
+      <div role="tablist" class="tour-tabs" aria-label="Explore the repository">{features.map(([key,name],i) => <button role="tab" id={`tour-tab-${key}`} aria-controls={`tour-${key}`} aria-selected={i === 0} tabindex={i ? -1 : 0}>{name}</button>)}</div>
+      {features.map(([key,,title,body],i) => <div role="tabpanel" id={`tour-${key}`} aria-labelledby={`tour-tab-${key}`} hidden={i !== 0} class="tour-panel"><div class="tour-story"><p class="micro">Sample repository / ledger</p><h3>{title}</h3><p>{body}</p><button type="button" class="inline-link" data-open-view={`tour-${key}`}>Open full view <span aria-hidden="true">↗</span></button></div><CaptureFrame view={key} priority={lead && i === 0}/></div>)}
+    </div>
+  </div>
+</section>

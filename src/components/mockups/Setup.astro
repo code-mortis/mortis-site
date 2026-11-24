@@ -1,0 +1,16 @@
+---
+import { setups } from './content';
+interface Props { compact?: boolean }
+const { compact = false } = Astro.props;
+---
+<section class:list={['setup', { 'setup-section section shell': !compact }]} id="setup" aria-label="Ways to use Mortis">
+  {!compact && <header class="section-head"><p class="kicker">Engine / Action / App</p><h2>Three ways to <em>run Mortis.</em></h2><p>Start at the point where you already review code. Each setup has its own guide.</p></header>}
+  <div class="setup-console" data-switch>
+    <div class="tabbar" role="tablist" aria-label="Choose your Mortis setup">{setups.map((item, i) => <button type="button" role="tab" id={`setup-tab-${item.key}`} aria-controls={`setup-${item.key}`} aria-selected={i === 0} tabindex={i ? -1 : 0}>{item.label}</button>)}</div>
+    {setups.map((item, i) => <div class="setup-content" id={`setup-${item.key}`} role="tabpanel" aria-labelledby={`setup-tab-${item.key}`} hidden={i !== 0}>
+      <p class="micro">{item.context}</p><h3>{item.title}</h3><p>{item.body}</p>
+      <div class="code-sample"><div class="code-top"><span>{item.file}</span><button type="button" data-copy aria-label={`Copy ${item.label} example`}>Copy</button></div><pre><code>{item.code}</code></pre></div>
+      <div class="guide-links"><a href={item.href}>{item.link} <span aria-hidden="true">↗</span></a><a href={item.extraHref}>{item.extra}</a></div>
+    </div>)}
+  </div>
+</section>

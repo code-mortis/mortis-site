@@ -8,12 +8,11 @@ import ReviewCommands from '../../components/ReviewCommands';
 
 export function getStaticPaths() {
   // These are design proposals; the production build keeps the chosen homepage.
-  return import.meta.env.DEV ? ['night-watch', 'field-guide', 'diff-view', 'night-guide'].map(direction => ({ params: { direction } })) : [];
+  return import.meta.env.DEV ? ['night-watch', 'field-guide', 'diff-view'].map(direction => ({ params: { direction } })) : [];
 }
 const id = Astro.params.direction!;
-const names = {'night-watch':'Night Watch', 'field-guide':'Field Guide', 'diff-view':'Diff View', 'night-guide':'Night Guide'} as const;
+const names = {'night-watch':'Night Watch', 'field-guide':'Field Guide', 'diff-view':'Diff View'} as const;
 const field = id === 'field-guide', diff = id === 'diff-view';
-if (id === 'night-guide') return Astro.redirect('/');
 const walkthrough = field;
 const hero = id;
 const logo = field ? lightLogo : darkLogo;

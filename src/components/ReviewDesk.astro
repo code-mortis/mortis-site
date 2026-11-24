@@ -1,0 +1,28 @@
+---
+import Tour from './mockups/Tour.astro';
+import Chapters from './mockups/Chapters.astro';
+import Finding from './mockups/Finding.astro';
+import Setup from './mockups/Setup.astro';
+---
+
+<section class="desk-hero" data-enter>
+      <svg class="merge-drawing" aria-hidden="true" viewBox="0 0 1440 440" preserveAspectRatio="xMidYMid slice">
+        <g class="tracks" fill="none"><path d="M-30 55H96Q118 55 134 72L209 147Q225 163 248 163H307"/><path d="M-30 163H306"/><path d="M0 308h85q20 0 34-14l60-60q14-14 37-14h79"/><path d="M1145 170h98q18 0 33 15l73 73q16 16 38 16h88"/><path d="M1120 320h119q21 0 36-16l72-73q17-16 40-16h75"/><path d="M1138 77h160q18 0 31-12l35-31h109"/></g>
+        <g class="points"><circle cx="248" cy="163" r="5"/><circle cx="180" cy="234" r="4"/><circle cx="1243" cy="170" r="5"/><circle cx="1347" cy="231" r="4"/></g>
+      </svg>
+      <div class="desk-content"><h1>Every finding,<br/><em>down to the line.</em></h1><p>Review pull requests, trace a dependency, and inspect the source behind a security report in one self-hosted workspace.</p><div class="actions"><a class="primary" href="/docs/app/">Deploy Code Mortis <span>↗</span></a><a class="secondary" href="#tour">Open sample review ↓</a></div></div></section>
+
+<!-- Keep bookmarks from the original homepage pointing to the corresponding sections. -->
+<div id="features"><Tour lead /></div>
+<Chapters chapter="agents" />
+<Chapters chapter="security" />
+<div id="workflow"><div id="example-finding"><Finding /></div></div>
+<div id="inside-the-engine">
+  <div id="engine"></div>
+  <div id="engine-features-title"></div>
+  <div id="install"></div>
+  <div id="get-started"></div>
+  <Setup />
+</div>
+<Chapters chapter="controls" />
+<Chapters chapter="questions" />

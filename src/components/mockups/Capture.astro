@@ -1,0 +1,18 @@
+---
+import { captures, captureUrl, type Capture } from './content';
+interface Props { view: Capture; priority?: boolean }
+const { view, priority = false } = Astro.props;
+const [label, description, width] = captures[view];
+const detailImages = import.meta.glob<{ src: string; width: number; height: number }>('../../../assets/details/*.webp', { eager: true, import: 'default' });
+const mobileImages = import.meta.glob<{ src: string; width: number; height: number }>('../../../assets/details/mobile/*.webp', { eager: true, import: 'default' });
+const mobile = mobileImages[`../../../assets/details/mobile/code-mortis-${view}.webp`];
+const detail = detailImages[`../../../assets/details/code-mortis-${view}.webp`];
+---
+<figure class:list={['capture', {'mobile-detail':mobile}]} style={`--capture-width:${detail.width / 2}px`}>
+  <button class="capture-open" data-enlarge data-full={captureUrl(view)} data-width={width} data-label={label} aria-label={`Open full ${label.toLowerCase()}`} title={`Open full ${label.toLowerCase()}`} type="button">
+    <picture>
+      {mobile && <source srcset={mobile.src} media="(max-width:740px)" width={mobile.width} height={mobile.height}/>}
+      <img src={detail.src} width={detail.width} height={detail.height} loading={priority ? 'eager' : 'lazy'} decoding="async" alt={`${label}. ${description}`} />
+    </picture>
+  </button>
+</figure>

@@ -8,7 +8,8 @@ const read = (path: string) =>
 test("landing, comparison and docs publish the raven and its sharing image", () => {
   for (const route of ["", "comparison/", "docs/", "docs/cli/"]) {
     const page = read(`dist/${route}index.html`);
-    const logo = page.match(/\bsrc="(\/_astro\/raven-orange-dark\.[^"]+\.svg)"/);
+    const logoVariant = route === "" ? "light" : "dark";
+    const logo = page.match(new RegExp(`src="(/_astro/raven-orange-${logoVariant}\\.[^"]+\\.svg)"`));
     assert.ok(logo, `Missing raven logo on /${route}`);
     const svg = read(`dist${logo[1]}`);
     assert.ok(svg.includes("#ff7545"));
@@ -29,15 +30,20 @@ test("main navigation opens the standalone comparison", () => {
   }
 });
 
-test("the public homepage renders Night Guide without preview controls", () => {
+test("the public homepage opens Review Desk with its repository tour and setup guides", () => {
   const page = read("dist/index.html");
-  assert.match(page, /<h1>Find the bug\.<br\s*\/?><em>Show the line\.<\/em><\/h1>/);
+  assert.match(page, /<h1>Every finding,<br\s*\/?><em>down to the line\.<\/em><\/h1>/);
+  assert.ok(page.includes('aria-label="Explore the repository"'));
+  assert.ok(page.includes('id="capture-dialog"'));
   assert.ok(page.includes("uv tool install mortis-engine"));
-  assert.ok(page.includes('aria-label="Pause crow animation"'));
-  assert.doesNotMatch(page, /Landing previews|\/concepts\/|noindex/);
-  for (const anchor of ["inside-the-engine", "example-finding", "install"]) {
-    assert.ok(page.includes('href="#' + anchor + '"'));
-    assert.ok(page.includes('id="' + anchor + '"'));
+  assert.ok(page.includes('href="/docs/github-action/"'));
+  assert.doesNotMatch(page, /All mockups|\/mockups\/|noindex/);
+  for (const anchor of ["tour", "setup", "agents"]) {
+    assert.ok(page.includes(`href="#${anchor}"`));
+    assert.ok(page.includes(`id="${anchor}"`));
+  }
+  for (const bookmark of ["inside-the-engine", "example-finding", "install"]) {
+    assert.ok(page.includes(`id="${bookmark}"`), `Missing homepage bookmark #${bookmark}`);
   }
 });
 

@@ -28,7 +28,7 @@ The blog is not available. Its navigation links and article placeholder were rem
 
 ## Brand Commitments
 
-Code Mortis is an English-language website built around the orange crow logo. The user selected Night Guide as the production landing, combining the Night Watch header and palette with the Field Guide section structure. Compare and Docs must visibly belong to the same site.
+Code Mortis is an English-language website built around the orange crow logo. Review Desk is the selected homepage. Its light hero opens into a dark repository tour with native App captures. The three landing directions remain available at `/mockups/` in development.
 
 The user requests simple, focused changes and rejects overengineering. Preserve the established typography, open rows, and shared navigation when extending existing pages.
 

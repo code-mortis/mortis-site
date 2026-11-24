@@ -1,0 +1,83 @@
+---
+import '../styles/mockups.css';
+import SiteHead from '../components/SiteHead.astro';
+import darkLogo from '../assets/orange/raven-orange-dark.svg';
+import lightLogo from '../assets/orange/raven-orange-light.svg';
+import { directions } from '../components/mockups/content';
+
+interface Props {
+  direction?: typeof directions[number];
+  preview?: boolean;
+}
+
+const { direction, preview = false } = Astro.props;
+const slug = preview ? direction?.slug ?? 'chooser' : 'review-desk';
+const chooser = slug === 'chooser';
+const logo = slug === 'workbench' ? darkLogo : lightLogo;
+const title = preview
+  ? direction ? `${direction.name} · Code Mortis preview` : 'Choose a landing page · Code Mortis'
+  : 'Code Mortis | Code review with evidence.';
+const description = preview
+  ? direction?.description ?? 'Compare three interactive Code Mortis landing pages.'
+  : 'Review pull requests, investigate repository security, and verify findings against the source with the Code Mortis App, GitHub Action, or standalone Engine.';
+const closing = {
+  'field-notes': 'Follow your first finding.',
+  'review-desk': 'Open your own workspace.',
+  'workbench': 'Make your first run.',
+} as const;
+---
+<!doctype html>
+<html lang="en" data-type="software">
+  <head>
+    <SiteHead title={title} description={description} themeColor={slug === 'workbench' ? '#080a0b' : slug === 'field-notes' ? '#ff784c' : '#fafaf8'} />
+    <meta name="page-type" content="software" />
+    <meta name="site-kind" content="software" />
+    {preview && <meta name="robots" content="noindex,nofollow" />}
+  </head>
+  <body class:list={['mock', slug]}>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="nav-ground">
+      <div class="mast shell">
+        <a class="brand" href={chooser ? '/mockups/' : preview ? '#main' : '/'} aria-label="Code Mortis home">
+          <img src={logo.src} width="157" height="27" alt="Code Mortis" />
+        </a>
+        {!chooser && <nav aria-label="Main navigation">
+          <a href="#tour">Product</a>
+          <a href="#setup">Installation</a>
+          <a href="#agents">MCP</a>
+          {preview ? <a href="/docs/">Docs ↗</a> : <a href="/comparison/">Compare</a>}
+        </nav>}
+        <a class="compare" href={preview ? chooser ? '/' : '/mockups/' : '/docs/'}>
+          {preview ? chooser ? 'Current homepage' : 'All mockups' : 'Docs'} <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </header>
+    <main id="main"><slot /></main>
+    {!chooser && <footer>
+      <div class="shell final">
+        <div><p class="kicker">Start with your repository</p><h2>{closing[slug]}</h2></div>
+        <div class="closing-links">
+          <a href="/docs/cli/">Install the Engine ↗</a>
+          <a href="/docs/github-action/">Add the Action ↗</a>
+          <a href="/docs/app/">Deploy the App ↗</a>
+        </div>
+      </div>
+      {preview ? <nav class="other-previews shell" aria-label="Landing mockups">
+        <a href="/mockups/">Compare layouts</a>
+        {directions.map(d => <a href={`/mockups/${d.slug}/`} aria-current={d.slug === slug ? 'page' : undefined}>{d.name}</a>)}
+      </nav> : <nav class="other-previews shell" aria-label="Site links">
+        <a href="/docs/">Documentation</a>
+        <a href="/comparison/">Compare tools</a>
+        <a href="https://github.com/code-mortis/mortis-engine">GitHub ↗</a>
+      </nav>}
+    </footer>}
+    <dialog id="capture-dialog" aria-labelledby="capture-title">
+      <div class="modal-wrap">
+        <header><h2 id="capture-title">App capture</h2><button type="button" autofocus>Close ×</button></header>
+        <p class="pan-hint">Swipe across the image to inspect the details.</p>
+        <div class="modal-image"><img alt="" /></div>
+      </div>
+    </dialog>
+    <script>import '../components/mockups/interactions';</script>
+  </body>
+</html>

@@ -1,6 +1,6 @@
 ---
 name: Code Mortis
-description: Night Guide combines warm charcoal, cream serif headings, orange emphasis, and open ruled sections.
+description: Review Desk leads the homepage from a light hero into a dark product tour. Compare and Docs retain the Night Guide palette described below.
 colors:
   paper: "#191b18"
   type: "#f3efe3"
@@ -63,7 +63,9 @@ components:
 
 ## Overview
 
-Night Guide is the production visual reference. Warm charcoal and cream text frame large serif headings with orange italic emphasis. Manrope carries descriptions, navigation, and feature titles.
+Review Desk is the homepage reference. Its light hero uses Inter and the light-background raven wordmark. The repository tour uses native App details on charcoal. The homepage and the local Review Desk preview share `src/components/ReviewDesk.astro` and `src/styles/mockups.css`.
+
+The Night Guide tokens and guidance below apply to the comparison page, documentation, and historical Night Guide design. Warm charcoal and cream text frame large serif headings with orange italic emphasis.
 
 The source of truth is src/styles/masthead.css for shared colors and navigation, src/styles/night-guide.css for landing and comparison layouts, and src/styles/docs.css for Starlight. src/styles/landing.css supplies base styles and also contains older component styles. Extract the effective production styles when extending the site.
 
@@ -101,7 +103,7 @@ Primary and GitHub buttons have 3px corners. The GitHub button has a one-pixel o
 
 ## Components
 
-The shared SiteNav contains Engine, Compare, Docs, and the outlined GitHub button with its logo. Links on inner pages return to the landing's Engine section. Current navigation uses orange. Landing, comparison, and documentation use this same component.
+The shared SiteNav contains Engine, Compare, Docs, and the outlined GitHub button with its logo. Links on inner pages return to the landing's Engine section. Current navigation uses orange. Comparison and documentation use this component.
 
 The primary install action uses an orange fill and dark text, then cream on hover. Underlined text links use a five-pixel underline offset. Marketing focus rings are two-pixel orange outlines with a four-pixel offset.
 
