@@ -1,6 +1,7 @@
 ---
 import MarketingLayout from '../layouts/MarketingLayout.astro';
-import ReviewBranches from '../components/ReviewBranches.astro';
+import BranchStudy from '../components/hero-studies/BranchStudy.astro';
+import HeroMotionToggle from '../components/HeroMotionToggle.astro';
 import ReviewEvidence from '../components/ReviewEvidence.astro';
 import { Content, frontmatter } from '../content/comparison.md';
 import { comparisons } from '../content/comparison-tools';
@@ -14,7 +15,10 @@ const checked = new Intl.DateTimeFormat('en-US', {
 <MarketingLayout title={`${frontmatter.title} | Code Mortis`} description={frontmatter.description}>
   <article class="compare-page">
     <header class="desk-hero" data-enter>
-      <ReviewBranches />
+      <div class="circuit-art" aria-hidden="true">
+        <BranchStudy variant="circuito" />
+        <BranchStudy variant="circuito" compact />
+      </div>
       <div class="desk-content">
         <h1>Compare code<br /><em>review tools.</em></h1>
         <p>Pick a tool to see how it compares with Mortis, from the first local diff to the next commit that touches a finding.</p>
@@ -23,6 +27,7 @@ const checked = new Intl.DateTimeFormat('en-US', {
           <a class="secondary" href="#inside-a-mortis-review">Inspect the evidence ↓</a>
         </div>
       </div>
+      <HeroMotionToggle />
     </header>
 
     <section class="comparison-band" aria-labelledby="compare-heading">

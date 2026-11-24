@@ -10,10 +10,8 @@ import Setup from './review-desk/Setup.astro';
 
 <section class="desk-hero woven-hero">
   <div class="hero-art" aria-hidden="true">
-    <slot name="branches">
-      <BranchStudy variant="telar" />
-      <BranchStudy variant="telar" compact />
-    </slot>
+    <BranchStudy variant="telar" />
+    <BranchStudy variant="telar" compact />
   </div>
   <div class="desk-content">
     <h1>Every finding,<br/><em>down to the line.</em></h1>
@@ -23,9 +21,8 @@ import Setup from './review-desk/Setup.astro';
       <a class="secondary" href="#tour">Open sample review <span aria-hidden="true">↓</span></a>
     </div>
   </div>
-  {!Astro.slots.has('hero-controls') && <HeroMotionToggle />}
+  <HeroMotionToggle />
 </section>
-<slot name="hero-controls" />
 
 <!-- Keep bookmarks from the original homepage pointing to the corresponding sections. -->
 <div id="features"><Tour lead /></div>
