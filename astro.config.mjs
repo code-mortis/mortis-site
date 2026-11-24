@@ -37,8 +37,22 @@ export default defineConfig({
       ],
       expressiveCode: {
         themes: ["github-dark", "github-light"],
+        useStarlightUiThemeColors: true,
+        customizeTheme(theme) {
+          // Match the Docs palette when calculating syntax contrast and drawing the frames.
+          const background = theme.type === "dark" ? "#2a2a28" : "#eaece9";
+          theme.bg = background;
+          theme.colors["editor.background"] = background;
+          Object.assign(theme.styleOverrides.frames, {
+            editorBackground: background,
+            editorActiveTabBackground: background,
+            terminalBackground: background,
+          });
+        },
         styleOverrides: {
+          borderColor: "var(--sl-color-hairline)",
           borderRadius: "6px",
+          focusBorder: "var(--sl-color-accent)",
           frames: { frameBoxShadowCssValue: "none" },
         },
       },

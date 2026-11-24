@@ -5,6 +5,9 @@ description: Self-host a shared workspace for GitHub reviews, repository scans, 
 
 import DocDirectory from '../../../../components/DocDirectory.astro';
 import DocBookmarks from '../../../../components/DocBookmarks.astro';
+import DocCapture from '../../../../components/DocCapture.astro';
+import overview from '../../../../../assets/docs/code-mortis-overview.svg';
+import activity from '../../../../../assets/docs/code-mortis-activity.svg';
 
 The [Code Mortis App](https://github.com/code-mortis/code-mortis) runs Mortis Engine 0.1.5 for AI analysis and its own Trivy integration for dependency, secret, and configuration checks. Reviews, findings, coverage, and model usage are saved on your instance. The AI provider you select receives eligible source and diffs during analysis.
 
@@ -16,11 +19,11 @@ The [Code Mortis App](https://github.com/code-mortis/code-mortis) runs Mortis En
 
 Use the pull request inbox to search across repositories you can access. Open a repository’s **Overview** for its latest review, security snapshot, and activity calendar. The activity inbox lets you follow queued and running jobs while you work elsewhere.
 
-![The Ledger repository overview with open findings and recent review and security results.](../../../../../assets/details/code-mortis-overview.webp)
+<DocCapture image={overview} alt="The Ledger repository overview showing two open review findings, three open security findings, and the latest scan grade." />
 
 Select a day in the activity calendar to see its review and scan counts.
 
-![The repository activity calendar showing five reviews and two security scans on the selected day.](../../../../../assets/details/code-mortis-activity.webp)
+<DocCapture image={activity} alt="The repository activity calendar showing five reviews and two security scans on the selected day." />
 
 Open **Analytics** for a repository to filter reviews, findings, reported token usage, and security results by date, or download the figures as CSV. Administrators manage workspace members in Settings. GitHub installation access and repository permissions also determine which repositories each member can see and change.
 
