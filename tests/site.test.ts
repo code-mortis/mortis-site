@@ -10,15 +10,28 @@ const read = (path: string) =>
 test("landing, comparison and docs publish the raven and its sharing image", () => {
   for (const route of ["", "comparison/", "docs/", "docs/engine/cli/"]) {
     const page = read(`dist/${route}index.html`);
-    const logo = page.match(/src="(\/_astro\/raven-orange-light\.[^"]+\.svg)"/);
+    const logo = page.match(/src="(\/_astro\/raven-orange\.[^"]+\.svg)"[^>]*>\s*<span[^>]*>Code Mortis<\/span>/);
     assert.ok(logo, `Missing raven logo on /${route}`);
     const svg = read(`dist${logo[1]}`);
     assert.ok(svg.includes("#ff7545"));
-    assert.ok(!svg.includes("<rect"), "The wordmark should have a transparent background");
+    assert.ok(!svg.includes("<rect"), "The raven should have a transparent background");
     assert.ok(page.includes('href="/brand/orange/favicon.svg"'));
     assert.ok(page.includes('href="/brand/orange/apple-touch-icon.png"'));
     assert.ok(page.includes('href="/brand/orange/site.webmanifest"'));
     assert.ok(page.includes('property="og:image" content="https://codemortis.dev/brand/orange/share.png"'));
+  }
+});
+
+test("docs examples publish syntax tokens for both themes and a matching stylesheet", () => {
+  for (const [guide, language] of [["engine/python", "python"], ["engine/cli", "sh"], ["engine/configuration", "toml"], ["action/setup", "yaml"]]) {
+    const page = read(`dist/docs/${guide}/index.html`);
+    const stylesheet = page.match(/href="(\/_astro\/ec\.[^"]+\.css)"/)?.[1];
+    assert.ok(stylesheet, `Missing syntax stylesheet for ${guide}`);
+    assert.match(read(`dist${stylesheet}`), /var\(--1,\s*inherit\)/);
+    const code = page.match(new RegExp(`<pre data-language="${language}">([\\s\\S]*?)<\\/pre>`))?.[1];
+    assert.ok(code, `Missing ${language} block in ${guide}`);
+    assert.ok(new Set(code.match(/--0:#[a-f\d]+/gi)).size > 1, `Missing dark token colors in ${guide}`);
+    assert.ok(new Set(code.match(/--1:#[a-f\d]+/gi)).size > 1, `Missing light token colors in ${guide}`);
   }
 });
 

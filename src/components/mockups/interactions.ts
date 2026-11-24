@@ -32,7 +32,7 @@ if (modal) {
     if (!picture?.dataset.full) return;
     title.textContent = picture.dataset.label ?? 'App capture';
     image.src = picture.dataset.full;
-    image.alt = picture.querySelector('img')?.alt ?? '';
+    image.alt = picture.querySelector('img')?.alt ?? picture.dataset.alt ?? '';
     modal.style.setProperty('--native-width', picture.dataset.width + 'px');
     modal.showModal();
   });
@@ -42,11 +42,14 @@ if (modal) {
 for (const demo of document.querySelectorAll<HTMLElement>('[data-boundary]')) {
   const day = demo.querySelector<HTMLSelectElement>('[data-day]')!;
   const condition = demo.querySelector<HTMLSelectElement>('[data-condition]')!;
+  const operator = demo.querySelector('[data-operator]')!;
+  const result = demo.querySelector<HTMLElement>('[data-result]')!;
   demo.addEventListener('change', () => {
     const inclusive = condition.value === 'fixed';
     const queued = inclusive ? Number(day.value) <= 0 : Number(day.value) < 0;
-    demo.querySelector('[data-operator]')!.textContent = inclusive ? '<=' : '<';
-    demo.querySelector('[data-result]')!.textContent = queued ? 'Reminder queued' : 'Reminder skipped';
+    operator.textContent = inclusive ? '<=' : '<';
+    result.dataset.result = queued ? 'queued' : 'skipped';
+    result.textContent = queued ? 'Reminder queued' : 'Reminder skipped';
   });
 }
 for (const button of document.querySelectorAll<HTMLButtonElement>('[data-copy]')) {

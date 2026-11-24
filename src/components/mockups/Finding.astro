@@ -5,8 +5,8 @@ import Capture from './Capture.astro';
   <header class="section-head"><p class="kicker">Sample review · ledger #42</p><h2>One operator.<br/><em>One missed invoice.</em></h2><p>A pull request normalizes invoice due dates. In the reminder loop, one comparison quietly drops every invoice due on the final day.</p><a class="under" href="https://github.com/code-mortis/mortis-engine/pull/21#discussion_r4681869466">Read a real Mortis review on GitHub ↗</a></header>
   <div class="finding-body"><div class="boundary-demo" data-boundary>
     <div class="code-top"><span>src/billing/reminders.py</span><span>48–49</span></div>
-    <div class="boundary-code"><code>if invoice.due_date <mark data-operator>&lt;</mark> period_end:</code><br/><code>    queue_reminder(invoice)</code></div>
+    <div class="boundary-code"><code><span class="boundary-line-number" aria-hidden="true">48</span><span><span class="boundary-keyword">if</span> invoice.due_date <mark data-operator>&lt;</mark> period_end:</span></code><br/><code><span class="boundary-line-number" aria-hidden="true">49</span><span>    queue_reminder(invoice)</span></code></div>
     <div class="boundary-inputs"><label>Invoice due date<select data-day><option value="-1">June 29</option><option value="0" selected>June 30</option><option value="1">July 1</option></select></label><label>Comparison<select data-condition><option value="original">Original (&lt;)</option><option value="fixed">Suggested (≤)</option></select></label></div>
-    <div class="test-result"><span class="micro">Period ends June 30</span><strong aria-live="polite" data-result>Reminder skipped</strong></div>
-  </div><details class="finding-evidence"><summary>Open the App’s evidence drawer</summary><Capture view="review-finding"/></details></div>
+    <div class="test-result"><span class="micro">Period ends June 30</span><strong aria-live="polite" data-result="skipped">Reminder skipped</strong></div>
+  </div><details class="finding-evidence"><summary>Open the App’s evidence drawer</summary><slot name="evidence"><Capture view="review-finding"/></slot></details></div>
 </section>

@@ -36,12 +36,10 @@ export default defineConfig({
         { label: "Compare tools", link: "/comparison/" },
       ],
       expressiveCode: {
-        themes: ["github-dark"],
+        themes: ["github-dark", "github-light"],
         styleOverrides: {
-          borderColor: "#353638",
           borderRadius: "6px",
-          codeBackground: "#202124",
-          frames: { frameBoxShadowCssValue: "none", terminalBackground: "#202124", terminalTitlebarBackground: "#2a2b2e" },
+          frames: { frameBoxShadowCssValue: "none" },
         },
       },
       customCss: ["./src/styles/docs.css"],
@@ -49,7 +47,6 @@ export default defineConfig({
         Header: "./src/components/DocsHeader.astro",
         PageTitle: "./src/components/DocsTitle.astro",
         Head: "./src/components/DocsHead.astro",
-        ThemeProvider: "./src/components/DocsTheme.astro",
         ThemeSelect: "./src/components/Empty.astro",
       },
     }),

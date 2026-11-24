@@ -1,7 +1,7 @@
 ---
 import MarketingLayout from '../layouts/MarketingLayout.astro';
 import ReviewBranches from '../components/ReviewBranches.astro';
-import Capture from '../components/mockups/Capture.astro';
+import ReviewEvidence from '../components/ReviewEvidence.astro';
 import { Content, frontmatter } from '../content/comparison.md';
 import { comparisons } from '../content/comparison-tools';
 import '../styles/comparison.css';
@@ -73,7 +73,7 @@ const checked = new Intl.DateTimeFormat('en-US', {
         <a class="under" href="/#finding">Try the boundary case ↗</a>
       </header>
       <div class="comparison-capture">
-        <Capture view="review-finding" />
+        <ReviewEvidence />
         <a href="/docs/engine/python/#scan-a-commit-or-follow-up-on-a-review">How the Engine verifies a later revision ↗</a>
       </div>
     </section>

@@ -8,11 +8,11 @@ export const captures = {
   overview: ['Repository overview', 'See recent reviews and security results together before choosing a run to investigate.', 1280, 963],
   activity: ['Activity calendar', 'Select a day in the App to see which reviews and scans ran. Here the team ran five reviews and two security scans.', 916, 518],
   review: ['Pull request findings', 'Open PR #42 to see which findings are still open and the file and line each one affects.', 1280, 645],
-  'review-finding': ['Review evidence', 'The evidence drawer shows the exclusive date comparison, the missed reminder and a suggested replacement.', 672, 680],
+  'review-finding': ['Review evidence', 'The evidence drawer shows the exclusive date comparison, the missed reminder and a suggested replacement.', 671, 680],
   'pull-overview': ['Pull request overview', 'Read the saved PR description, then use the change diagram and grouped files to decide which diff to read first.', 1280, 1133],
   scans: ['Scan history', 'Compare saved grades and revisions. A partial scan remains visible alongside completed scans.', 1280, 760],
   'scan-report': ['Scan report', 'Read the coverage for commit fc902bd before interpreting its grade or opening one of its three findings.', 1280, 784],
-  'scan-finding': ['Security evidence', 'Open the response-caching finding to inspect the saved lines, remediation and verification guidance.', 672, 1080],
+  'scan-finding': ['Security evidence', 'Open the response-caching finding to inspect the saved lines, remediation and verification guidance.', 671, 1080],
   graph: ['Code graph', 'Follow indexed imports around reminders.py at commit fc902bd to see which files depend on one another.', 1280, 720],
 } as const;
 export type Capture = keyof typeof captures;

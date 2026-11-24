@@ -7,6 +7,8 @@ description: Read findings in the context of the diff, set repository rules, and
 
 Open a pull request and choose **Run review**. Use **Findings** to inspect evidence or resolve and dismiss findings, **Code** to browse the diff, and **Overview** to read the GitHub description and any saved Mortis summary for that revision, including an interactive change diagram when available. **Run history** opens individual reviews, where **Coverage** shows which files were analyzed, reused, or skipped. A finding absent from a later review stays open until it is resolved or dismissed.
 
+![Pull request findings with status and severity filters and the affected source paths.](../../../../../assets/details/code-mortis-review.webp)
+
 Code Mortis posts inline comments through your GitHub App and reports run status in a GitHub check. Inspect the run when the check reports incomplete coverage or a publication failure.
 
 To review new commits on open, non-draft pull requests, turn on **Automatically review new commits** in repository settings. Fork pull requests require a manual start. Enable **Incremental automatic reviews** to reuse validated coverage for unchanged files when a compatible earlier review exists. The Coverage tab links to that review when it reuses coverage. Manual reviews and reviews using code graph context analyze all eligible files within the configured limits.

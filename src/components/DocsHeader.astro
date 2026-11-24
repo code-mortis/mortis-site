@@ -1,5 +1,11 @@
 ---
 import Search from '@astrojs/starlight/components/Search.astro';
+import ThemeSelect from '@astrojs/starlight/components/ThemeSelect.astro';
 import DeskMasthead from './DeskMasthead.astro';
 ---
-<DeskMasthead><Search /></DeskMasthead>
+<DeskMasthead>
+  <div class="docs-tools">
+    <Search />
+    <ThemeSelect />
+  </div>
+</DeskMasthead>
