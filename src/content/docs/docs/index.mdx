@@ -1,6 +1,6 @@
 ---
-title: Mortis Engine documentation
-description: Review a local Git repository from Python or the command line.
+title: Code Mortis documentation
+description: Run Mortis from Python, the command line, or GitHub Actions.
 ---
 
 Mortis Engine reviews Git changes, checks findings against specific revisions, and scans repository security. Choose the guide for how you want to run it.
@@ -13,11 +13,14 @@ Embed Mortis in a Python project. Preview the files a review would cover, run th
 
 Review staged changes before a commit or compare a branch with its base. Save a provider connection, follow progress in the terminal, and export results as Markdown or JSON. [Use the CLI](/docs/cli/), [ask about or describe the changes](/docs/cli/#ask-about-or-describe-a-branch-comparison), [review subsequent commits](/docs/cli/#review-subsequent-commits), or [install the coding-agent skill](/docs/cli/#use-with-coding-agents).
 
-Both interfaces operate on a local Git repository. Previews run offline. During analysis, Mortis sends eligible source and diffs to the AI connection you select and saves run history locally.
+The CLI and Python library operate on a local Git repository. Previews run offline. During analysis, Mortis sends eligible source and diffs to the AI connection you select and saves run history locally.
 
 [Compare Code Mortis with PR-Agent, Kodus, OCR, and Qodo](/comparison/) to see how each tool handles review and follow-up.
+
+## GitHub Action
+
+Review pull requests as commits arrive, reuse coverage on subsequent pushes, compare branches, and scan revisions in CI. [Set up Mortis Action](/docs/github-action/)
 
 ## On the roadmap
 
 - [The App](/docs/app/) — Coming soon.
-- [GitHub Action](/docs/github-action/) — Coming soon.

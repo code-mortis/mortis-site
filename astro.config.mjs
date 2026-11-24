@@ -27,12 +27,12 @@ export default defineConfig({
         { label: "Overview", link: "/docs/" },
         { label: "Python library", link: "/docs/library/" },
         { label: "Command-line interface", link: "/docs/cli/" },
+        { slug: "docs/github-action" },
         { label: "How Code Mortis compares", link: "/comparison/" },
         {
           label: "Coming soon",
           items: [
             { slug: "docs/app" },
-            { slug: "docs/github-action" },
           ],
         },
       ],
