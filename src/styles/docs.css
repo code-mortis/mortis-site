@@ -1,6 +1,6 @@
 @font-face {
   font-family: "Mortis Inter";
-  src: url("../components/mockups/art/fonts/inter-latin-wght-normal.woff2") format("woff2");
+  src: url("../assets/fonts/inter-latin-wght-normal.woff2") format("woff2");
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
@@ -65,16 +65,11 @@
 ::selection { background: var(--docs-selection); color: var(--sl-color-white); }
 
 .docs-tools { display: flex; align-items: center; gap: .5rem; }
-.header starlight-theme-select select,
 .header site-search > button {
   color: var(--sl-color-white); background: transparent; border: 1px solid var(--docs-control-border);
   border-radius: 24px; box-shadow: none; min-height: 40px;
 }
-.header starlight-theme-select select { width: 6.25rem; margin: 0; padding-block: 4px; padding-inline: 1.625rem 1.5rem; font-size: var(--sl-text-sm); }
-.header starlight-theme-select .label-icon { inset-inline-start: .5rem; }
-.header starlight-theme-select .caret { inset-inline-end: .35rem; }
 .header site-search > button { width: auto; padding-inline: 14px; }
-.header starlight-theme-select select:hover,
 .header site-search > button:hover { border-color: var(--sl-color-gray-3); }
 .header site-search > button > kbd { margin-inline-start: 12px; }
 .sidebar-content { padding-top: 2.25rem; }
@@ -117,7 +112,7 @@ main h1 em { color: var(--sl-color-accent); font-style: normal; }
 }
 .product-directory > section:first-child { padding-top: 0; }
 .product-directory :is(h2, p, div, ul, li), .doc-chapters :is(p, li) { margin: 0; }
-.product-directory h2 { font-size: clamp(1.45rem, 2.2vw, 2rem); }
+.product-directory h2 { font-size: 1.25rem; line-height: 1.3; letter-spacing: -.025em; }
 .product-directory h2 a, .doc-chapters a { color: var(--sl-color-white); text-decoration: none; }
 .product-directory h2 a span { color: var(--sl-color-accent); white-space: nowrap; }
 .product-directory h2 a:hover, .doc-chapters a:hover { color: var(--sl-color-accent); text-decoration: underline; }
@@ -150,7 +145,6 @@ main h1 em { color: var(--sl-color-accent); font-style: normal; }
 }
 @media (max-width: 360px) {
   .header .desk-mast { width: calc(100% - 24px); gap: 6px; }
-  .header starlight-theme-select select { width: 5.75rem; }
 }
 @media print {
   :root { color-scheme: light; }

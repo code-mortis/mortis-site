@@ -1,0 +1,181 @@
+---
+import { Icon } from '@astrojs/starlight/components';
+
+const label = Astro.locals.t('themeSelect.accessibleLabel');
+const themes = [
+  { value: 'dark', icon: 'moon', label: Astro.locals.t('themeSelect.dark') },
+  { value: 'light', icon: 'sun', label: Astro.locals.t('themeSelect.light') },
+  { value: 'auto', icon: 'laptop', label: Astro.locals.t('themeSelect.auto') },
+] as const;
+---
+
+<docs-theme-select>
+  <button class="theme-trigger" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="docs-theme-options">
+    <span class="sr-only">{label}: </span>
+    {themes.map(theme => (
+      <span class="theme-value" data-theme-value={theme.value} hidden={theme.value !== 'auto'}>
+        <Icon name={theme.icon} />{theme.label}
+      </span>
+    ))}
+    <Icon name="down-caret" class="theme-chevron" />
+  </button>
+  <div id="docs-theme-options" class="theme-options" role="menu" aria-label={label} hidden>
+    {themes.map(theme => (
+      <button type="button" role="menuitemradio" aria-checked={theme.value === 'auto'} tabindex="-1" data-theme-option={theme.value}>
+        <Icon name={theme.icon} />
+        <span>{theme.label}</span>
+        <Icon name="approve-check" class="theme-check" />
+      </button>
+    ))}
+  </div>
+</docs-theme-select>
+
+<script>
+  const picker = document.querySelector<HTMLElement>('docs-theme-select');
+  if (picker) {
+    const key = 'starlight-theme';
+    const system = matchMedia('(prefers-color-scheme: light)');
+    const trigger = picker.querySelector<HTMLButtonElement>('.theme-trigger')!;
+    const menu = picker.querySelector<HTMLElement>('.theme-options')!;
+    const options = Array.from(menu.querySelectorAll<HTMLButtonElement>('[data-theme-option]'));
+    const labels = Array.from(trigger.querySelectorAll<HTMLElement>('[data-theme-value]'));
+    let preference = 'auto';
+
+    function updateTheme(value: string | null) {
+      preference = value === 'dark' || value === 'light' ? value : 'auto';
+      document.documentElement.dataset.theme = preference === 'auto'
+        ? (system.matches ? 'light' : 'dark')
+        : preference;
+      for (const label of labels) label.hidden = label.dataset.themeValue !== preference;
+      for (const option of options) {
+        option.setAttribute('aria-checked', String(option.dataset.themeOption === preference));
+      }
+    }
+
+    function openMenu(option = options.find(item => item.dataset.themeOption === preference)) {
+      menu.hidden = false;
+      trigger.setAttribute('aria-expanded', 'true');
+      option?.focus();
+    }
+
+    function closeMenu(returnFocus = false) {
+      if (menu.hidden) return;
+      menu.hidden = true;
+      trigger.setAttribute('aria-expanded', 'false');
+      if (returnFocus) trigger.focus();
+    }
+
+    updateTheme(localStorage.getItem(key));
+    system.addEventListener('change', () => {
+      if (preference === 'auto') updateTheme(preference);
+    });
+    window.addEventListener('storage', event => {
+      if (event.key === key || event.key === null) updateTheme(localStorage.getItem(key));
+    });
+    trigger.addEventListener('click', () => menu.hidden ? openMenu() : closeMenu());
+    trigger.addEventListener('keydown', event => {
+      if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+        event.preventDefault();
+        openMenu(event.key === 'ArrowDown' ? options[0] : options.at(-1));
+      }
+    });
+    for (const option of options) {
+      option.addEventListener('click', () => {
+        updateTheme(option.dataset.themeOption ?? null);
+        localStorage.setItem(key, preference === 'auto' ? '' : preference);
+        closeMenu(true);
+      });
+    }
+    menu.addEventListener('keydown', event => {
+      const index = options.indexOf(event.target as HTMLButtonElement);
+      switch (event.key) {
+        case 'ArrowDown':
+        case 'ArrowUp': {
+          const step = event.key === 'ArrowDown' ? 1 : -1;
+          options[(index + step + options.length) % options.length].focus();
+          break;
+        }
+        case 'Home': options[0].focus(); break;
+        case 'End': options.at(-1)?.focus(); break;
+        case 'Escape': closeMenu(true); break;
+        case 'Tab': closeMenu(true); return;
+        default: return;
+      }
+      event.preventDefault();
+    });
+    picker.addEventListener('focusout', event => {
+      if (event.relatedTarget instanceof Node && !picker.contains(event.relatedTarget)) closeMenu();
+    });
+    document.addEventListener('pointerdown', event => {
+      if (event.target instanceof Node && !picker.contains(event.target)) closeMenu();
+    });
+  }
+</script>
+
+<style>
+  docs-theme-select { display: block; position: relative; flex: none; }
+
+  .theme-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .25rem;
+    inline-size: 6.25rem;
+    min-block-size: 40px;
+    padding-inline: .6rem;
+    border: 1px solid var(--docs-control-border);
+    border-radius: 24px;
+    background: transparent;
+    color: var(--sl-color-white);
+    font: inherit;
+    font-size: var(--sl-text-sm);
+    cursor: pointer;
+  }
+  .theme-value:not([hidden]) { display: inline-flex; align-items: center; gap: .35rem; }
+  .theme-trigger:is(:hover, [aria-expanded="true"]) { border-color: var(--sl-color-gray-3); }
+  .theme-trigger[aria-expanded="true"] .theme-chevron { transform: rotate(180deg); }
+
+  .theme-options {
+    position: absolute;
+    inset-block-start: calc(100% + .5rem);
+    inset-inline-end: 0;
+    z-index: 1;
+    inline-size: 10rem;
+    padding: .3rem;
+    border: 1px solid var(--docs-control-border);
+    border-radius: .75rem;
+    background: var(--sl-color-bg-nav);
+  }
+  .theme-options:not([hidden]) { display: grid; gap: .125rem; }
+  .theme-options button {
+    display: grid;
+    grid-template-columns: 1em 1fr 1em;
+    align-items: center;
+    gap: .55rem;
+    min-block-size: 40px;
+    padding-inline: .6rem;
+    border: 0;
+    border-radius: .45rem;
+    background: transparent;
+    color: var(--sl-color-white);
+    font: inherit;
+    font-size: var(--sl-text-sm);
+    text-align: start;
+    cursor: pointer;
+  }
+  .theme-options button:hover { background: var(--sl-color-gray-7); }
+  .theme-options button:focus-visible { outline-offset: -2px; }
+  .theme-options button[aria-checked="true"] {
+    background: var(--sl-color-accent-low);
+    color: var(--sl-color-accent-high);
+    font-weight: 650;
+  }
+  .theme-options button[aria-checked="false"] .theme-check { visibility: hidden; }
+
+  @media (max-width: 49.99rem) {
+    .theme-options button { min-block-size: 44px; }
+  }
+  @media (max-width: 360px) {
+    .theme-trigger { inline-size: 5.75rem; padding-inline: .45rem; }
+  }
+</style>

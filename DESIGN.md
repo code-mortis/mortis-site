@@ -63,7 +63,7 @@ components:
 
 ## Overview
 
-Review Desk is the homepage reference. Its light hero uses Inter and the light-background raven wordmark. The repository tour uses native App details on charcoal. The homepage and the local Review Desk preview share `src/components/ReviewDesk.astro` and `src/styles/mockups.css`.
+Review Desk is the homepage reference. Its light hero uses Inter and the light-background raven wordmark. The repository tour uses native App details on charcoal. The homepage uses `src/components/ReviewDesk.astro` and `src/styles/review-desk.css`.
 
 The comparison page uses the same masthead, hero artwork, and footer as Review Desk. Its dark comparison table cites the sources for each workflow.
 

@@ -1,9 +1,3 @@
-export const directions = [
-  { slug: 'field-notes', name: 'Field Notes', angle: 'Finding first', description: 'A vermilion cover and an engraved raven open a hands-on review of a missed invoice reminder.', interaction: 'Try the last-day test' },
-  { slug: 'review-desk', name: 'Review Desk', angle: 'App first', description: 'An open, light page leads straight into the App. Read the suggested change, then move between reviews, graph, and activity.', interaction: 'Explore the repository' },
-  { slug: 'workbench', name: 'Workbench', angle: 'Setup first', description: 'An exploded engine anchors a dark technical guide. Switch between the terminal, GitHub workflow, and self-hosted workspace.', interaction: 'Choose a setup' },
-] as const;
-
 export const captures = {
   overview: ['Repository overview', 'See recent reviews and security results together before choosing a run to investigate.', 1280, 963],
   activity: ['Activity calendar', 'Select a day in the App to see which reviews and scans ran. Here the team ran five reviews and two security scans.', 916, 518],

@@ -13,4 +13,4 @@ bun run build
 bun run preview
 ```
 
-The static build is written to `dist/`. The homepage and its Review Desk preview share `src/components/ReviewDesk.astro`. During development, open `/mockups/` to compare Field Notes, Review Desk, and Workbench. Edit the guides under `src/content/docs/docs/` and their section order in `src/data/doc-sections.ts`.
+The static build is written to `dist/`. Edit the homepage in `src/components/ReviewDesk.astro`, the guides under `src/content/docs/docs/`, and their section order in `src/data/doc-sections.ts`.
