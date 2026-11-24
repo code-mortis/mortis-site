@@ -82,6 +82,8 @@ print(branch_report.get("comparison"), branch_report["coverage"]["reused"])
 
 Both comparison options default to `False`. Pass the same `overrides` to `review_local` with `mode="commits"`. Keep the same branch refs across runs so the engine can locate prior coverage. See [when a comparison falls back to a full review](/docs/cli/#review-subsequent-commits). Resume keeps the saved selection.
 
+To ask a question about the diff or draft a description of the changes, use [`mortis ask` and `mortis describe`](/docs/cli/#ask-about-or-describe-a-branch-comparison).
+
 Pass `review_local` the keyword argument `overrides={"max_output_tokens": 0, "token_budget": 0}` to let the provider determine the per-response allowance for analysis. For Bedrock, this uses the Converse default. Anthropic Messages looks up the selected model's output capacity. The [CLI guide](/docs/cli/#configure-the-repository) explains what changes when a token budget is finite.
 
 ## Interpret the result

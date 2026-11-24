@@ -75,6 +75,22 @@ Add `--preview` to any of these scopes to check your selection. Use `--repo PATH
 
 Working-tree reviews read files without following symlinks or running Git filters. If the platform cannot provide safe no-follow file access, use `--staged` for the changes you intend to review. Files over 20 MB or otherwise unreadable are reported as coverage gaps when the snapshot can still be built.
 
+## Ask about or describe a branch comparison
+
+Mortis Engine 0.1.5 adds two commands for comparing the common ancestor of a local base and head with the head commit. Both use the base commit's review settings and send eligible diff context to the selected connection. Use `--connection NAME` to select a saved profile.
+
+```sh
+mortis ask --base main --head HEAD --question-file question.txt --format json
+mortis ask --base main --head HEAD --question-file question.txt --path app.py --line 4:6 --side right --format json
+mortis describe --base main --head HEAD --format json
+```
+
+`ask` takes a nonempty UTF-8 question file of at most 8,000 characters. Use `--path`, `--line START[:END]`, and `--side` together to focus the question. A range can overlap multiple hunks on the `left` (merge base) or `right` (head) side. Each answer citation gives the path, exact commit, and line range of a supporting hunk.
+
+`describe` drafts a title, narrative, and groups of changes that you can review before using in a pull request.
+
+JSON uses `mortis.ask/v1` or `mortis.describe/v1`. Both `completed` and `insufficient_context` exit with code 0. Check `status` before reading `result`. If `limited_context` is true, the context budget left out some hunks. Use `mortis runs RUN_ID` to read a saved result when the output includes a `run_id`. Each command starts a fresh comparison.
+
 ## Review subsequent commits
 
 ```sh
