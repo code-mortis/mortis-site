@@ -17,7 +17,7 @@ const features = [
     {!lead && <header class="section-head"><p class="kicker">Code Mortis App</p><h2>A closer look at <em>the repository.</em></h2></header>}
     <div data-switch class="tour-inside">
       <div role="tablist" class="tour-tabs" aria-label="Explore the repository">{features.map(([key,name],i) => <button role="tab" id={`tour-tab-${key}`} aria-controls={`tour-${key}`} aria-selected={i === 0} tabindex={i ? -1 : 0}>{name}</button>)}</div>
-      {features.map(([key,,title,body],i) => <div role="tabpanel" id={`tour-${key}`} aria-labelledby={`tour-tab-${key}`} hidden={i !== 0} class="tour-panel"><div class="tour-story"><p class="micro">Sample repository / ledger</p><h3>{title}</h3><p>{body}</p><button type="button" class="inline-link" data-open-view={`tour-${key}`}>Open full view <span aria-hidden="true">↗</span></button></div><CaptureFrame view={key} priority={lead && i === 0}/></div>)}
+      {features.map(([key,,title,body],i) => <div role="tabpanel" id={`tour-${key}`} aria-labelledby={`tour-tab-${key}`} hidden={i !== 0} class="tour-panel"><div class="tour-story"><p class="micro">Sample repository / ledger</p><h3>{title}</h3><p>{body}</p><button type="button" class="inline-link" data-open-view={`tour-${key}`}>Open full view{!lead && <span aria-hidden="true"> ↗</span>}</button></div><CaptureFrame view={key} priority={lead && i === 0}/></div>)}
     </div>
   </div>
 </section>
