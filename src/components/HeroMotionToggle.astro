@@ -21,7 +21,7 @@ const { pauseLabel = 'Pause animation', playLabel = 'Play animation' } = Astro.p
 </style>
 <script>
   for (const button of document.querySelectorAll<HTMLButtonElement>('.hero-playback')) {
-    const drawings = button.closest('main')!.querySelectorAll<SVGSVGElement>('.study-art');
+    const drawings = button.parentElement!.querySelectorAll<SVGSVGElement>('.study-art');
     const visible = new Set<SVGSVGElement>();
     const reduced = matchMedia('(prefers-reduced-motion: reduce)');
     let paused = reduced.matches;

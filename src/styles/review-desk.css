@@ -144,7 +144,7 @@ html:has(dialog[open]) { overflow: hidden; }
 .review-desk .security .section-head h2 { max-width: 8ch; }
 .review-desk .agents { background: var(--paper); }
 .review-desk .agents-layout { grid-template-columns: .8fr 1.2fr; }
-.review-desk .agent-example { padding-left: clamp(15px,2vw,32px); border-left: 2px solid #99a3a5; }
+.review-desk .agent-example { padding-left: clamp(15px,2vw,32px); }
 .review-desk .finding { border-bottom: 1px solid var(--line); }
 .review-desk :is(.boundary-demo,.setup-content .code-sample) {
   --panel-bg: #1f1f1f;
@@ -241,7 +241,7 @@ html:has(dialog[open]) { overflow: hidden; }
   .tour-panel .capture { justify-self: start; }
   .tour-story h3 { max-width: 24ch; }
   .tour-story p:not(.micro) { max-width: 48ch; }
-  .review-desk .agent-example { padding: 0; border: 0; }
+  .review-desk .agent-example { padding: 0; }
   .review-desk .controls dl { grid-template-columns: 1fr; }
   .final { flex-direction: column; align-items: start; padding-block: 40px; }
   .site-links { font-size: 12px; }

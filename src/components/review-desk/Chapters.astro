@@ -1,5 +1,7 @@
 ---
 import Capture from './Capture.astro';
+import BranchStudy from '../hero-studies/BranchStudy.astro';
+import HeroMotionToggle from '../HeroMotionToggle.astro';
 import { agents, captures, type Capture as View } from './content';
 interface Props { chapter: 'security' | 'agents' | 'controls' | 'questions' }
 const { chapter } = Astro.props;
@@ -13,6 +15,11 @@ const views: View[] = ['scans', 'scan-report', 'scan-finding'];
 {chapter === 'agents' && <section id="agents" class="section agents"><div class="shell agents-layout"><header class="section-head"><p class="kicker">Model Context Protocol</p><h2>Take the finding <em>to your agent.</em></h2><p>Connect your coding agent from the App’s MCP access settings. Choose the repository and grant read access so it can discuss the saved evidence with you.</p><a class="under" href="/docs/app/mcp-and-api/#connect-scripts-and-agents">Connect your agent ↗</a></header>
   <div data-switch class="agent-example"><div class="tabbar" role="tablist" aria-label="Agent questions">{agents.map((item,i) => <button role="tab" id={`agent-tab-${item.key}`} aria-controls={`agent-${item.key}`} aria-selected={i === 0} tabindex={i ? -1 : 0}>{item.name}</button>)}</div>
   {agents.map((item,i) => <div class="conversation" role="tabpanel" id={`agent-${item.key}`} aria-labelledby={`agent-tab-${item.key}`} hidden={i !== 0}><p class="micro">Example conversation · {item.endpoint}</p><blockquote>{item.q}</blockquote><p>{item.a}</p><small>{item.source}</small></div>)}</div></div>
+  <div class="agent-circuit" aria-hidden="true">
+    <BranchStudy variant="circuito" />
+    <BranchStudy variant="circuito" compact />
+  </div>
+  <HeroMotionToggle pauseLabel="Pause circuit animation" playLabel="Play circuit animation" />
 </section>}
 {chapter === 'controls' && <section class="section shell controls" id="controls"><header class="section-head"><p class="kicker">Working with Mortis</p><h2>Your review <em>settings.</em></h2></header><dl>
   <div><dt>Choose the model</dt><dd>Configure an OpenAI-compatible API, Anthropic or Amazon Bedrock in the App. Eligible source and diffs go to the provider you select. An Engine scope preview runs locally.</dd></div>
@@ -25,3 +32,16 @@ const views: View[] = ['scans', 'scan-report', 'scan-finding'];
   <details><summary>Where do my results live?</summary><p>The CLI keeps a local run history. The Action publishes to the pull request and can save artifacts. A self-hosted App keeps review and scan records on your instance.</p></details>
   <details><summary>Can my coding agent use Mortis locally?</summary><p>Run <code>mortis agent install</code> for CLI guidance in supported coding agents. To discuss findings already saved in a shared App, connect its MCP endpoints instead.</p></details>
   <details><summary>Does the code graph need extra setup?</summary><p>Enable the code graph deployment profile and opt in per repository. The read-only Code MCP endpoint needs a ready index. PR diffs can be viewed independently.</p></details></div></section>}
+
+<style>
+  .agents { position: relative; isolation: isolate; overflow: clip; }
+  .agent-example { display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; }
+  .agent-example > .conversation { grid-area: 2 / 1; }
+  /* The inactive panels size the shared row without being visible or interactive. */
+  .agent-example > .conversation[hidden] { display: block !important; visibility: hidden; }
+  .agent-circuit { position: absolute; inset: -6% 0 16%; z-index: -1; opacity: .34; pointer-events: none; }
+  .agents > :global(.hero-playback) { position: absolute; bottom: 10px; right: clamp(12px, 2vw, 32px); }
+  @media (max-width: 740px) {
+    .agent-circuit { inset: 12% 0 16%; }
+  }
+</style>
