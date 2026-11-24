@@ -12,7 +12,7 @@ Astro with Starlight documentation and the existing React integration. The produ
 
 ## Product Purpose
 
-Introduce Code Mortis, explain Mortis Engine through review evidence and practical examples, and provide installation instructions and working CLI and Python library guides. The App and GitHub Action are presented as coming soon.
+Introduce Code Mortis, explain Mortis Engine through review evidence and practical examples, and document the CLI, Python library, GitHub Action, and self-hosted Code Mortis App.
 
 ## Users
 

@@ -28,13 +28,8 @@ export default defineConfig({
         { label: "Python library", link: "/docs/library/" },
         { label: "Command-line interface", link: "/docs/cli/" },
         { slug: "docs/github-action" },
+        { slug: "docs/app" },
         { label: "How Code Mortis compares", link: "/comparison/" },
-        {
-          label: "Coming soon",
-          items: [
-            { slug: "docs/app" },
-          ],
-        },
       ],
       customCss: ["./src/styles/docs.css"],
       components: {

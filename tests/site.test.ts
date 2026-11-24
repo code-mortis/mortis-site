@@ -54,3 +54,22 @@ test("the home page and docs index link to both rendered engine guides", () => {
     assert.ok(read(`dist${route}index.html`).includes(example));
   }
 });
+
+test("the docs overview and sidebar link to the self-hosted app guide", () => {
+  const overview = read("dist/docs/index.html");
+  const sidebar = overview.match(/<nav\b[^>]*aria-label="Main"[^>]*>([\s\S]*?)<\/nav>/);
+  assert.ok(sidebar?.[1].includes('href="/docs/app/"'));
+  assert.ok(overview.includes('href="/docs/app/">Set up the Code Mortis App</a>'));
+
+  const guide = read("dist/docs/app/index.html");
+  for (const section of [
+    "deploy-with-docker-compose",
+    "connect-github-and-an-ai-provider",
+    "review-a-pull-request",
+    "scan-a-repository",
+    "explore-a-code-graph",
+    "connect-scripts-and-agents",
+  ]) {
+    assert.ok(guide.includes(`id="${section}"`), `Missing app guide section ${section}`);
+  }
+});
