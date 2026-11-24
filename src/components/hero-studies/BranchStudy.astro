@@ -1,0 +1,113 @@
+---
+interface Props {
+  variant: 'circuito' | 'orbita' | 'telar';
+  compact?: boolean;
+}
+const { variant, compact = false } = Astro.props;
+const id = `trace-${variant}-${compact ? 'small' : 'wide'}`;
+const circuit = compact
+  ? 'M-12 88H8Q17 88 17 97V337Q17 345 23 351L64 392Q70 398 79 398H323Q330 398 336 392L376 352Q383 345 383 335V139Q383 130 392 130H412'
+  : 'M-12 104H106Q118 104 128 114L271 257Q281 267 294 267H331Q344 267 354 277L500 423Q510 433 525 433H930Q945 433 955 423L1081 297Q1091 287 1104 287H1150Q1163 287 1173 277L1285 165Q1295 155 1309 155H1452';
+const secondary = compact ? [
+  'M-12 54H8Q24 54 24 70V327Q24 335 30 341L72 383Q78 389 87 389H315Q323 389 329 383L369 343Q376 336 376 326V45Q376 37 384 37H412',
+  'M-12 248L17 277M383 233L412 204',
+] : [
+  'M-12 81H106Q128 81 144 97L279 232Q290 243 304 243H342Q357 243 368 254L511 397Q521 407 535 407H919Q931 407 942 396L1059 279Q1076 262 1095 262H1139Q1153 262 1163 252L1260 155Q1276 139 1293 139H1452',
+  'M-12 240H122Q136 240 147 251L218 322Q228 332 241 332H323Q335 332 344 341L424 421Q435 432 451 432H473',
+  'M-12 162H113Q126 162 136 152L152 138M1452 305H1351Q1334 305 1323 294L1238 212',
+  'M1452 67H1330Q1316 67 1305 78L1228 155Q1219 164 1205 164H1179',
+];
+const solder = compact ? [[17,277],[79,398],[323,398],[383,233]] : [[152,138],[331,267],[525,433],[930,433],[1150,287],[1238,212]];
+const orbit = compact
+  ? 'M8 235C8 154 0 94 17 63C31 37 92 22 203 22C319 22 373 35 386 70C396 97 392 158 392 203C392 305 392 356 346 381C283 417 106 425 50 378C9 346 8 303 8 235Z'
+  : 'M161 271C161 144 443 35 749 26C1055 17 1279 85 1279 199C1279 321 1001 435 695 449C389 463 161 393 161 271Z';
+const orbitEcho = compact
+  ? 'M-14 174C11 174 -11 310 43 366C104 429 292 409 350 367C403 329 383 200 414 194'
+  : 'M-10 155C92 155 139 204 217 284C346 416 672 462 917 420C1122 385 1197 314 1252 239C1322 143 1396 134 1450 134';
+const orbitLeads = compact
+  ? 'M-8 262Q8 262 8 235M392 203Q392 177 408 177'
+  : 'M-12 326H93C140 326 161 296 161 271M1279 199C1279 163 1322 104 1393 104H1452';
+const orbitPorts = compact ? [[8,235],[392,203]] : [[161,271],[1279,199]];
+
+// Change the spread of the same set of threads at successive bends.
+// Opposite spreads braid the strands together at fixed crossing points.
+function thread(t: number, breath: number) {
+  if (compact) return `M-12 ${313 + 32*t}
+    C29 ${314 + 36*t} 34 ${383 - (15 + breath)*t} 84 ${385 - 14*t}
+    S147 ${397 + 14*t} 200 ${396 + 8*t}
+    S288 ${378 - (17 - breath)*t} 326 ${379 - 13*t}
+    S377 ${327 + (28 + breath)*t} 412 ${319 + 32*t}`;
+  return `M-18 ${101 + 49*t}
+    C103 ${101 + 60*t} 109 ${291 - (60 + breath)*t} 235 ${291 - 55*t}
+    S405 ${387 + (40 - breath)*t} 515 ${408 + 20*t}
+    S693 ${439 - (17 + breath/2)*t} 788 ${430 - 11*t}
+    S950 ${378 + (28 + breath)*t} 1032 ${349 + 27*t}
+    S1167 ${208 - (56 - breath)*t} 1252 ${208 - 50*t}
+    S1364 ${280 + (46 + breath)*t} 1458 ${267 + 47*t}`;
+}
+const inks = ['#aab0a9','#b5b6aa','#bdad99','#c5a083','#ca8a68','#c87553','#bd5c38','#a94c2e','#8e402b'];
+---
+<svg class:list={['study-art', compact ? 'compact' : 'wide']} data-study={variant}
+  viewBox={compact ? '0 0 400 430' : '0 0 1440 480'} preserveAspectRatio="none"
+  fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  {variant === 'circuito' && <>
+    <g stroke="#b8bab1">{secondary.map(d => <path {d} />)}</g>
+    <path id={id} d={circuit} stroke="#c16b48" stroke-width="1.5" />
+    {solder.map(([x,y]) => <circle cx={x} cy={y} r="3.8" fill="#f8f9f7" stroke="#ae5838" stroke-width="1.6" />)}
+    <g fill="#f8f9f7" stroke="#a4a69e">
+      {(compact ? [] : [[473,432],[1179,164]]).map(([x,y]) => <rect x={x-2.7} y={y-2.7} width="5.4" height="5.4" rx=".8" />)}
+    </g>
+    <g>
+      <animateMotion dur="7.5s" begin="-2.3s" rotate="auto" repeatCount="indefinite"><mpath href={'#'+id} /></animateMotion>
+      <path d={compact ? 'M-9 0H0' : 'M-17 0H0'} stroke="#ad451e" stroke-width="2.5" />
+      <circle r="4.8" fill="#c45329" stroke="#f8f9f7" stroke-width="1.5" />
+    </g>
+  </>}
+  {variant === 'orbita' && <>
+    <path d={orbitEcho} stroke="#afa99c" />
+    <path d={orbitLeads} stroke="#b36a4b" />
+    <path id={id} d={orbit} stroke="#b66242" stroke-width="1.35" />
+    {orbitPorts.map(([x,y]) => <g>
+      <circle cx={x} cy={y} r="5" fill="#f8f9f7" stroke="#ad6244" />
+      <circle cx={x} cy={y} r="1.7" fill="#ab5939" />
+    </g>)}
+    <g>
+      <animateMotion dur="13s" begin="-5s" repeatCount="indefinite"><mpath href={'#'+id} /></animateMotion>
+      <circle r="9" fill="#f8f9f7" stroke="#c77b60" />
+      <circle r="4.5" fill="#bc512b" />
+    </g>
+    <circle r="3" fill="#ae5637">
+      <animateMotion dur="13s" begin="-11.5s" repeatCount="indefinite"><mpath href={'#'+id} /></animateMotion>
+    </circle>
+  </>}
+  {variant === 'telar' && <defs>
+    <linearGradient id={id} gradientUnits="userSpaceOnUse" x1="0" x2={compact ? 48 : 115} y1="0" y2="0"
+      gradientTransform={compact ? 'translate(-64 0)' : 'translate(-140 0)'}>
+      <stop stop-color={inks[6]} />
+      <stop offset=".55" stop-color="#ffac78" />
+      <stop offset="1" stop-color={inks[6]} />
+      <animateTransform attributeName="gradientTransform" type="translate" from={compact ? '-64 0' : '-140 0'}
+        to={compact ? '412 0' : '1458 0'} begin="indefinite" dur="7.5s" repeatCount="indefinite" />
+    </linearGradient>
+  </defs>}
+  {variant === 'telar' && inks.map((stroke, index) => {
+    const t = index / 4 - 1;
+    const carriesPulse = index === 6;
+    return <path d={thread(t, 0)} stroke={carriesPulse ? `url(#${id})` : stroke} stroke-width={carriesPulse ? 1.8 : 1.05}>
+      <animate attributeName="d" values={[0,21,0,-21,0].map(n => thread(t,n)).join(';')}
+        begin="indefinite" dur="7s" repeatCount="indefinite" calcMode="spline"
+        keySplines="0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1" />
+    </path>;
+  })}
+</svg>
+<style>
+  .study-art { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .study-art :is(path,circle,rect) { vector-effect: non-scaling-stroke; }
+  @media (min-width: 741px) {
+    .wide { width: max(100%, 1220px); left: 50%; transform: translateX(-50%); }
+    .compact { display: none; }
+  }
+  @media (max-width: 740px) {
+    .wide { display: none; }
+  }
+</style>

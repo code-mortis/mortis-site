@@ -1,5 +1,6 @@
 ---
-import ReviewBranches from './ReviewBranches.astro';
+import BranchStudy from './hero-studies/BranchStudy.astro';
+import HeroMotionToggle from './HeroMotionToggle.astro';
 import ReviewEvidence from './ReviewEvidence.astro';
 import Tour from './review-desk/Tour.astro';
 import Chapters from './review-desk/Chapters.astro';
@@ -7,8 +8,13 @@ import Finding from './review-desk/Finding.astro';
 import Setup from './review-desk/Setup.astro';
 ---
 
-<section class="desk-hero" data-enter>
-  <ReviewBranches />
+<section class="desk-hero woven-hero">
+  <div class="hero-art" aria-hidden="true">
+    <slot name="branches">
+      <BranchStudy variant="telar" />
+      <BranchStudy variant="telar" compact />
+    </slot>
+  </div>
   <div class="desk-content">
     <h1>Every finding,<br/><em>down to the line.</em></h1>
     <p>Review pull requests, trace a dependency, and inspect the source behind a security report in one self-hosted workspace.</p>
@@ -17,7 +23,9 @@ import Setup from './review-desk/Setup.astro';
       <a class="secondary" href="#tour">Open sample review <span aria-hidden="true">↓</span></a>
     </div>
   </div>
+  {!Astro.slots.has('hero-controls') && <HeroMotionToggle />}
 </section>
+<slot name="hero-controls" />
 
 <!-- Keep bookmarks from the original homepage pointing to the corresponding sections. -->
 <div id="features"><Tour lead /></div>
@@ -39,3 +47,11 @@ import Setup from './review-desk/Setup.astro';
   <Chapters chapter="controls" />
 </div>
 <Chapters chapter="questions" />
+
+<style is:global>
+  .desk-hero.woven-hero { padding-block: clamp(72px,6vw,102px) clamp(83px,7vw,118px); }
+  .woven-hero .hero-art { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+  @media (max-width: 740px) {
+    .desk-hero.woven-hero { padding: 69px max(24px, 7vw) 84px; }
+  }
+</style>

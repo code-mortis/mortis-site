@@ -1,0 +1,71 @@
+---
+import MarketingLayout from '../../../layouts/MarketingLayout.astro';
+import ReviewDesk from '../../../components/ReviewDesk.astro';
+import BranchStudy from '../../../components/hero-studies/BranchStudy.astro';
+import HeroMotionToggle from '../../../components/HeroMotionToggle.astro';
+
+export function getStaticPaths() {
+  return import.meta.env.DEV ? [{ params: { preview: undefined } }] : [];
+}
+
+const studies = [
+  { id: 'circuito', label: 'Circuito', sign: 'M2 5h5l8 8h7M2 12h5l6 6h9' },
+  { id: 'orbita', label: 'Órbita', sign: 'M21 6c2 3-1 7-6 10s-11 3-12 0 1-7 6-10 11-3 12 0ZM3 5l18 12' },
+  { id: 'telar', label: 'Telar', sign: 'M1 6c8 0 8 11 15 11 3 0 5-2 7-4M1 11c6-5 10 6 16 1l6-5M1 16C9 5 12 17 23 4' },
+] as const;
+---
+<MarketingLayout title="Estudios de movimiento · Code Mortis">
+  <ReviewDesk>
+    <div class="studies" slot="branches">
+      {studies.map(({id}, i) => <div data-scene={id} hidden={i !== 0}>
+        <BranchStudy variant={id} />
+        <BranchStudy variant={id} compact />
+      </div>)}
+    </div>
+    <div class="study-controls" slot="hero-controls" lang="es">
+      <div class="study-tools">
+        <nav aria-label="Mockups del hero">
+          {studies.map(({id, label, sign}, i) => <a href={'#'+id} data-choice={id} aria-current={i === 0 ? 'true' : undefined}>
+            <svg aria-hidden="true" viewBox="0 0 24 22" fill="none"><path d={sign}/></svg>{label}
+          </a>)}
+        </nav>
+        <HeroMotionToggle pauseLabel="Pausar animación" playLabel="Reproducir animación" />
+      </div>
+    </div>
+  </ReviewDesk>
+</MarketingLayout>
+
+<style>
+  .study-controls { display: flex; justify-content: center; padding: 8px 12px 17px; }
+  .study-tools { display: flex; align-items: center; gap: 8px; }
+  .study-tools nav { display: flex; gap: 2px; padding: 3px; border: 1px solid #d6d6cf; border-radius: 30px; }
+  .study-tools a { display: inline-flex; align-items: center; justify-content: center; height: 34px; gap: 7px; padding-inline: 12px; border-radius: 22px; color: #53564f; font-size: 13px; font-weight: 550; }
+  .study-tools a:hover { background: #e9e9e2; }
+  .study-tools a[aria-current] { color: #fff; background: #292b29; }
+  .study-tools svg { width: 20px; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+  @media (max-width: 740px) {
+    .study-controls { padding-block: 4px 16px; }
+    .study-tools a { padding-inline: 9px; }
+  }
+  @media (max-width: 360px) {
+    .study-tools nav svg { display: none; }
+  }
+</style>
+<script>
+  const artwork = document.querySelector<HTMLElement>('.studies')!;
+  const scenes = Array.from(artwork.querySelectorAll<HTMLElement>('[data-scene]'));
+  const choices = document.querySelectorAll<HTMLAnchorElement>('[data-choice]');
+  let active = 'circuito';
+  function selectStudy() {
+    const hash = location.hash.slice(1);
+    if (!hash) active = 'circuito';
+    else if (scenes.some(scene => scene.dataset.scene === hash)) active = hash;
+    for (const scene of scenes) scene.hidden = scene.dataset.scene !== active;
+    for (const choice of choices) {
+      if (choice.dataset.choice === active) choice.setAttribute('aria-current', 'true');
+      else choice.removeAttribute('aria-current');
+    }
+  }
+  window.addEventListener('hashchange', selectStudy);
+  selectStudy();
+</script>
