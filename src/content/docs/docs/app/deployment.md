@@ -7,7 +7,7 @@ description: Start the Docker Compose stack, install your GitHub App, and connec
 
 You need Docker Compose, Python 3.12 or newer to generate the environment file, a GitHub account that can register a GitHub App, and a public HTTPS hostname that GitHub can reach.
 
-Download `compose.yaml` and `manage.py` from the [v0.1.1 GitHub Release](https://github.com/code-mortis/code-mortis/releases/tag/v0.1.1) and save them in one directory. The Compose file pulls `codemortis/code-mortis:0.1.1` from Docker Hub for Linux `amd64` and `arm64`.
+Download `compose.yaml` and `manage.py` from the [v0.1.2 GitHub Release](https://github.com/code-mortis/code-mortis/releases/tag/v0.1.2) and save them in one directory. The Compose file pulls `codemortis/code-mortis:0.1.2` from Docker Hub for Linux `amd64` and `arm64`.
 
 ```sh
 python3 manage.py init-env --owner YOUR_GITHUB_LOGIN --url https://reviews.example.com
@@ -19,7 +19,9 @@ Point your HTTPS reverse proxy at `127.0.0.1:8080` on the Compose host. Use the 
 
 ### Upgrade an existing deployment
 
-Back up PostgreSQL and `CM_ENCRYPTION_KEY`. Replace `compose.yaml` and `manage.py` in the existing project directory and keep its `.env` and volumes. Run `docker compose pull` followed by `docker compose up -d --wait --remove-orphans`. The migration service applies any database upgrades, and `--remove-orphans` removes the retired graph containers from older source deployments. For Coolify, set the shared image anchor in `compose.coolify.yaml` to the published version and redeploy the same resource.
+Back up PostgreSQL and `CM_ENCRYPTION_KEY`. Replace `compose.yaml` and `manage.py` in the existing project directory and keep its `.env` and volumes. Run `docker compose pull` followed by `docker compose up -d --wait --remove-orphans`. The migration service applies database upgrades at startup. In v0.1.2, it adds an index for publishing review findings. The `--remove-orphans` flag removes the retired graph containers from older source deployments.
+
+For Coolify, use the updated `compose.coolify.yaml` for worker and scheduler health checks. Confirm its shared image anchor points to the published version and redeploy the same resource.
 
 ### Configure optional Sentry reporting
 
