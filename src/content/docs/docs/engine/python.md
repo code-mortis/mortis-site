@@ -24,7 +24,7 @@ for file in plan["excluded_files"]:
     print(file["path"], file["reason"])
 ```
 
-The `mortis.review-preview/v1` dictionary also contains the selected files, units of source assigned to analysis, and planned batches. The batch count estimates initial analysis work. Assessment and summary generation can make additional requests. Check `errors` as well as `excluded_files` for source that could not be read. An unreadable file can retain its change status and original rename path when Git metadata is available.
+The `mortis.review-preview/v1` dictionary also contains the selected files, units of source assigned to analysis, and planned batches. The batch count estimates initial analysis work. Assessment and summary generation can make additional requests. Check `errors` as well as `excluded_files` for source that could not be read. An unreadable file can retain its change status and original rename path when Git metadata is available. When an eligible deletion or rename triggers caller discovery, read `plan.get("affected_callers")` for caller ranges and discovery limits.
 
 `preview_local` and `review_local` accept the same scopes. Preview shows the full scope and rejects `incremental` and `skip_unchanged` overrides.
 
@@ -89,6 +89,8 @@ Pass `review_local` the keyword argument `overrides={"max_output_tokens": 0, "to
 ## Interpret the result
 
 A review returns a `mortis.review/v1` dictionary. Keep the `run_id` for follow-up work. Read `findings` alongside `status`, `coverage`, and `errors` before deciding whether a change passed your checks. A partial review can return confirmed findings. A skipped review can mean there were no eligible changes, the file limit waived coverage, or a compatible review already covered the same tree. Inspect `coverage["waived"]` and `comparison` to distinguish those outcomes. `coverage["completed"]` lists files analyzed in the current run, and `coverage["reused"]` lists prior coverage. An unchanged comparison records zero model calls and links to the earlier run. Candidate assessments and token usage are available in `candidates` and `usage`.
+
+When present, `report["affected_callers"]` gives the outcome of each [caller range](/docs/engine/reviews/#review-callers-of-deleted-or-renamed-files) separately from file coverage. Check it alongside `status` and `errors` before using the report as a gate.
 
 Review functions are synchronous. In an application with a running asyncio event loop, await the call through `asyncio.to_thread`. Reviews retain their snapshots and results under `$XDG_STATE_HOME/mortis` (default `~/.local/state/mortis`). This history can contain reviewed source.
 

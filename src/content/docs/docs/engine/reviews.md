@@ -19,7 +19,7 @@ Mortis takes a snapshot of your changes, reviews eligible files, and checks cand
 | `mortis review --all` | Every eligible tracked file in the current commit |
 | `mortis review --all --head main` | Every eligible tracked file at the tip of local `main` |
 
-Add `--preview` to any of these scopes to check your selection. Use `--repo PATH` to select another local clone. For optional code graph context, build the parser image with `mortis graph build` (requires Docker), then pass `--graph` to the review. After upgrading from 0.1.2 or earlier, rerun `mortis graph build` before using graph context. A review can use available graph facts when graph coverage is incomplete.
+Add `--preview` to any of these scopes to check your selection. Use `--repo PATH` to select another local clone. For optional code graph context, build the parser image with `mortis graph build` (requires Docker), then pass `--graph` to the review. After upgrading to Engine 0.1.6, rerun `mortis graph build` before using graph context. The new image uses Python 3.15, Tree-sitter 0.27 and updated C# and PHP grammars. A review can use available graph facts when graph coverage is incomplete.
 
 Working-tree reviews read files without following symlinks or running Git filters. If the platform cannot provide safe no-follow file access, use `--staged` for the changes you intend to review. Files over 20 MB or otherwise unreadable are reported as coverage gaps when the snapshot can still be built.
 
@@ -28,6 +28,16 @@ Working-tree reviews read files without following symlinks or running Git filter
 A confirmed finding cites the reviewed path and lines at the pinned revision. Mortis can read supporting source from unchanged files and look up literal symbols without Docker. When a proposed line replacement is supported by the evidence, the report can include a suggestion. Inspect coverage and errors even when a review returns findings.
 
 For an experimental second pass, add `--second-pass` to a review. It uses the same analysis budget and sends new candidates through assessment. It is off by default. If it fails, the report retains validated first-pass results and records incomplete coverage.
+
+### Review callers of deleted or renamed files
+
+Starting with Engine 0.1.6, branch, staged, and working-tree reviews look for surviving references to eligible deleted or renamed files. For example, deleting a shell script can bring an unchanged Python line that invokes it into review. Discovery uses the review's file policy and runs without Docker.
+
+```sh
+mortis review --base main --preview --format json
+```
+
+Look for `affected_callers` in the preview and report. It lists the triggering changes, caller ranges, and discovery limits. An examined range counts only toward caller coverage for that range. When a discovery limit leaves coverage incomplete, the CLI exits with code `2` and the review retains validated findings. Dynamically constructed references can escape discovery.
 
 ## Ask about or describe a branch comparison
 
@@ -51,8 +61,8 @@ JSON uses `mortis.ask/v1` or `mortis.describe/v1`. Both `completed` and `insuffi
 mortis review --base main --incremental --skip-unchanged
 ```
 
-`--incremental` analyzes files changed since the last compatible, fully covered review of the same branch. Each selected file uses its cumulative diff from the common ancestor. The summary and `max_files` still cover the full branch comparison. Use a branch name or its checked-out `HEAD` to keep a consistent history scope. Missing or incomplete history, a changed base or configuration, and unavailable ancestry trigger a full comparison. `--graph` and `--second-pass` also use the full comparison.
+`--incremental` analyzes files changed since the last compatible, fully covered review of the same branch. Each selected file uses its cumulative diff from the common ancestor. The summary and `max_files` still cover the full branch comparison. Use a branch name or its checked-out `HEAD` to keep a consistent history scope. Missing or incomplete history, a changed Engine version, base or configuration, and unavailable ancestry trigger a full comparison. A changed head tree with an eligible deletion or rename also gets a full comparison so callers are checked again. `--graph` and `--second-pass` use the full comparison.
 
-`--skip-unchanged` skips model calls when a compatible review already covered the same Git tree, including after an empty commit. The report records `status: skipped`, reuses the prior coverage, and links to the earlier run. Both options default to `false`. Set `incremental` and `skip_unchanged` under `[review]` on the base branch to enable them independently. Use `--no-incremental` and `--no-skip-unchanged` to override those defaults for one run.
+`--skip-unchanged` skips model calls when a compatible review already covered the same Git tree, including after an empty commit. The report records `status: skipped`, reuses the prior coverage, including any complete caller coverage, and links to the earlier run. Both options default to `false`. Set `incremental` and `skip_unchanged` under `[review]` on the base branch to enable them independently. Use `--no-incremental` and `--no-skip-unchanged` to override those defaults for one run.
 
 A preview shows the full scope without reading saved reviews. Run `mortis review --base main --preview` separately from the comparison flags. `--resume` uses the saved selection.

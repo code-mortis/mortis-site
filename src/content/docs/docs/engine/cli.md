@@ -18,7 +18,7 @@ From a local Git repository with at least one commit, preview the next review. A
 mortis review --preview
 ```
 
-The preview lists selected files, exclusions and their reasons, and planned batches. It runs locally without a provider connection or a saved run. Add `--format json` to inspect the plan from a script.
+The preview lists selected files, exclusions and their reasons, and planned batches. It runs locally without a provider connection or a saved run. Add `--format json` to inspect the plan from a script. For staged, working-tree, or branch scopes, the preview can also list [affected caller ranges](/docs/engine/reviews/#review-callers-of-deleted-or-renamed-files).
 
 ## Connect a provider
 

@@ -14,7 +14,7 @@ This writes the versioned review JSON to stdout, sends progress to stderr, and s
 | Review exit code | Meaning for automation |
 | --- | --- |
 | `0` | Review completed, there were no eligible changes, or an unchanged comparison was skipped. Inspect `findings`, `coverage.reused` and the prior run in `comparison` when present. |
-| `2` | Partial coverage or files waived by the configured limit. Inspect `coverage` and `errors`. |
+| `2` | Partial coverage or files waived by the configured limit. Inspect `coverage`, `errors`, and `affected_callers` when present. |
 | `1` | Review failed. Inspect the error output. |
 
 ## Revisit a saved run
@@ -32,7 +32,7 @@ Run `mortis runs` in the same repository to find its run IDs. Substitute an ID f
 | List failed candidates and their retry eligibility | `mortis assessments --run RUN_ID` |
 | Retry an eligible candidate | `mortis assess --run RUN_ID --candidate CANDIDATE_ID` |
 
-Resumed reviews and scans use their saved limits, concurrency, and assessment policy. Older runs keep their batched assessment behavior. A dispatched request with unknown usage keeps its token reservation.
+Resumed reviews and scans use their saved limits, concurrency, and assessment policy. Resumed reviews keep their saved caller scope. Older runs keep their batched assessment behavior. A dispatched request with unknown usage keeps its token reservation.
 
 Use `mortis triage` to record a decision about a finding. Supply the ID and current version from `mortis findings`, together with a reason. Review findings accept `dismissed` and `open`. Security findings accept `false_positive`, `accepted_risk`, and `open`. The original report stays available by run ID.
 
