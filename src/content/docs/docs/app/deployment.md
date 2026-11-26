@@ -7,7 +7,7 @@ description: Start the Docker Compose stack, install your GitHub App, and connec
 
 You need Docker Compose, Python 3.12 or newer to generate the environment file, a GitHub account that can register a GitHub App, and a public HTTPS hostname that GitHub can reach.
 
-Download `compose.yaml` and `manage.py` from the [v0.1.0 GitHub Release](https://github.com/code-mortis/code-mortis/releases/tag/v0.1.0) and save them in one directory. The Compose file pulls `codemortis/code-mortis:0.1.0` from Docker Hub for Linux `amd64` and `arm64`.
+Download `compose.yaml` and `manage.py` from the [v0.1.1 GitHub Release](https://github.com/code-mortis/code-mortis/releases/tag/v0.1.1) and save them in one directory. The Compose file pulls `codemortis/code-mortis:0.1.1` from Docker Hub for Linux `amd64` and `arm64`.
 
 ```sh
 python3 manage.py init-env --owner YOUR_GITHUB_LOGIN --url https://reviews.example.com
@@ -17,9 +17,13 @@ docker compose up -d --wait
 
 Point your HTTPS reverse proxy at `127.0.0.1:8080` on the Compose host. Use the exact browser origin in `--url` so GitHub sign-in, installation callbacks, and webhooks reach the instance. Keep the generated `.env` private and preserve `CM_ENCRYPTION_KEY` with your PostgreSQL backups so saved credentials can be decrypted after a restore. For a Git-based Coolify deployment, follow the [Coolify instructions in the app README](https://github.com/code-mortis/code-mortis#deploy-with-coolify).
 
-### Move an existing source deployment to the release image
+### Upgrade an existing deployment
 
-Back up PostgreSQL and `CM_ENCRYPTION_KEY`. Replace `compose.yaml` and `manage.py` in the existing project directory and keep its `.env` and volumes. Run `docker compose pull` followed by `docker compose up -d --wait --remove-orphans`. The migration service applies schema upgrades, and `--remove-orphans` removes the retired graph containers.
+Back up PostgreSQL and `CM_ENCRYPTION_KEY`. Replace `compose.yaml` and `manage.py` in the existing project directory and keep its `.env` and volumes. Run `docker compose pull` followed by `docker compose up -d --wait --remove-orphans`. The migration service applies any database upgrades, and `--remove-orphans` removes the retired graph containers from older source deployments. For Coolify, set the shared image anchor in `compose.coolify.yaml` to the published version and redeploy the same resource.
+
+### Configure optional Sentry reporting
+
+Starting with App v0.1.1, set the public `CM_SENTRY_FRONTEND_DSN` in `.env` and recreate the API container to change browser reporting at runtime. In Coolify, set it in the runtime environment and redeploy. Set `CM_SENTRY_DSN` separately for backend reporting. `CM_SENTRY_ENVIRONMENT` and `CM_SENTRY_RELEASE` apply to both.
 
 ### Run a local development instance
 

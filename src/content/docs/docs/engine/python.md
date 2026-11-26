@@ -92,6 +92,8 @@ A review returns a `mortis.review/v1` dictionary. Keep the `run_id` for follow-u
 
 When present, `report["affected_callers"]` gives the outcome of each [caller range](/docs/engine/reviews/#review-callers-of-deleted-or-renamed-files) separately from file coverage. Check it alongside `status` and `errors` before using the report as a gate.
 
+For graph-enabled reviews in Engine 0.1.7, `report.get("code_graph", {}).get("discovery_omissions", [])` gives the `path`, `reason`, and `unit_keys` for optional graph context omitted from discovery. Older reports may omit this field.
+
 Review functions are synchronous. In an application with a running asyncio event loop, await the call through `asyncio.to_thread`. Reviews retain their snapshots and results under `$XDG_STATE_HOME/mortis` (default `~/.local/state/mortis`). This history can contain reviewed source.
 
 ## Scan a commit or follow up on a review

@@ -32,7 +32,9 @@ Run `mortis runs` in the same repository to find its run IDs. Substitute an ID f
 | List failed candidates and their retry eligibility | `mortis assessments --run RUN_ID` |
 | Retry an eligible candidate | `mortis assess --run RUN_ID --candidate CANDIDATE_ID` |
 
-Resumed reviews and scans use their saved limits, concurrency, and assessment policy. Resumed reviews keep their saved caller scope. Older runs keep their batched assessment behavior. A dispatched request with unknown usage keeps its token reservation.
+Resumed reviews and scans use their saved limits, concurrency, and assessment policy. Resumed reviews keep their saved caller scope and line numbering. Older runs keep their batched assessment behavior. A dispatched request with unknown usage keeps its token reservation.
+
+In Engine 0.1.7, each review candidate has its own assessment attempt, even when candidates have identical content. To continue an interrupted retry, run `mortis assess --resume RETRY_RUN_ID` with the retry's own run ID. Mortis reuses its saved response when available.
 
 Use `mortis triage` to record a decision about a finding. Supply the ID and current version from `mortis findings`, together with a reason. Review findings accept `dismissed` and `open`. Security findings accept `false_positive`, `accepted_risk`, and `open`. The original report stays available by run ID.
 

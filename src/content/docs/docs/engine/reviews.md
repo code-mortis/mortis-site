@@ -21,17 +21,19 @@ Mortis takes a snapshot of your changes, reviews eligible files, and checks cand
 
 Add `--preview` to any of these scopes to check your selection. Use `--repo PATH` to select another local clone. For optional code graph context, build the parser image with `mortis graph build` (requires Docker), then pass `--graph` to the review. After upgrading to Engine 0.1.6, rerun `mortis graph build` before using graph context. The new image uses Python 3.15, Tree-sitter 0.27 and updated C# and PHP grammars. A review can use available graph facts when graph coverage is incomplete.
 
+In Engine 0.1.7, the terminal lists paths where optional graph context was dropped to fit a discovery request. The JSON report lists the affected review units in `code_graph.discovery_omissions`. Read `coverage` for the outcome of the source review.
+
 Working-tree reviews read files without following symlinks or running Git filters. If the platform cannot provide safe no-follow file access, use `--staged` for the changes you intend to review. Files over 20 MB or otherwise unreadable are reported as coverage gaps when the snapshot can still be built.
 
 ### Read the evidence
 
-A confirmed finding cites the reviewed path and lines at the pinned revision. Mortis can read supporting source from unchanged files and look up literal symbols without Docker. When a proposed line replacement is supported by the evidence, the report can include a suggestion. Inspect coverage and errors even when a review returns findings.
+A confirmed finding cites the reviewed path and lines at the pinned revision. New reviews in Engine 0.1.7 count lines the same way Git does, including in files with bare carriage returns or Unicode line separators. Mortis can read supporting source from unchanged files and look up literal symbols without Docker. When a proposed line replacement is supported by the evidence, the report can include a suggestion. Inspect coverage and errors even when a review returns findings.
 
 For an experimental second pass, add `--second-pass` to a review. It uses the same analysis budget and sends new candidates through assessment. It is off by default. If it fails, the report retains validated first-pass results and records incomplete coverage.
 
 ### Review callers of deleted or renamed files
 
-Starting with Engine 0.1.6, branch, staged, and working-tree reviews look for surviving references to eligible deleted or renamed files. For example, deleting a shell script can bring an unchanged Python line that invokes it into review. Discovery uses the review's file policy and runs without Docker.
+Starting with Engine 0.1.6, branch, staged, and working-tree reviews look for surviving references to eligible deleted or renamed files. For example, deleting a shell script can bring an unchanged Python line that invokes it into review. Discovery uses the review's file policy and runs without Docker. In Engine 0.1.7, it also recognizes absolute imports of Python modules under `src/`. For example, moving `src/billing/tax.py` can bring an unchanged `from billing.tax import rate` into review.
 
 ```sh
 mortis review --base main --preview --format json
@@ -62,6 +64,8 @@ mortis review --base main --incremental --skip-unchanged
 ```
 
 `--incremental` analyzes files changed since the last compatible, fully covered review of the same branch. Each selected file uses its cumulative diff from the common ancestor. The summary and `max_files` still cover the full branch comparison. Use a branch name or its checked-out `HEAD` to keep a consistent history scope. Missing or incomplete history, a changed Engine version, base or configuration, and unavailable ancestry trigger a full comparison. A changed head tree with an eligible deletion or rename also gets a full comparison so callers are checked again. `--graph` and `--second-pass` use the full comparison.
+
+In Engine 0.1.7, a change to a module-level Python function's required parameters or its acceptance of `*args` or `**kwargs` brings previously reviewed importers back into scope. Other files can still reuse coverage. If the bounded inspection cannot finish, Mortis reviews the full comparison. Fully reverting a reviewed file change also triggers a full review of the remaining branch diff when it would otherwise reuse coverage.
 
 `--skip-unchanged` skips model calls when a compatible review already covered the same Git tree, including after an empty commit. The report records `status: skipped`, reuses the prior coverage, including any complete caller coverage, and links to the earlier run. Both options default to `false`. Set `incremental` and `skip_unchanged` under `[review]` on the base branch to enable them independently. Use `--no-incremental` and `--no-skip-unchanged` to override those defaults for one run.
 

@@ -39,7 +39,7 @@ Keep the key available in the environment for later runs. Profiles live in `$XDG
 
 Mortis uses [Bedrock Converse](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html) for Bedrock connections. Select a model or inference profile that supports the tool and structured-output features your workflow uses. See the [connection options](https://github.com/code-mortis/mortis-engine#connect-with-environment-variables) for ambient AWS credentials and API keys.
 
-Public endpoints require HTTPS unless you explicitly trust the hostname with `CM_TRUSTED_ENDPOINT_HOSTS`. With `CM_ALLOW_PRIVATE_ENDPOINTS=true`, HTTP is allowed only when every resolved address is private or loopback.
+Public endpoints require HTTPS unless you explicitly trust the hostname with `CM_TRUSTED_ENDPOINT_HOSTS`. With `CM_ALLOW_PRIVATE_ENDPOINTS=true`, HTTP is allowed only when every resolved address is private or loopback. Inference in Engine 0.1.7 reports DNS lookup failures separately from endpoint policy rejections. A temporary DNS failure can be retried. A request that stops during DNS resolution releases its token reservation.
 
 Custom `extra_body` options cannot replace engine-managed inputs, output formats or authentication. Configure supported nested properties individually. See the [provider options](https://github.com/code-mortis/mortis-engine#connect-with-environment-variables) for details.
 
