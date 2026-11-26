@@ -54,7 +54,7 @@ test("main navigation opens the standalone comparison", () => {
 
 test("the public homepage opens Review Desk with its repository tour and setup guides", () => {
   const page = read("dist/index.html");
-  assert.match(page, /<h1>Every finding,<br\s*\/?><em>down to the line\.<\/em><\/h1>/);
+  assert.match(page, /<h1\b[^>]*>Code review with <em\b[^>]*>receipts\.<\/em><\/h1>/);
   assert.ok(page.includes('aria-label="Explore the repository"'));
   assert.ok(page.includes('id="capture-dialog"'));
   assert.ok(page.includes("uv tool install mortis-engine"));

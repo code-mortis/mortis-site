@@ -1,6 +1,6 @@
 ---
 name: Code Mortis
-description: Review Desk leads the homepage from a light hero into a dark product tour. The comparison and documentation share its light masthead, Inter typography, and paper palette.
+description: Review Desk opens with the charcoal Night Watch hero and a dark product tour. The homepage, comparison, and documentation share a light masthead and Inter typography.
 colors:
   paper: "#191b18"
   type: "#f3efe3"
@@ -63,9 +63,9 @@ components:
 
 ## Overview
 
-Review Desk is the homepage reference. Its light hero uses Inter and the light-background raven wordmark. The repository tour uses native App details on charcoal. The homepage uses `src/components/ReviewDesk.astro` and `src/styles/review-desk.css`.
+Review Desk is the homepage reference. Night Watch fills the viewport below the masthead. Lines from the sample invoice review form the orange raven on charcoal. The headline pairs Inter with an italic Georgia accent. The hero lives in `src/components/review-desk/NightWatchHero.astro`. The repository tour follows with native App captures.
 
-The comparison page uses the same masthead, hero artwork, and footer as Review Desk. Its dark comparison table cites the sources for each workflow.
+The comparison page shares the Review Desk masthead and footer. Its light hero uses circuit artwork, and its dark comparison table cites the sources for each workflow.
 
 The Night Guide tokens and guidance below the Review Desk notes describe the historical Night Guide design. Warm charcoal and cream text frame large serif headings with orange italic emphasis.
 

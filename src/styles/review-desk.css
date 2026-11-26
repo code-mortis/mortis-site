@@ -120,7 +120,8 @@ html:has(dialog[open]) { overflow: hidden; }
 /* Review Desk makes the product tour part of the first fold. */
 .review-desk { font-family: "Mortis Inter", Arial, sans-serif; --paper: #f8f9f7; --ink: #202128; --soft: #545662; --line: #d3d5d4; }
 .review-desk .nav-ground { background: var(--paper); border-bottom: 1px solid #dfe0dd; }
-.review-desk .mast { min-height: 72px; }
+.review-desk { --mast-height: 72px; }
+.review-desk .mast { min-height: var(--mast-height); }
 .review-desk .compare { padding: 7px 15px; border: 1px solid var(--line); border-radius: 22px; }
 .desk-hero { position: relative; isolation: isolate; overflow: hidden; text-align: center; padding: clamp(46px,5vw,85px) 20px clamp(44px,4.2vw,65px); }
 .desk-content { position: relative; max-width: 790px; margin: 0 auto; }
@@ -216,7 +217,8 @@ html:has(dialog[open]) { overflow: hidden; }
 }
 @media(max-width:740px) {
   .shell { width: calc(100% - 36px); }
-  .mast,.review-desk .mast { min-height: 60px; gap: 14px; }
+  .review-desk { --mast-height: 60px; }
+  .mast,.review-desk .mast { min-height: var(--mast-height,60px); gap: 14px; }
   .brand img { width: 133px; }
   .mast nav { display: none; }
   .mast nav + .compare { margin-left: auto; }

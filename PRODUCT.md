@@ -28,7 +28,7 @@ The blog is not available. Its navigation links and article placeholder were rem
 
 ## Brand Commitments
 
-Code Mortis is an English-language website built around the orange crow logo. Review Desk is the selected homepage. Its light hero opens into a dark repository tour with native App captures.
+Code Mortis is an English-language website built around the orange crow logo. The Review Desk homepage opens with Night Watch, a full-height charcoal hero with an orange raven made from the sample review’s source code. The repository tour follows with native App captures.
 
 The user requests simple, focused changes and rejects overengineering. Preserve the established typography, open rows, and shared navigation when extending existing pages.
 

@@ -42,6 +42,16 @@ jobs:
           MORTIS_STATE_KEY: ${{ secrets.MORTIS_STATE_KEY }}
 ```
 
-The action fetches the PR commits into a temporary bare repository and reads them as data. It reviews the diff from the merge base to the exact PR head and loads `mortis.toml` from the target commit. Keep this job dedicated to review and run PR builds or tests in a separate `pull_request` workflow. If your repository has an Actions event policy, check that it allows `pull_request_target`. [GitHub's guide to the event](https://docs.github.com/en/actions/reference/security/securely-using-pull_request_target)
+The action fetches the PR commits into a temporary bare repository and reads them as data. It reviews the diff from the merge base to the exact PR head and loads `mortis.toml` from the target commit. Keep this job dedicated to review and run PR builds or tests in a separate `pull_request` workflow. [GitHub's guide to the event](https://docs.github.com/en/actions/reference/security/securely-using-pull_request_target)
+
+### Public repository event policy
+
+Starting December 2, 2026, public repositories using the workflow above on GitHub.com need an Actions event policy that explicitly allows `pull_request_target`. GitHub enforces the default block before the Mortis job starts. [GitHub's enforcement announcement](https://github.blog/changelog/2026-11-02-pull_request_target-blocked-by-default-december-2/)
+
+For automatic reviews, open **Settings → Actions → Policies** and scope the allowance to `.github/workflows/mortis-review.yml`. Include `issue_comment` in the allowed events for this workflow if you use manual commands. **Policy insights** shows runs affected by an event rule. [GitHub's workflow execution policy guide](https://docs.github.com/en/actions/how-tos/administer/control-workflow-execution)
+
+For manual reviews under the default policy, remove the `pull_request_target` trigger and keep `issue_comment` on the default branch. A user with write access can post `/mortis review` on an open PR, including a fork PR.
+
+### Automatic review settings
 
 Same-repository PRs are reviewed automatically. Set `automatic = false` under `[review]` to rely on manual reviews. The action skips drafts and Dependabot PRs. For other bots, `include_bot_prs = true` allows bot-authored PRs. The example job also filters out bot-triggered events with its `if` condition. To opt into automatic fork reviews, add `review-forks: "true"` under the action's `with` block. Fork activity can then trigger provider calls.
