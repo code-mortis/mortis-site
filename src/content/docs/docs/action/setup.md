@@ -7,7 +7,7 @@ description: Configure the GitHub events, permissions, and provider credentials 
 
 1. Under **Settings → Secrets and variables → Actions**, add a repository secret named `MORTIS_API_KEY` with your provider API key.
 2. Add a repository variable named `MORTIS_MODEL` with a model ID supported by your provider, or set `model` under `[review]` in the target branch's `mortis.toml`. The committed model takes precedence.
-3. Save this workflow as `.github/workflows/mortis-review.yml` on the default branch. Set `provider` to your [Mortis Engine provider preset](https://pypi.org/project/mortis-engine/0.1.5/#connect-with-environment-variables). Use `protocol` and `base-url` if your connection needs overrides.
+3. Save this workflow as `.github/workflows/mortis-review.yml` on the default branch. Set `provider` to your [Mortis Engine provider preset](https://pypi.org/project/mortis-engine/0.1.6/#connect-with-environment-variables). Use `protocol` and `base-url` if your connection needs overrides.
 
 ```yaml
 name: Mortis PR review
@@ -32,7 +32,7 @@ jobs:
       group: mortis-review-${{ github.event.pull_request.number || github.event.issue.number }}
       queue: max
     steps:
-      - uses: code-mortis/mortis-action@483f17a82d2187ec23d93d26962a3f08e127362b # v0.2.0
+      - uses: code-mortis/mortis-action@0c7188bc2532fa80b34f3e781418186a39ce4f48 # v0.2.1
         id: mortis
         with:
           provider: openai

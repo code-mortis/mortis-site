@@ -1,6 +1,6 @@
 ---
 title: Branch comparisons and CI reports
-description: Compare two Git refs, check scan compatibility, and retain runner reports as artifacts.
+description: Compare two Git refs, scan a committed revision, and retain runner reports as artifacts.
 ---
 
 ## Compare branches or scan a revision
@@ -13,7 +13,7 @@ steps:
     with:
       fetch-depth: 0
       persist-credentials: false
-  - uses: code-mortis/mortis-action@483f17a82d2187ec23d93d26962a3f08e127362b # v0.2.0
+  - uses: code-mortis/mortis-action@0c7188bc2532fa80b34f3e781418186a39ce4f48 # v0.2.1
     id: mortis
     with:
       base: origin/main
@@ -24,11 +24,13 @@ steps:
       MORTIS_API_KEY: ${{ secrets.MORTIS_API_KEY }}
 ```
 
+To scan the commit that triggered the workflow, use the same steps with `command: scan` in place of `base` and `head`. To select another checked-out revision, set `ref`. Action v0.2.1 installs checksum-verified Trivy 0.76.2 on Linux X64 and ARM64 runners.
+
 ### Scan mode in v0.2.0
 
 **The scan cannot complete with this release.** Action v0.2.0 installs Trivy 0.76.0 on its runner. Engine 0.1.5 checks for exactly 0.76.2 before running the scanner. The mismatch affects `command: scan`, including scheduled and manually dispatched scan jobs. PR reviews and branch comparisons do not invoke Trivy. [Action installer at v0.2.0](https://github.com/code-mortis/mortis-action/blob/v0.2.0/mortis_action/trivy.py) · [Engine scanner at v0.1.5](https://github.com/code-mortis/mortis-engine/blob/v0.1.5/src/mortis_engine/security_scans/scanner.py)
 
-To scan a commit now, [run the Engine with Trivy 0.76.2](/docs/engine/scans/#scan-a-committed-revision). For a connected repository’s default branch, [start a scan from the App](/docs/app/security/#scan-a-repository).
+To restore scans, update your workflow to the v0.2.1 commit shown above. You can also [scan a commit with the Engine](/docs/engine/scans/#scan-a-committed-revision) or [scan the default branch from the App](/docs/app/security/#scan-a-repository).
 
 ## Read reports
 

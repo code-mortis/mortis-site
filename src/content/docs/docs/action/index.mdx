@@ -5,7 +5,9 @@ description: Publish review feedback in GitHub and run branch comparisons in CI 
 
 import DocDirectory from '../../../../components/DocDirectory.astro';
 
-[Mortis Review and Scan](https://github.com/marketplace/actions/mortis-review-and-scan) runs Mortis Engine in GitHub Actions. Use it for automatic PR reviews, manual review commands, or comparisons between two Git refs. See the [scan compatibility note](/docs/action/ci/#scan-mode-in-v020) before configuring a security job. [Mortis Action v0.2.0](https://github.com/code-mortis/mortis-action/releases/tag/v0.2.0) installs Mortis Engine 0.1.5 on a Linux runner. The Engine sends eligible source and diffs to your configured AI provider.
+[Mortis Review and Scan](https://github.com/marketplace/actions/mortis-review-and-scan) runs Mortis Engine in GitHub Actions. Use it for automatic PR reviews, manual review commands, branch comparisons, or [security scans](/docs/action/ci/#compare-branches-or-scan-a-revision). [Mortis Action v0.2.1](https://github.com/code-mortis/mortis-action/releases/tag/v0.2.1) installs Mortis Engine 0.1.6 on a Linux runner and Trivy 0.76.2 for scans. The Engine sends eligible source and diffs to your configured AI provider.
+
+The v0.2.2 release candidate upgrades the Engine to 0.1.7. If you use incremental reviews, the first review after upgrading establishes a fresh baseline. [Incremental PR reviews](/docs/action/pull-requests/#enable-incremental-pr-reviews)
 
 ## In this section
 
