@@ -5,9 +5,11 @@ description: Publish review feedback in GitHub and run branch comparisons in CI 
 
 import DocDirectory from '../../../../components/DocDirectory.astro';
 
-[Mortis Review and Scan](https://github.com/marketplace/actions/mortis-review-and-scan) runs Mortis Engine in GitHub Actions. Use it for automatic PR reviews, manual review commands, branch comparisons, or [security scans](/docs/action/ci/#compare-branches-or-scan-a-revision). [Mortis Action v0.2.1](https://github.com/code-mortis/mortis-action/releases/tag/v0.2.1) installs Mortis Engine 0.1.6 on a Linux runner and Trivy 0.76.2 for scans. The Engine sends eligible source and diffs to your configured AI provider.
+[Mortis Review and Scan](https://github.com/marketplace/actions/mortis-review-and-scan) runs Mortis Engine in GitHub Actions. Use it for automatic PR reviews, manual review commands, branch comparisons, or [security scans](/docs/action/ci/#compare-branches-or-scan-a-revision). [Mortis Action v0.2.2](https://github.com/code-mortis/mortis-action/releases/tag/v0.2.2) installs Mortis Engine 0.1.7 on a Linux runner and Trivy 0.76.2 for scans. The Engine sends eligible source and diffs to your configured AI provider.
 
-The v0.2.2 release candidate upgrades the Engine to 0.1.7. If you use incremental reviews, the first review after upgrading establishes a fresh baseline. [Incremental PR reviews](/docs/action/pull-requests/#enable-incremental-pr-reviews)
+The first incremental review after upgrading from v0.2.1 to v0.2.2 establishes a fresh baseline with Engine 0.1.7. [Incremental PR reviews](/docs/action/pull-requests/#enable-incremental-pr-reviews)
+
+The v0.2.3 release candidate uses the same Engine and Trivy versions. It adds [PR commands and review checks](/docs/action/pull-requests/#review-and-discuss-a-pull-request) and [scan finding artifacts](/docs/action/ci/#read-reports).
 
 ## In this section
 
