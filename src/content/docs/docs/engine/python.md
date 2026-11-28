@@ -110,7 +110,7 @@ scan = run(
 print(scan["run_id"], scan["status"], scan["grade"])
 ```
 
-The `mortis.security/v1` result includes findings, coverage, and problems. A partial scan has no grade. Use the following operations for review follow-ups and repository context.
+The `mortis.security/v1` result includes findings, coverage, and problems. A partial scan returns `scan["grade"] is None` and can contain findings. In the Engine 0.1.9 candidate, read `scan["problems"]` for missing dependency inventory or supporting source. `scan["coverage"]["completed_files"]` counts completed semantic file analyses. Use the following operations for review follow-ups and repository context.
 
 | `kind` | Inputs | Result |
 | --- | --- | --- |

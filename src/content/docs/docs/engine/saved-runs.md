@@ -26,6 +26,7 @@ Run `mortis runs` in the same repository to find its run IDs. Substitute an ID f
 | Inspect the original result | `mortis runs RUN_ID` |
 | Export a saved review or scan without making another model request | `mortis report --run RUN_ID --output reports/saved.md` |
 | Continue an interrupted review with its saved inputs and limits | `mortis review --resume RUN_ID --progress` |
+| Continue an interrupted scan at its saved revision | `mortis scan --resume RUN_ID --progress` |
 | Verify review findings after committing a fix | `mortis verify --run RUN_ID --ref HEAD` |
 | Generate a fresh summary of a saved review | `mortis summary --run RUN_ID` |
 | Inspect current findings and decision history | `mortis findings --run RUN_ID --history` |
@@ -33,6 +34,8 @@ Run `mortis runs` in the same repository to find its run IDs. Substitute an ID f
 | Retry an eligible candidate | `mortis assess --run RUN_ID --candidate CANDIDATE_ID` |
 
 Resumed reviews and scans use their saved limits, concurrency, and assessment policy. Resumed reviews keep their saved caller scope and line numbering. Older runs keep their batched assessment behavior. A dispatched request with unknown usage keeps its token reservation.
+
+The Engine 0.1.9 candidate starts a new scan with observations from scans and confirmed assessment retries that finished in the same scope before it began. This includes observations from overlapping scans. Resume keeps the original scan history and analysis policy. If Trivy drops a check that the scan already used, the resumed report lists the affected path and withholds the grade.
 
 In Engine 0.1.7, each review candidate has its own assessment attempt, even when candidates have identical content. To continue an interrupted retry, run `mortis assess --resume RETRY_RUN_ID` with the retry's own run ID. Mortis reuses its saved response when available.
 
