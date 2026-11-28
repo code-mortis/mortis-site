@@ -13,7 +13,7 @@ description: Configure the GitHub events, permissions, and provider credentials 
 name: Mortis PR review
 on:
   pull_request_target:
-    types: [opened, reopened, synchronize, ready_for_review]
+    types: [opened, reopened, synchronize, ready_for_review, edited]
   issue_comment:
     types: [created]
 
@@ -21,7 +21,14 @@ permissions: {}
 
 jobs:
   review:
-    if: ${{ github.event.sender.type != 'Bot' }}
+    if: >-
+      (github.event_name == 'pull_request_target' &&
+       !github.event.pull_request.draft &&
+       github.event.pull_request.user.login != 'dependabot[bot]' &&
+       github.event.sender.login != 'dependabot[bot]' &&
+       (github.event.action != 'edited' || github.event.changes.base)) ||
+      (github.event_name == 'issue_comment' && github.event.issue.pull_request &&
+       github.event.comment.user.type == 'User' && contains(github.event.comment.body, '/mortis '))
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
@@ -32,7 +39,7 @@ jobs:
       group: mortis-review-${{ github.event.pull_request.number || github.event.issue.number }}
       queue: max
     steps:
-      - uses: code-mortis/mortis-action@0b23b10271e428335938db501f0405ef59d853f4 # v0.2.2
+      - uses: code-mortis/mortis-action@8958be81830c059c680bc293cdbf6724090b5f03 # v0.2.3
         id: mortis
         with:
           provider: openai
@@ -44,7 +51,7 @@ jobs:
 
 The action fetches the PR commits into a temporary bare repository and reads them as data. It reviews the diff from the merge base to the exact PR head and loads `mortis.toml` from the target commit. Keep this job dedicated to review and run PR builds or tests in a separate `pull_request` workflow. [GitHub's guide to the event](https://docs.github.com/en/actions/reference/security/securely-using-pull_request_target)
 
-The example uses the published v0.2.2 release. When upgrading to v0.2.3, also update your copy of the bundled workflow to review PRs after a target branch change and filter unrelated comments before starting a runner. The candidate adds two optional token permissions. Grant `issues: read` for `check-linked-issues` and `checks: write` for `publish-check` or `fail-on-severity`.
+The v0.2.3 workflow reviews PRs after a target branch change and filters unrelated comments before starting a runner. Grant `issues: read` for `check-linked-issues` and `checks: write` for `publish-check` or `fail-on-severity`.
 
 ### Public repository event policy
 
@@ -56,4 +63,4 @@ For manual reviews under the default policy, remove the `pull_request_target` tr
 
 ### Automatic review settings
 
-Same-repository PRs are reviewed automatically. Set `automatic = false` under `[review]` to rely on manual reviews. The action skips drafts and Dependabot PRs. For other bots, `include_bot_prs = true` allows bot-authored PRs. The example job also filters out bot-triggered events with its `if` condition. To opt into automatic fork reviews, add `review-forks: "true"` under the action's `with` block. Fork activity can then trigger provider calls.
+Same-repository PRs are reviewed automatically. Set `automatic = false` under `[review]` to rely on manual reviews. The action skips drafts and automatic reviews of Dependabot PRs. A maintainer can request a review of a ready Dependabot PR with `/mortis review`. For other bots, `include_bot_prs = true` allows bot-authored PRs. To opt into automatic fork reviews, add `review-forks: "true"` under the action's `with` block. Fork activity can then trigger provider calls.

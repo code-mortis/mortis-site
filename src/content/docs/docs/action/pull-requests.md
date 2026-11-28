@@ -15,9 +15,7 @@ People with repository write access can post these commands as new comments on a
 | `/mortis ask Why does this change the default?` | Answers from the current diff and links to supporting lines. |
 | `/mortis describe` | Updates the PR title and Mortis summary block while preserving the rest of the description. |
 
-With the v0.2.2 example, for inline questions on same-repository PRs, add `pull_request_review_comment` with `types: [created]` under `on`. Post `/mortis ask ...` in **Files changed** to get a reply in that thread. On fork PRs, post the question in **Conversation** and paste a review comment URL on the last line to point to a specific location.
-
-The v0.2.3 release candidate adds these options for PR workflows.
+Action v0.2.3 supports these options for PR workflows.
 
 - Post `/mortis preview` in **Conversation** for the review scope and exclusions without a provider call. Use `/mortis review --full` to review all eligible changes within the configured limits. A maintainer can also request a review of a ready Dependabot PR.
 - To ask about a thread, post `/mortis ask` with your question and the review comment permalink on its own final line in **Conversation**. Mortis uses available replies from the thread.
@@ -40,6 +38,8 @@ The first review and the first review after an Engine upgrade cover the full PR.
 
 Action v0.2.2 also rechecks previously reviewed Python importers when a module-level function changes its required parameters or starts or stops accepting `*args` or `**kwargs`. Fully reverting a reviewed file change triggers a fresh review of the remaining PR diff when Mortis would otherwise reuse coverage. [Engine 0.1.7 incremental review behavior](/docs/engine/reviews/#review-subsequent-commits)
 
-In the v0.2.3 candidate, if the latest retained history is unreadable, Mortis reviews the diff and preserves the history for retry. An enforced severity policy reports `unevaluated` until it can evaluate earlier findings.
+If the latest retained history is unreadable, v0.2.3 preserves it for retry. Mortis reviews the diff and reports `unevaluated` for an enforced severity policy until it can evaluate earlier findings.
+
+The v0.2.4 release candidate also rechecks previously reviewed Python importers when a module-level function is removed, switches between sync and async, or changes how existing calls bind arguments. Adding a compatible optional parameter still allows Mortis to reuse importer coverage. When a file is deleted or renamed, Mortis can also find callers through package-relative and multiline Python imports, calls through aliases, and shell paths with escaped spaces. [Engine caller discovery](/docs/engine/reviews/#review-callers-of-deleted-or-renamed-files)
 
 The job summary and PR comment list reviewed and reused files. The PR comment keeps earlier open findings from the saved history. With `auto_resolve = true` under `[review]`, Mortis can resolve a matching inline thread after the Engine verifies the fix at the current PR head.
