@@ -10,33 +10,44 @@ colors:
   panel: "#23251f"
 typography:
   display:
-    fontFamily: "Georgia, 'Times New Roman', serif"
-    fontSize: "clamp(3.5rem, 6.8vw, 6.6rem)"
-    fontWeight: 500
-    lineHeight: 0.98
-    letterSpacing: "-0.04em"
+    fontFamily: "'Mortis Inter', Arial, sans-serif"
+    fontSize: "clamp(46px, 6.3vw, 96px)"
+    fontWeight: 520
+    lineHeight: 1.02
+  display-accent:
+    fontFamily: "Georgia, serif"
+    fontSize: "1.07em"
+    fontStyle: italic
+    fontWeight: 400
+    lineHeight: 0.95
   headline:
-    fontFamily: "Georgia, 'Times New Roman', serif"
-    fontSize: "clamp(2.15rem, 3.9vw, 3.8rem)"
-    fontWeight: 500
-    lineHeight: 1.03
-    letterSpacing: "-0.035em"
+    fontFamily: "'Mortis Inter', Arial, sans-serif"
+    fontSize: "clamp(39px, 4.6vw, 77px)"
+    fontWeight: 550
+    lineHeight: 1.02
+    letterSpacing: "-0.052em"
   title:
-    fontFamily: "Manrope, Arial, sans-serif"
-    fontSize: "clamp(19px, 1.65vw, 25px)"
-    fontWeight: 650
-    lineHeight: 1.2
-    letterSpacing: "-0.025em"
+    fontFamily: "'Mortis Inter', Arial, sans-serif"
+    fontSize: "clamp(25px, 2.6vw, 40px)"
+    fontWeight: 550
+    lineHeight: 1.02
+    letterSpacing: "-0.052em"
   body:
-    fontFamily: "Manrope, Arial, sans-serif"
+    fontFamily: "'Mortis Inter', Arial, sans-serif"
     fontSize: "16px"
     fontWeight: 400
-    lineHeight: 1.6
+    lineHeight: 1.5
   label:
-    fontFamily: "Manrope, Arial, sans-serif"
+    fontFamily: "'Mortis Inter', Arial, sans-serif"
     fontSize: "14px"
     fontWeight: 600
-    lineHeight: 1.6
+    lineHeight: 1.5
+  kicker:
+    fontFamily: "ui-monospace, SFMono-Regular, Consolas, monospace"
+    fontSize: "12px"
+    fontWeight: 600
+    lineHeight: 1.5
+    letterSpacing: "0.09em"
   code:
     fontFamily: "ui-monospace, SFMono-Regular, Consolas, monospace"
 rounded:
@@ -79,11 +90,11 @@ Signal marks primary actions, italic heading emphasis, commands, active navigati
 
 ## Typography
 
-Georgia supplies display and section headings. Orange italics emphasize selected words. Manrope supplies body text, navigation, and feature titles. Commands use the system monospace stack.
+Inter, self-hosted as "Mortis Inter" from `src/assets/fonts/`, supplies headings, body text, navigation and controls. Headings are tight: weights 520–570, line height about 1, and letter spacing near -0.05em. The Night Watch headline sets its final words in italic Georgia with a pale orange color. That is the only production use of Georgia. Kickers, captions and commands use the system monospace stack. Kickers are uppercase with 0.09em letter spacing.
 
-Hero descriptions scale from 16px to 20px with a line height of 1.55 and a maximum width of 45ch. Feature descriptions have a maximum width of 62ch.
+Section descriptions scale from 16px to 19px with a line height of 1.58 and a maximum width of 45ch.
 
-Docs use the same local Inter as Review Desk. Guide titles have a short introduction, followed by a single reading column, monospace code samples, and a linked outline.
+The Typography notes in the frontmatter describe Review Desk. The Georgia and Manrope rules in `night-guide.css`, `masthead.css` and `landing.css` belong to the historical Night Guide design. Docs use the same local Inter as Review Desk. Guide titles have a short introduction, followed by a single reading column, monospace code samples, and a linked outline.
 
 ## Layout
 
