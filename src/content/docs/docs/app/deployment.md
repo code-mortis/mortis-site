@@ -7,7 +7,7 @@ description: Start the Docker Compose stack, install your GitHub App, and connec
 
 You need Docker Compose, Python 3.12 or newer to generate the environment file, a GitHub account that can register a GitHub App, and a public HTTPS hostname that GitHub can reach.
 
-Download `compose.yaml` and `manage.py` from the [v0.1.3 GitHub Release](https://github.com/code-mortis/code-mortis/releases/tag/v0.1.3) and save them in one directory. The Compose file pulls `codemortis/code-mortis:0.1.3` from Docker Hub for Linux `amd64` and `arm64`.
+Download `compose.yaml` and `manage.py` from the [v0.1.4 GitHub Release](https://github.com/code-mortis/code-mortis/releases/tag/v0.1.4) and save them in one directory. The Compose file pulls `codemortis/code-mortis:0.1.4` from Docker Hub for Linux `amd64` and `arm64`.
 
 ```sh
 python3 manage.py init-env --owner YOUR_GITHUB_LOGIN --url https://reviews.example.com
@@ -23,7 +23,7 @@ If you use MCP on v0.1.2 or earlier, let any work authorized by an existing MCP 
 
 Back up PostgreSQL and `CM_ENCRYPTION_KEY`. Replace `compose.yaml` and `manage.py` in the existing project directory and keep its `.env` and volumes. Run `docker compose pull` followed by `docker compose up -d --wait --remove-orphans`. The migration service applies database upgrades at startup. The `--remove-orphans` flag removes the retired graph containers from older source deployments.
 
-After the upgrade, enable MCP again and authorize one connection per client. See the [MCP setup guide](/docs/app/mcp-and-api/#connect-scripts-and-agents).
+Upgrading from v0.1.3 adds the `mcp_tasks` table and keeps existing MCP grants. If you upgraded from v0.1.2 or earlier, enable MCP again and authorize one connection per client. See the [MCP setup guide](/docs/app/mcp-and-api/#connect-scripts-and-agents).
 
 For Coolify, use the updated `compose.coolify.yaml` for worker and scheduler health checks. Confirm its shared image anchor points to the published version and redeploy the same resource.
 

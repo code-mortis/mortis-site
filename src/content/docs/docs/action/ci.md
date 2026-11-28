@@ -13,7 +13,7 @@ steps:
     with:
       fetch-depth: 0
       persist-credentials: false
-  - uses: code-mortis/mortis-action@8958be81830c059c680bc293cdbf6724090b5f03 # v0.2.3
+  - uses: code-mortis/mortis-action@1c726fd12f14bee0170ff1a41ac13d90ba27db6f # v0.2.4
     id: mortis
     with:
       base: origin/main
@@ -24,18 +24,20 @@ steps:
       MORTIS_API_KEY: ${{ secrets.MORTIS_API_KEY }}
 ```
 
-To scan the commit that triggered the workflow, use the same steps with `command: scan` in place of `base` and `head`. To select another checked-out revision, set `ref`. Action v0.2.3 installs checksum-verified Trivy 0.76.2 on Linux X64 and ARM64 runners.
+To scan the commit that triggered the workflow, use the same steps with `command: scan` in place of `base` and `head`. To select another checked-out revision, set `ref`. Action v0.2.4 installs checksum-verified Trivy 0.76.2 on Linux X64 and ARM64 runners.
 
 ### Scan mode in v0.2.0
 
 **The scan cannot complete with this release.** Action v0.2.0 installs Trivy 0.76.0 on its runner. Engine 0.1.5 checks for exactly 0.76.2 before running the scanner. The mismatch affects `command: scan`, including scheduled and manually dispatched scan jobs. PR reviews and branch comparisons do not invoke Trivy. [Action installer at v0.2.0](https://github.com/code-mortis/mortis-action/blob/v0.2.0/mortis_action/trivy.py) · [Engine scanner at v0.1.5](https://github.com/code-mortis/mortis-engine/blob/v0.1.5/src/mortis_engine/security_scans/scanner.py)
 
-To restore scans, pin the v0.2.3 commit in the example above. You can also [scan a commit with the Engine](/docs/engine/scans/#scan-a-committed-revision) or [scan the default branch from the App](/docs/app/security/#scan-a-repository).
+To restore scans, pin the v0.2.4 commit in the example above. You can also [scan a commit with the Engine](/docs/engine/scans/#scan-a-committed-revision) or [scan the default branch from the App](/docs/app/security/#scan-a-repository).
 
 ## Read reports
 
 The GitHub Actions job summary shows the result and coverage. The action exposes `status` (`completed`, `partial`, `failed`, or `skipped`), `run-id`, `report-json`, and `report-markdown`. Report paths are local to the runner. Upload them as artifacts from a later step in the same job if you need to keep them. Reports can contain source evidence.
 
 Scan summaries in v0.2.3 include severity counts. Set `retain-scan-findings: true` to keep a sanitized index of finding titles and locations for seven days. For PR reviews, `policy-result` reports the severity decision separately from `status`. An enforced check can block a completed review.
+
+In the v0.2.5 release candidate, each supported dependency manifest needs inventory from the same directory and package ecosystem. If inventory is missing, the scan returns a partial report with available findings and no grade. Read `problems` in the JSON report for the affected path. [Engine scan coverage](/docs/engine/scans/#scan-a-committed-revision)
 
 A completed review can exit successfully with findings. Partial results keep their available reports and return exit code 2. A report upload step can run after a partial or failed result with `if: ${{ !cancelled() && steps.mortis.outputs.report-json != '' }}`.

@@ -5,9 +5,9 @@ description: Publish review feedback in GitHub and run branch comparisons in CI 
 
 import DocDirectory from '../../../../components/DocDirectory.astro';
 
-[Mortis Review and Scan](https://github.com/marketplace/actions/mortis-review-and-scan) runs Mortis Engine in GitHub Actions. Use it for automatic PR reviews, manual review commands, branch comparisons, or [security scans](/docs/action/ci/#compare-branches-or-scan-a-revision). [Mortis Action v0.2.3](https://github.com/code-mortis/mortis-action/releases/tag/v0.2.3) installs Mortis Engine 0.1.7 on a Linux runner and Trivy 0.76.2 for scans. The Engine sends eligible source and diffs to your configured AI provider.
+[Mortis Review and Scan](https://github.com/marketplace/actions/mortis-review-and-scan) runs Mortis Engine in GitHub Actions. Use it for automatic PR reviews, manual review commands, branch comparisons, or [security scans](/docs/action/ci/#compare-branches-or-scan-a-revision). [Mortis Action v0.2.4](https://github.com/code-mortis/mortis-action/releases/tag/v0.2.4) installs Mortis Engine 0.1.8 on a Linux runner and Trivy 0.76.2 for scans. The Engine sends eligible source and diffs to your configured AI provider.
 
-The v0.2.4 release candidate upgrades to Mortis Engine 0.1.8. The first incremental PR review after upgrading checks the full diff and carries forward open findings from encrypted history. [Engine 0.1.8](https://pypi.org/project/mortis-engine/0.1.8/) · [Incremental PR reviews](/docs/action/pull-requests/#enable-incremental-pr-reviews)
+The v0.2.5 release candidate uses Mortis Engine 0.1.9. Reviews and scans redact GitHub App installation tokens from diffs and findings. Scans check dependency coverage for each supported manifest. [Engine 0.1.9](https://pypi.org/project/mortis-engine/0.1.9/) · [Scan reports](/docs/action/ci/#read-reports)
 
 ## In this section
 

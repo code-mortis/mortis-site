@@ -40,6 +40,8 @@ Action v0.2.2 also rechecks previously reviewed Python importers when a module-l
 
 If the latest retained history is unreadable, v0.2.3 preserves it for retry. Mortis reviews the diff and reports `unevaluated` for an enforced severity policy until it can evaluate earlier findings.
 
-The v0.2.4 release candidate also rechecks previously reviewed Python importers when a module-level function is removed, switches between sync and async, or changes how existing calls bind arguments. Adding a compatible optional parameter still allows Mortis to reuse importer coverage. When a file is deleted or renamed, Mortis can also find callers through package-relative and multiline Python imports, calls through aliases, and shell paths with escaped spaces. [Engine caller discovery](/docs/engine/reviews/#review-callers-of-deleted-or-renamed-files)
+Action v0.2.4 also rechecks previously reviewed Python importers when a module-level function is removed, switches between sync and async, or changes how existing calls bind arguments. Adding a compatible optional parameter still allows Mortis to reuse importer coverage. When a file is deleted or renamed, Mortis can also find callers through package-relative and multiline Python imports, calls through aliases, and shell paths with escaped spaces. [Engine caller discovery](/docs/engine/reviews/#review-callers-of-deleted-or-renamed-files)
+
+When upgrading from v0.2.4 to the v0.2.5 release candidate, keep the same `MORTIS_STATE_KEY`. The first incremental review checks the full PR diff and carries forward open findings from the saved history.
 
 The job summary and PR comment list reviewed and reused files. The PR comment keeps earlier open findings from the saved history. With `auto_resolve = true` under `[review]`, Mortis can resolve a matching inline thread after the Engine verifies the fix at the current PR head.
