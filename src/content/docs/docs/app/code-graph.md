@@ -13,4 +13,6 @@ Refreshes retry after GitHub rate limits or temporary server errors. If indexing
 
 ![The code graph focused on reminders.py and its import relationships.](../../../../../assets/details/code-mortis-graph.webp)
 
+An MCP client with the Code read scope can inspect files and definitions at the requested revision when a matching index is ready. Enable the Code tool group and authorize the repository in the [MCP setup guide](/docs/app/mcp-and-api/#connect-scripts-and-agents).
+
 The optional diagram on a PR overview groups changes for that pull request. Code Mortis can use related source as PR review context when a matching index is ready. Pull request diffs in **Code** are available independently of indexing. If you back up the graph, keep its `code-graph-data` volume with the matching PostgreSQL backup.

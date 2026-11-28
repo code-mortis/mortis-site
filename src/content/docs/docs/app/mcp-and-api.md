@@ -7,17 +7,22 @@ description: Give your coding agent access to saved evidence or query the worksp
 
 ### Ask your agent about saved evidence
 
-1. Have an administrator enable the endpoint in **Settings → MCP access**. Choose **Reviews**, **Security**, or **Code** according to the evidence you want.
-2. Copy the endpoint’s setup instructions into your compatible MCP client. Complete browser authorization, select the repository, and grant the read scope listed below.
-3. In your agent, name the repository and the PR or scan. For example, ask it to explain the highest-severity open finding on your PR, cite the saved path and lines, and identify any file the review skipped.
+1. Have an administrator turn on MCP in **Settings → MCP access** and enable the tool groups your agent needs.
+2. Open **Installation instructions** and copy the server URL (`https://your-host/mcp`) or the setup prompt. The client needs Streamable HTTP and OAuth with PKCE. The prompt includes setup instructions for Claude Code and Codex CLI.
+3. Complete OAuth in the browser. Select permissions and repositories separately for each tool group. To investigate a saved finding, select its repository and grant the corresponding read scope.
+4. In your agent, name the repository and the pull request or scan. For example, ask it to explain the highest-severity open finding, cite the saved path and lines, and identify any file the review skipped.
 
-| Endpoint | Read scope | What your agent can inspect |
+| Tool group | Read scope | What your agent can inspect |
 | --- | --- | --- |
-| `/mcp/reviews` | `reviews:read` | PRs, saved review runs, finding evidence, assessment decisions, and coverage. |
-| `/mcp/security` | `security:read` | Saved scans, findings, observations, remediation, and coverage. |
-| `/mcp/code` | `code:read` | Indexed source, definitions, and relationships at a matching revision. This endpoint is read-only and needs a ready index. |
+| Reviews | `reviews:read` | PRs, saved review runs, finding evidence, assessment decisions, and coverage. |
+| Security | `security:read` | Saved scans, findings, observations, remediation, and coverage. |
+| Code | `code:read` | Indexed source, definitions, and relationships at a matching revision. Code tools are read-only and require a ready index. |
 
-Grant a write or run scope separately when your agent needs to triage findings or start work. Publishing a public GitHub issue through Security MCP requires browser approval of the draft. Review or revoke an existing grant under **MCP access**.
+Grant write or run permissions separately when your agent needs to triage findings or start work. Security issue publication requires the `security:issues` scope and browser approval of the draft. You can select optional Management scopes on the same OAuth consent screen. The `instance:manage` scope applies to the whole instance and requires an administrator role. Review or revoke a grant under **MCP access**.
+
+When upgrading from separate MCP endpoints, remove the old entries from your client. Have an administrator enable MCP again, then authorize the single server URL.
+
+Each API process serves two concurrent MCP transport or OAuth setup requests by default. You can configure the limit with `CM_MCP_MAX_CONCURRENT_REQUESTS`. At capacity, the server returns HTTP 429 with `Retry-After: 2`.
 
 ### Use the REST API
 
